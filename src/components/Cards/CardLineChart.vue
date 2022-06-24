@@ -1,0 +1,43 @@
+<template>
+  <div
+    class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-slate-700"
+  >
+    <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
+      <div class="flex flex-wrap items-center">
+        <div class="relative w-full max-w-full flex-grow flex-1">
+          <h6 class="uppercase text-slate-100 mb-1 text-xs font-semibold">
+            Overview
+          </h6>
+          <h2 class="text-white text-xl font-semibold">
+            Sales value
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 flex-auto">
+      <!-- Chart -->
+      <div class="relative h-350-px">
+        <canvas id="line-chart"></canvas>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import Chart from "chart.js";
+import { onMounted } from "vue";
+import cardLineChart from "../../assets/js/CardLineChart";
+
+console.log(cardLineChart);
+
+onMounted(()=>{
+    var ctx = document.getElementById("line-chart").getContext("2d");
+    
+      window.myLine = new Chart(ctx, cardLineChart);
+})
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>
