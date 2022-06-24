@@ -38,20 +38,26 @@
 
 // import { createPopper } from "@popperjs/core";
 import image from '../../assets/img/team-1-800x800.jpg'
+import { createPopper } from "@popperjs/core";
+import { ref } from "vue";
 
-const dropdownPopoverShow = false 
+const dropdownPopoverShow = ref(false)
 
-// const toggleDropdown = (event) => {
-//     event.preventDefault();
-//     if (dropdownPopoverShow) {
-//         dropdownPopoverShow = false;
-//     } else {
-//         dropdownPopoverShow = true;
-//         createPopper($refs.btnDropdownRef, $refs.popoverDropdownRef, {
-//             placement: "bottom-start",
-//         });
-//     }
-// }
+const btnDropdownRef = ref();
+const popoverDropdownRef = ref();
+
+const toggleDropdown = (event) => {
+    event.preventDefault();
+    if (dropdownPopoverShow.value) {
+        dropdownPopoverShow.value = false;
+    } else {
+        dropdownPopoverShow.value = true;
+        createPopper(btnDropdownRef.value, popoverDropdownRef.value, {
+            placement: "bottom-start"
+        })
+    }
+}
+
 
 </script>
 
