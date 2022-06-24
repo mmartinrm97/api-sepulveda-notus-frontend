@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-wrap mt-4">
     <div class="w-full mb-12 px-4">
-      <card-table />
+      <card-table titulo="Card Tables"/>
     </div>
     <div class="w-full mb-12 px-4">
-      <card-table color="dark" />
+      <card-table titulo="Card Tables" color="dark" />
     </div>
   </div>
 </template>

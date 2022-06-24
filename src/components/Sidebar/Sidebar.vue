@@ -6,7 +6,7 @@
       <!-- Toggler -->
       <button
         class="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
-        type="button" v-on:click="toggleCollapseShow('bg-white m-2 py-3 px-6')">
+        type="button" v-on:click="toggleCollapseShow('bg-white m-2 py-3 px-6 md:hidden')">
         <i class="fas fa-bars"></i>
       </button>
       <!-- Brand -->
@@ -63,7 +63,7 @@
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
 
-          <sidebar-element v-for="element in sidebarElements" :key="element" :name="element.name"
+          <sidebar-admin-element v-for="element in sidebarAdminElements" :key="element" :name="element.name"
             :toRoute="element.toRoute" :iconClass="element.iconClass" />
 
         </ul>
@@ -75,9 +75,9 @@
         <!-- Navigation -->
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-          <sidebar-auth-element name="Login" toRoute="/auth/login" iconClass="fas fa-fingerprint" />
+          <sidebar-auth-element name="Login" toRoute="" iconClass="fas fa-fingerprint" />
 
-          <sidebar-auth-element name="Register" toRoute="/auth/register" iconClass="fas fa-clipboard-list" />
+          <sidebar-auth-element name="Register" toRoute="" iconClass="fas fa-clipboard-list" />
 
         </ul>
 
@@ -88,9 +88,9 @@
         <!-- Navigation -->
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-          <sidebar-no-layout-element name="Landing Page" toRoute="/landing" iconClass="fas fa-newspaper" />
+          <sidebar-no-layout-element name="Landing Page" toRoute="" iconClass="fas fa-newspaper" />
 
-          <sidebar-no-layout-element name="Profile Page" toRoute="/profile" iconClass="fas fa-user-circle" />
+          <sidebar-no-layout-element name="Profile Page" toRoute="" iconClass="fas fa-user-circle" />
         </ul>
 
         <!-- Divider -->
@@ -117,17 +117,19 @@
 
 import NotificationDropdown from '../Dropdowns/NotificationDropdown.vue';
 import UserDropdown from '../Dropdowns/UserDropdown.vue';
-import SidebarElement from './SidebarElement.vue';
+import SidebarAdminElement from './SidebarAdminElement.vue';
 import SidebarHeading from './SidebarHeading.vue';
 import SidebarAuthElement from './SidebarAuthElement.vue';
 import SidebarNoLayoutElement from './SidebarNoLayoutElement.vue';
 import SidebarDocumentationElement from './SidebarDocumentationElement.vue';
+import { ref } from 'vue';
 
-const sidebarElements = [
+const sidebarAdminElements = [
   { name: 'Dashboard', toRoute: '/admin/dashboard', iconClass: 'fas fa-tv' },
+  { name: 'Usuarios', toRoute: '/admin/usuarios', iconClass: 'fas fa-users' },
   { name: 'Settings', toRoute: '/admin/settings', iconClass: 'fas fa-tools' },
   { name: 'Tables', toRoute: '/admin/tables', iconClass: 'fas fa-table' },
-  { name: 'Maps', toRoute: '/admin/maps', iconClass: 'fa-map-marked' },
+  { name: 'Maps', toRoute: '/admin/maps', iconClass: 'fas fa-map-marked' },
 ]
 
 const sidebarDocumentElements = [
@@ -139,7 +141,12 @@ const sidebarDocumentElements = [
   { name: 'React', tohref: "https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus", iconClass: 'fab fa-react' },
   { name: 'Svelte', tohref: "https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus", iconClass: 'fas fa-link' },
   { name: 'VueJS', tohref: "https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus", iconClass: 'fa-vuejs' },
- ]
+]
+const collapseShow = ref('hidden')
+const toggleCollapseShow = (classes) => {
+  console.log('collapseShow',collapseShow.value);
+  collapseShow.value = classes
+}
 
 </script>
 

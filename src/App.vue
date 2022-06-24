@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
-    <router-link to="/admin/dashboard">GO to Admin Dashboard</router-link>
-
+  <router-link to="/admin/dashboard">GO to Admin Dashboard</router-link>
+  <div>
     <router-view />
   </div>
+
 </template>
 
 <script setup>

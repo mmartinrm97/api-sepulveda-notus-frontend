@@ -28,8 +28,6 @@ import Chart from "chart.js";
 import { onMounted } from "vue";
 import cardLineChart from "../../assets/js/CardLineChart";
 
-console.log(cardLineChart);
-
 onMounted(()=>{
     var ctx = document.getElementById("line-chart").getContext("2d");
     

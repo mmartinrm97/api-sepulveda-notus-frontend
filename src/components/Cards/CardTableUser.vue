@@ -500,7 +500,7 @@ const props = defineProps({
     }
 })
 
-const {color} = props
+const {color, titulo} = props
 
 </script>
 
