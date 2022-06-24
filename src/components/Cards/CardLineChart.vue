@@ -34,7 +34,7 @@ onMounted(()=>{
     var ctx = document.getElementById("line-chart").getContext("2d");
     
       window.myLine = new Chart(ctx, cardLineChart);
-})
+});
 
 </script>
 

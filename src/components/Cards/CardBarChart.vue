@@ -24,7 +24,7 @@
 
 import Chart from "chart.js";
 import { onMounted } from "vue";
-import cardBarChart from "../../assets/js/cardBarChart";
+import cardBarChart from "../../assets/js/CardBarChart";
 
 
 onMounted(() => {
