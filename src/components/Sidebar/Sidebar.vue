@@ -127,6 +127,7 @@ import { ref } from 'vue';
 const sidebarAdminElements = [
   { name: 'Dashboard', toRoute: '/admin/dashboard', iconClass: 'fas fa-tv' },
   { name: 'Usuarios', toRoute: '/admin/usuarios', iconClass: 'fas fa-users' },
+  { name: 'Catálogo de Bienes', toRoute: '/admin/catalogos-bienes', iconClass: 'fas fa-book' },
   { name: 'Settings', toRoute: '/admin/settings', iconClass: 'fas fa-tools' },
   { name: 'Tables', toRoute: '/admin/tables', iconClass: 'fas fa-table' },
   { name: 'Maps', toRoute: '/admin/maps', iconClass: 'fas fa-map-marked' },

@@ -27,27 +27,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in usersDataTable" :key="user.id">
+          <tr v-for="catalogoBien in catalogoBienDataTable" :key="catalogoBien.id">
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ user.id }}
+              {{ catalogoBien.id }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="mr-2" :class="[user.role.description === 'Administrador' ? 'fas fa-crown text-yellow-500 ' : 'fas far fa-user text-slate-900 ']"></i> {{ user.role.description }}
+              <i class="mr-2"></i> {{ catalogoBien.item }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ user.first_name }}
+              {{ catalogoBien.code }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ user.last_name }}
+              {{ catalogoBien.denomination }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ user.dni }}
+              {{ catalogoBien.goods_class.description }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ user.warehouses[0] !== undefined ? user.warehouses[0].description : 'Sin Almacén' }}
+              {{ catalogoBien.goods_group.description  }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="fas fa-circle mr-2" :class="[user.is_active ? 'text-green-600': 'text-red-500']"> </i>{{ user.is_active ? 'Activo' : 'Inactivo'  }}
+              <i class="fas fa-circle mr-2" :class="[catalogoBien.is_active ? 'text-green-600': 'text-red-500']"> </i>{{ catalogoBien.is_active ? 'Activo' : 'Inactivo'  }}
             </td>
 
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
@@ -65,7 +65,7 @@
 import TableDropdown from "../Dropdowns/TableDropdown.vue";
 import { inject } from "vue";
 
-const encabezadosTabla = ['#', 'Rol', 'Nombres', 'Apellidos', 'DNI', 'Área Encargada','Activo', '']
+const encabezadosTabla = ['#', 'Item', 'Código', 'Denominación', 'Clase', 'Grupo','Activo', '']
 
 const props = defineProps({
   titulo: String,
@@ -80,7 +80,8 @@ const props = defineProps({
 
 const { color, titulo } = props
 
-const usersDataTable = inject('formData');
+const catalogoBienDataTable = inject('formDataCatalogo');
+console.log("🚀 ~ file: CardTableCatalogoBien.vue ~ line 84 ~ catalogoBienDataTable", catalogoBienDataTable)
 
 </script>
 

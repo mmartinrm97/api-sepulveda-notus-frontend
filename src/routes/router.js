@@ -1,8 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-//views
-import Home from "../views/Home.vue";
-
 //layouts
 import Admin from '../layouts/Admin.vue'
 import Auth from '../layouts/Auth.vue'
@@ -13,12 +10,13 @@ import Settings from "../views/admin/Settings.vue";
 import Tables from "../views/admin/Tables.vue";
 import Maps from "../views/admin/Maps.vue";
 import Users from '../views/admin/Users.vue'
+import CatalogoBien from '../views/admin/CatalogoBien.vue'
 
 //views for auth layouts
 import Login from "../views/auth/Login.vue";
 
 const routes = [
-    { path: "/", component: Home, name: 'Inicio', redirect: '/auth/login' },
+    { path: "/", name: 'Inicio', redirect: '/auth/login' },
 
     {
         path: "/admin",
@@ -34,6 +32,11 @@ const routes = [
                 path: "/admin/usuarios",
                 component: Users,
                 name: 'Usuarios'
+            },
+            {
+                path: "/admin/catalogos-bienes",
+                component: CatalogoBien,
+                name: 'Catalogos deBienes'
             },
             {
                 path: "/admin/settings",
