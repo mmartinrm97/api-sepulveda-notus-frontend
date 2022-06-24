@@ -348,7 +348,7 @@
 <script setup>
 
 import NotificationDropdown from '../Dropdowns/NotificationDropdown.vue';
-import UserDropdown from '../Dropdowns/USerDropdown.vue';
+import UserDropdown from '../Dropdowns/UserDropdown.vue';
 
 </script>
 

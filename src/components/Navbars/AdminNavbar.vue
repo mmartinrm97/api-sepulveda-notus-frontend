@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import UserDropdown from '../Dropdowns/USerDropdown.vue';
+import UserDropdown from '../Dropdowns/UserDropdown.vue';
 
 </script>
 
