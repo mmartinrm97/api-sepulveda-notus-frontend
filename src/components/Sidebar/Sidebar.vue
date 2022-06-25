@@ -127,21 +127,24 @@ import { ref } from 'vue';
 const sidebarAdminElements = [
   { name: 'Dashboard', toRoute: '/admin/dashboard', iconClass: 'fas fa-tv' },
   { name: 'Usuarios', toRoute: '/admin/usuarios', iconClass: 'fas fa-users' },
+  { name: 'Almacenes', toRoute: '/admin/almacenes', iconClass: 'fas fa-warehouse' },
   { name: 'Catálogo de Bienes', toRoute: '/admin/catalogos-bienes', iconClass: 'fas fa-book' },
+  { name: 'Clases de Bienes', toRoute: '/admin/clases-bienes', iconClass: 'fas fa-boxes' },
+  { name: 'Grupo de Bienes', toRoute: '/admin/grupos-bienes', iconClass: 'fas fa-sitemap' },
   { name: 'Settings', toRoute: '/admin/settings', iconClass: 'fas fa-tools' },
   { name: 'Tables', toRoute: '/admin/tables', iconClass: 'fas fa-table' },
   { name: 'Maps', toRoute: '/admin/maps', iconClass: 'fas fa-map-marked' },
 ]
 
 const sidebarDocumentElements = [
-  { name: 'Styles', tohref: "https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus", iconClass: 'fas fa-paint-brush' },
-  { name: 'CSS Components', tohref: "https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus", iconClass: 'fab fa-css3-alt' },
-  { name: 'Angular', tohref: "https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus", iconClass: 'fab fa-angular' },
-  { name: 'Javascript', tohref: "https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus", iconClass: 'fab fa-js-square' },
-  { name: 'NextJS', tohref: "https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus", iconClass: 'fab fa-react' },
-  { name: 'React', tohref: "https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus", iconClass: 'fab fa-react' },
-  { name: 'Svelte', tohref: "https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus", iconClass: 'fas fa-link' },
-  { name: 'VueJS', tohref: "https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus", iconClass: 'fa-vuejs' },
+  { name: 'Styles', tohref: "", iconClass: 'fas fa-paint-brush' },
+  { name: 'CSS Components', tohref: "", iconClass: 'fab fa-css3-alt' },
+  { name: 'Angular', tohref: "", iconClass: 'fab fa-angular' },
+  { name: 'Javascript', tohref: "", iconClass: 'fab fa-js-square' },
+  { name: 'NextJS', tohref: "", iconClass: 'fab fa-react' },
+  { name: 'React', tohref: "", iconClass: 'fab fa-react' },
+  { name: 'Svelte', tohref: "", iconClass: 'fas fa-link' },
+  { name: 'VueJS', tohref: "", iconClass: 'fa-vuejs' },
 ]
 const collapseShow = ref('hidden')
 const toggleCollapseShow = (classes) => {

@@ -11,7 +11,7 @@
 <script setup>
 import CardTableCatalogoBien from '../../components/Cards/CardTableCatalogoBien.vue';
 import { onMounted, provide, ref } from 'vue';
-import {useCatalogoBienStore} from '../../stores/CatalogoBien'
+import {useCatalogoBienStore} from '../../stores/CatalogoBienes'
 
 const catalogoBienStore = useCatalogoBienStore()
 const isVisible = ref(false)

@@ -27,24 +27,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="catalogoBien in catalogoBienDataTable" :key="catalogoBien.id">
+          <tr v-for="catalogoBien in grupoBienDataTable" :key="catalogoBien.id">
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               {{ catalogoBien.id }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="mr-2"></i> {{ catalogoBien.item }}
+              <i class="mr-2"></i> {{ catalogoBien.description }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.code }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.denomination }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.goods_class.description }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.goods_group.description  }}
+              <i class="fas fa-circle mr-2" :class="[catalogoBien.is_active ? 'text-green-600' : 'text-red-500']">
+              </i>{{
+                  catalogoBien.is_active ? 'Activo' : 'Inactivo'
+              }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
               <table-dropdown />
@@ -61,7 +55,7 @@
 import TableDropdown from "../Dropdowns/TableDropdown.vue";
 import { inject } from "vue";
 
-const encabezadosTabla = ['#', 'Item', 'Código', 'Denominación', 'Clase', 'Grupo', '']
+const encabezadosTabla = ['#', 'Descripción', 'Activo', '']
 
 const props = defineProps({
   titulo: String,
@@ -76,7 +70,7 @@ const props = defineProps({
 
 const { color, titulo } = props
 
-const catalogoBienDataTable = inject('formDataCatalogo');
+const grupoBienDataTable = inject('formDataGrupoBien');
 
 </script>
 

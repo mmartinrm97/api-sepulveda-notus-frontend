@@ -1,37 +1,33 @@
 <template>
   <div class="flex flex-wrap mt-4">
     <div class="w-full mb-12 px-4">
-      <card-table-user v-if="isVisible" titulo="Usuarios" />
+        <card-table-almacen v-if="isVisible" titulo="Catálogo de Bienes" color="dark"/>
     </div>
     <div class="w-full mb-12 px-4">
-      <!-- asdasds -->
     </div>
   </div>
 </template>
 
 <script setup>
-import CardTableUser from '../../components/Cards/CardTableUser.vue';
-
+import CardTableAlmacen from '../../components/Cards/CardTableAlmacen.vue';
 import { onMounted, provide, ref } from 'vue';
-import { useUserStore } from '../../stores/Users';
+import {useAlmacenStore} from '../../stores/Almacenes'
 
-const userStore = useUserStore()
+const almacenStore = useAlmacenStore()
 const isVisible = ref(false)
 
 const formData = ref([]);
-provide('formData', formData)
+provide('formDataAlmacen', formData);
 
 onMounted(async () => {
-  await userStore.getUsers();
-  formData.value = userStore.users;
+  await almacenStore.getAlmacenes();
+  formData.value = almacenStore.almacenes;
   // console.log('formData',formData.value);
   isVisible.value = true;
 });
 
-
-
-
 </script>
 
 <style lang="scss" scoped>
+
 </style>

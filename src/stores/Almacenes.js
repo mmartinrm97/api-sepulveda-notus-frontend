@@ -1,21 +1,20 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 
-export const useUserStore = defineStore('UserStore', {
+export const useAlmacenStore = defineStore('AlmacenStore', {
     state: () => ({
-        users: null,
+        almacenes: null,
     }),
     actions: {
-        async getUsers() {
+        async getAlmacenes() {
             try {
                 const params = {
-                    include: 'role,warehouses'
+                    include: 'users'
                 }
-                const url = `http://api-sepulveda.test/api/v1/users`
+                const url = `http://api-sepulveda.test/api/v1/warehouses`
                 const res = await axios.get(url, { params })
-    
-                this.users = []     
-                this.users = res.data
+                this.almacenes = []
+                this.almacenes = res.data.data
 
             } catch (error) {
                 console.log(error);

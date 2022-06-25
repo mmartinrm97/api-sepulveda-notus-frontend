@@ -11,6 +11,9 @@ import Tables from "../views/admin/Tables.vue";
 import Maps from "../views/admin/Maps.vue";
 import Users from '../views/admin/Users.vue'
 import CatalogoBien from '../views/admin/CatalogoBien.vue'
+import Almacen from '../views/admin/Almacen.vue'
+import GrupoBien from '../views/admin/GrupoBien.vue'
+import ClaseBien from '../views/admin/ClaseBien.vue'
 
 //views for auth layouts
 import Login from "../views/auth/Login.vue";
@@ -34,9 +37,24 @@ const routes = [
                 name: 'Usuarios'
             },
             {
+                path: "/admin/almacenes",
+                component: Almacen,
+                name: 'Almacenes'
+            },
+            {
                 path: "/admin/catalogos-bienes",
                 component: CatalogoBien,
-                name: 'Catalogos deBienes'
+                name: 'Catalogos de Bienes'
+            },
+            {
+                path: "/admin/clases-bienes",
+                component: ClaseBien,
+                name: 'Clases de Bienes'
+            },
+            {
+                path: "/admin/grupos-bienes",
+                component: GrupoBien,
+                name: 'Grupos de Bienes'
             },
             {
                 path: "/admin/settings",

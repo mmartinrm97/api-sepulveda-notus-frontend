@@ -1,37 +1,33 @@
 <template>
   <div class="flex flex-wrap mt-4">
     <div class="w-full mb-12 px-4">
-      <card-table-user v-if="isVisible" titulo="Usuarios" />
+        <card-table-grupo-bien v-if="isVisible" titulo="Grupos de Bienes"/>
     </div>
     <div class="w-full mb-12 px-4">
-      <!-- asdasds -->
     </div>
   </div>
 </template>
 
 <script setup>
-import CardTableUser from '../../components/Cards/CardTableUser.vue';
-
+import CardTableGrupoBien from '../../components/Cards/CardTableGrupoBien.vue';
 import { onMounted, provide, ref } from 'vue';
-import { useUserStore } from '../../stores/Users';
+import {useGrupoBienesStore} from '../../stores/GrupoBienes'
 
-const userStore = useUserStore()
+const grupoBienStore = useGrupoBienesStore()
 const isVisible = ref(false)
 
 const formData = ref([]);
-provide('formData', formData)
+provide('formDataGrupoBien', formData);
 
 onMounted(async () => {
-  await userStore.getUsers();
-  formData.value = userStore.users;
+  await grupoBienStore.getGrupoBienes();
+  formData.value = grupoBienStore.grupoBienes;
   // console.log('formData',formData.value);
   isVisible.value = true;
 });
 
-
-
-
 </script>
 
 <style lang="scss" scoped>
+
 </style>

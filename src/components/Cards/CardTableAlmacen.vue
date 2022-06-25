@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
-    :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
+    :class="[color === 'light' ? 'bg-white' : 'bg-sky-900 text-white']">
     <div class="rounded-t mb-0 px-4 py-3 border-0">
       <div class="flex flex-wrap items-center">
         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
@@ -20,32 +20,32 @@
               :class="[
                 color === 'light'
                   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                  : 'bg-sky-800 text-sky-300 border-sky-700',
               ]">
               {{ element }}
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="catalogoBien in catalogoBienDataTable" :key="catalogoBien.id">
+          <tr v-for="almacen in almacenDataTable" :key="almacen.id">
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.id }}
+              {{ almacen.id }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="mr-2"></i> {{ catalogoBien.item }}
+              <i class="mr-2"></i> {{ almacen.description }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.code }}
+              <i class="mr-2"></i>
+              {{ almacen.users[0] !== undefined ?
+                  `${almacen.users[0].first_name} ${almacen.users[0].last_name}` : 'No tiene usuario asignado'
+              }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.denomination }}
+              <i class="fas fa-circle mr-2" :class="[almacen.is_active ? 'text-green-600' : 'text-red-500']"> </i>{{
+                  almacen.is_active ? 'Activo' : 'Inactivo'
+              }}
             </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.goods_class.description }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.goods_group.description  }}
-            </td>
+
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
               <table-dropdown />
             </td>
@@ -61,7 +61,7 @@
 import TableDropdown from "../Dropdowns/TableDropdown.vue";
 import { inject } from "vue";
 
-const encabezadosTabla = ['#', 'Item', 'Código', 'Denominación', 'Clase', 'Grupo', '']
+const encabezadosTabla = ['#', 'Descripción', 'Usuario Asignado','Activo', '']
 
 const props = defineProps({
   titulo: String,
@@ -76,7 +76,7 @@ const props = defineProps({
 
 const { color, titulo } = props
 
-const catalogoBienDataTable = inject('formDataCatalogo');
+const almacenDataTable = inject('formDataAlmacen');
 
 </script>
 
