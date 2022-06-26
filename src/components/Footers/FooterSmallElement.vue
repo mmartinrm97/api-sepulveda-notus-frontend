@@ -14,7 +14,7 @@ const props = defineProps({
     tohref: String
 });
 
-const {name, href} = props;
+const {name, tohref} = props;
 
 </script>
 

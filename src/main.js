@@ -7,10 +7,12 @@ import router from './routes/router'
 import "@fortawesome/fontawesome-free/css/all.min.css"
 import './assets/styles/index.css'
 
-
 import App from './App.vue'
 
 createApp(App)
     .use(router)
     .use(createPinia())
     .mount('#app')
+
+
+

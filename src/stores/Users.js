@@ -6,14 +6,17 @@ export const useUserStore = defineStore('UserStore', {
         users: null,
     }),
     actions: {
-        async getUsers() {
+        async getUsers(pagina = 1, activo = '') {
             try {
                 const params = {
-                    include: 'role,warehouses'
+                    include: 'role,warehouses',
+                    page: pagina,
+                    is_active: activo
                 }
                 const url = `http://api-sepulveda.test/api/v1/users`
                 const res = await axios.get(url, { params })
-    
+                // console.log("🚀 ~ file: Users.js ~ line 17 ~ getUsers ~ res", res.data.data[0])
+                
                 this.users = []     
                 this.users = res.data
 

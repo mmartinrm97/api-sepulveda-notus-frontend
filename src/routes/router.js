@@ -25,6 +25,7 @@ const routes = [
         path: "/admin",
         redirect: "/admin/dashboard",
         component: Admin,
+        meta:{ title: 'Admin'},
         children: [
             {
                 path: "/admin/dashboard",
@@ -89,6 +90,7 @@ const routes = [
 const router = createRouter({
     routes,
     history: createWebHistory(),
+    
 });
 
 export default router;
