@@ -22,14 +22,15 @@
         </div>
       </div>
 
-      <div class="flex flex-grow items-center bg-green-500 md:bg-red-500 sm:bg-sky-500">
+      <!-- bg-green-500 md:bg-red-500 sm:bg-sky-500 add to view rensposive design-->
+      <div class="flex flex-grow items-center ">
         <!-- Búsqueda de Id -->
         <div class="relative flex w-1/5 flex-grow items-stretch m-3 sm:w-full px-4">
           <span
             class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
             <i class="fas fa-search"></i>
           </span>
-          <input v-model="idBuscado" type="text" placeholder="Filtrar por id"
+          <input v-model="idBuscado" type="text" placeholder="Buscar por id"
             class="px-3 py-3 placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10" />
         </div>
         <!-- Búsqueda de Nombre -->
@@ -38,7 +39,7 @@
             class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
             <i class="fas fa-search"></i>
           </span>
-          <input v-model="nombreBuscado" type="text" placeholder="Filtrar por nombres"
+          <input v-model="nombreBuscado" type="text" placeholder="Buscar por nombres"
             class="px-3 py-3 placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10" />
         </div>
 
@@ -48,18 +49,18 @@
             class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
             <i class="fas fa-search"></i>
           </span>
-          <input v-model="apellidoBuscado" type="text" placeholder="Filtrar por apellidos"
+          <input v-model="apellidoBuscado" type="text" placeholder="Buscar por apellidos"
             class="px-3 py-3 placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10" />
         </div>
 
         <!-- Filtrar por Estado -->
         <div class="relative flex flex-grow w-1/5 items-stretch m-3 sm:w-full px-4">
           <span
-            class="shadow z-10 h-full leading-snug font-normal text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+            class="z-10 h-full leading-snug font-normal text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
             <i class="fas fa-search"></i>
           </span>
           <select v-model="estadoBuscado"
-            class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pl-10 pr-10">
+            class=" shadow px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pl-10 pr-10">
             <option value="">--Filtrar por Activo--</option>
             <option :value='1'>Activado</option>
             <option :value='0'>Desactivado</option>
@@ -112,7 +113,7 @@
             </th> -->
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="users.data && users.data.length > 0">
           <tr v-for="user in users.data" :key="user.id">
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               {{ user.id }}
@@ -143,10 +144,15 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            <td align="center" colspan="3">No record found.</td>
+          </tr>
+        </tbody>
       </table>
     </div>
+
     <!-- Pagination -->
-    <laravel-vue-pagination :data="users" @pagination-change-page="page => getUsers(page, estadoBuscado)" />
     <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
       <div class="flex-1 flex justify-between sm:hidden">
         <a href="#"
@@ -161,43 +167,40 @@
           <p class="text-sm text-gray-700">
             Showing
             {{ ' ' }}
-            <span class="font-medium">1</span>
+            <span class="font-medium">{{from}}</span>
             {{ ' ' }}
             to
             {{ ' ' }}
-            <span class="font-medium">10</span>
+            <span class="font-medium">{{to}}</span>
             {{ ' ' }}
             of
             {{ ' ' }}
-            <span class="font-medium">97</span>
+            <span class="font-medium">{{total}}</span>
             {{ ' ' }}
             results
           </p>
         </div>
         <div>
-          <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-            <a href="#"
-              class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-              <span class="sr-only">Previous</span>
-              <i class="fas fa-angle-left" aria-hidden="true" />
-            </a>
-            <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
-
-            <!-- <div v-for="page in meta.last_page" :key="page">
-              <router-link :to="{name: 'Usuarios', query:{page:page}}"
-              class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-              {{page}} </router-link>
-            </div> -->
-
-            <button
-              class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-              <span class="sr-only">Next</span>
-              <i class="fas fa-angle-right" aria-hidden="true" />
-            </button>
-          </nav>
+          <paginate :page-count="lastPage" :click-handler="page => getUsers(page, estadoBuscado)" :prev-text="'Prev'"
+            :next-text="'Next'" :container-class="'relative z-0 inline-flex rounded-md shadow-sm -space-x-px cursor-pointer'"
+            :page-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
+            :prev-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
+            :next-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
+            :no-li-surround="true"
+            :active-class="'z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium'"
+            >
+          </paginate>
         </div>
       </div>
     </div>
+
+
+
+
+    <!-- <laravel-vue-pagination :data="users" @pagination-change-page="page => getUsers(page, estadoBuscado)" /> -->
+
+
+
   </div>
 </template>
 
@@ -205,8 +208,8 @@
 
 import useUsers from '../../hooks/users'
 import TableDropdown from "../Dropdowns/TableDropdown.vue";
-import { inject, onMounted, ref, watch } from "vue";
-import laravelVuePagination from 'laravel-vue-pagination';
+import { onMounted, ref, watch } from "vue";
+import Paginate from "vuejs-paginate-next";
 // import { useUserStore } from '../../stores/Users';
 
 
@@ -248,6 +251,11 @@ const apellidoBuscado = ref('')
 const ordenarColumna = ref('created_at')
 const ordenarDireccion = ref('asc')
 
+const from = ref(0);
+const to = ref(0);
+const total = ref(0);
+const lastPage = ref(1);
+
 
 const mostrarNombreAlmacenes = ((arrayAlmacen) => {
   return arrayAlmacen.map((almacen) => {
@@ -255,12 +263,13 @@ const mostrarNombreAlmacenes = ((arrayAlmacen) => {
   })
 })
 
-onMounted(() => {
-  // await userStore.getUsers();
-  // usersDataTable.value = userStore.users
-  // links.value = userStore.users.links
-  // meta.value = userStore.users.meta
-  getUsers();
+onMounted(async () => {
+  await getUsers();
+  from.value = users.value.meta.from;
+  to.value = users.value.meta.to;
+  total.value = users.value.meta.total;
+  lastPage.value = users.value.meta.last_page;
+
 });
 
 const actualizarOrden = (columna) => {
@@ -289,18 +298,18 @@ watch([estadoBuscado, idBuscado, nombreBuscado, apellidoBuscado], (
     currApellidoBuscado);
 });
 
-// watch([estadoBuscado],
-// ([currEstadoBuscado],[prevEstadoBuscado]) => {
-//   getUsers(
-//     1,
-//     currEstadoBuscado,
-//     idBuscado.value,
-//     nombreBuscado.value,
-//     apellidoBuscado.value);
-// });
+watch([users],
+(curr,prev) => {
+  // console.log('curr', curr[0].meta);
+  // console.log('prev',prev[0].meta);
+  from.value = curr[0].meta.from;
+  to.value = curr[0].meta.to;
+  total.value = curr[0].meta.total;
+  lastPage.value = curr[0].meta.last_page;
+});
 
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" script>
 </style>
