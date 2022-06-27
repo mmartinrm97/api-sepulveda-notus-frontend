@@ -24,7 +24,7 @@ export default function useUsers() {
                 order_column: ordenarColumna,
                 order_direction: ordenarDireccion
             }
-            const url = `http://api-sepulveda.test/api/v1/users`
+            const url = `${import.meta.env.VITE_APP_URL}/api/v1/users`
             const res = await axios.get(url, { params })
 
             // console.log("🚀 ~ file: users.js ~ line 23 ~ useUsers ~ res", 

@@ -9,7 +9,7 @@ export const useGrupoBienesStore = defineStore('GrupoBienesStore', {
         async getGrupoBienes(){
             try {         
 
-                const url = `http://api-sepulveda.test/api/v1/goods-groups`
+                const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods-groups`
                 const res = await axios.get(url)
 
                 this.grupoBienes = []

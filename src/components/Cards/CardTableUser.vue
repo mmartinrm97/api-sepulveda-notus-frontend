@@ -1,56 +1,71 @@
 <template>
+  <!-- Tabla -->
   <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
     :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
+    <!-- Header -->
     <div class="rounded-t mb-0 px-4 py-3 border-0">
-      <div class="flex flex-wrap items-center">
-        <div class="relative flex w-10/12 px-4 max-w-full flex-grow flex-1">
+      <div class="flex flex-wrap px-4 py-4 items-center">
+
+        <div class="relative flex w-1/3 px-4 flex-grow flex-1">
           <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
             {{ titulo }}
           </h3>
         </div>
-        <!-- Búsqueda de Id -->
-        <div class="relative flex w-1/10 flex-wrap items-stretch m-3">
+        <!-- Búsqueda Global -->
+        <div class="relative flex w-1/3 flex-wrap items-stretch m-3">
           <span
             class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-            <i class="fas fa-lock"></i>
+            <i class="fas fa-search"></i>
+          </span>
+          <input v-model="nombreBuscado" type="text" placeholder="Buscar ..."
+            class="px-3 py-3 placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10" />
+        </div>
+      </div>
+
+      <div class="flex flex-grow items-center bg-green-500 md:bg-red-500 sm:bg-sky-500">
+        <!-- Búsqueda de Id -->
+        <div class="relative flex w-1/5 flex-grow items-stretch m-3 sm:w-full px-4">
+          <span
+            class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+            <i class="fas fa-search"></i>
           </span>
           <input v-model="idBuscado" type="text" placeholder="Filtrar por id"
             class="px-3 py-3 placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10" />
         </div>
-
         <!-- Búsqueda de Nombre -->
-        <div class="relative flex w-1/10 flex-wrap items-stretch m-3">
+        <div class="relative flex w-1/5 flex-grow items-stretch m-3 sm:w-full px-4">
           <span
             class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-            <i class="fas fa-lock"></i>
+            <i class="fas fa-search"></i>
           </span>
           <input v-model="nombreBuscado" type="text" placeholder="Filtrar por nombres"
             class="px-3 py-3 placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10" />
         </div>
 
         <!-- Búsqueda de Apellido -->
-        <div class="relative flex w-1/10 flex-wrap items-stretch m-3">
+        <div class="relative flex w-1/5 flex-grow items-stretch m-3 sm:w-full px-4">
           <span
             class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-            <i class="fas fa-lock"></i>
+            <i class="fas fa-search"></i>
           </span>
           <input v-model="apellidoBuscado" type="text" placeholder="Filtrar por apellidos"
-            class="px-3 py-3 placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10"/>
+            class="px-3 py-3 placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10" />
         </div>
 
         <!-- Filtrar por Estado -->
-        <div class="relative flex w-1/10 flex-wrap items-stretch m-3">
+        <div class="relative flex flex-grow w-1/5 items-stretch m-3 sm:w-full px-4">
           <span
-            class="z-10 h-full leading-snug font-normal text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-            <i class="fas fa-lock"></i>
+            class="shadow z-10 h-full leading-snug font-normal text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+            <i class="fas fa-search"></i>
           </span>
           <select v-model="estadoBuscado"
-            class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pl-10">
+            class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pl-10 pr-10">
             <option value="">--Filtrar por Activo--</option>
             <option :value='1'>Activado</option>
             <option :value='0'>Desactivado</option>
           </select>
         </div>
+
       </div>
     </div>
     <div class="block w-full overflow-x-auto">
@@ -265,7 +280,7 @@ const actualizarOrden = (columna) => {
 watch([estadoBuscado, idBuscado, nombreBuscado, apellidoBuscado], (
   [currEstadoBuscado, currIdBuscado, currNombreBuscado, currApellidoBuscado],
   [prevEstadoBuscado, prevIdBuscado, prevNombreBuscado, prevApellidoBuscado]
-  ) => {
+) => {
   getUsers(
     1,
     currEstadoBuscado,
@@ -274,7 +289,7 @@ watch([estadoBuscado, idBuscado, nombreBuscado, apellidoBuscado], (
     currApellidoBuscado);
 });
 
-// watch([estadoBuscado], 
+// watch([estadoBuscado],
 // ([currEstadoBuscado],[prevEstadoBuscado]) => {
 //   getUsers(
 //     1,

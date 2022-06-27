@@ -13,7 +13,7 @@ export const useUserStore = defineStore('UserStore', {
                     page: pagina,
                     is_active: activo
                 }
-                const url = `http://api-sepulveda.test/api/v1/users`
+                const url = `${import.meta.env.VITE_APP_URL}/api/v1/users`
                 const res = await axios.get(url, { params })
                 // console.log("🚀 ~ file: Users.js ~ line 17 ~ getUsers ~ res", res.data.data[0])
                 

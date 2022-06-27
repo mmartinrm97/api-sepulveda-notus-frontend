@@ -12,7 +12,7 @@ export const useBienesStore = defineStore('BienesStore', {
                 const params = {
                     include: 'goodsGroup,goodsClass,warehouse'
                 }
-                const url = `http://api-sepulveda.test/api/v1/goods`
+                const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods`
                 const res = await axios.get(url, {params})
 
                 this.bienes = []
