@@ -1,4 +1,5 @@
 <template>
+
   <!-- Tabla -->
   <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
     :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
@@ -6,32 +7,34 @@
     <div class="rounded-t mb-0 px-4 py-3 border-0">
       <div class="flex flex-wrap px-4 py-4 items-center">
 
-        <div class="relative flex w-1/3 px-4 py-2 flex-grow flex-1">
+        <div class="relative flex w-1/3 px-4 flex-grow flex-1">
           <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
             {{ titulo }}
           </h3>
         </div>
+
         <div>
           <button
-            class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mx-3 ease-linear transition-all duration-150"
+            class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mx-3 ease-linear transition-all duration-150"
             type="button" @click="toggleModal()">
-            Botón Prueba
+            Open small modal
           </button>
         </div>
+
         <!-- Búsqueda Global -->
-        <!-- <div class="relative flex w-1/3 flex-wrap items-stretch m-3">
+        <div class="relative flex w-1/3 flex-wrap items-stretch mx-3">
           <span
-            class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pt-2 pl-3">
+            class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pt-2 pl-3 ">
             <i class="fas fa-search"></i>
           </span>
-          <input v-model="busquedaGlobal" type="text" placeholder="Buscar ..."
-            class="px-3 placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10" />
-        </div> -->
+          <input v-model="nombreBuscado" type="text" placeholder="Buscar ..."
+            class="px-3  placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10" />
+        </div>
       </div>
+
 
       <!-- Filtros -->
 
-      <!-- bg-green-500 md:bg-red-500 sm:bg-sky-500 add to view rensposive design-->
       <div class="flex flex-grow items-center ">
         <!-- Búsqueda de Id -->
         <div class="relative flex w-1/5 flex-grow items-stretch m-3 sm:w-full px-4">
@@ -40,7 +43,7 @@
             <i class="fas fa-search"></i>
           </span>
           <input v-model="idBuscado" type="text" placeholder="Buscar por id"
-            class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
+            class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3  " />
         </div>
         <!-- Búsqueda de Nombre -->
         <div class="relative flex w-1/5 flex-grow items-stretch m-3 sm:w-full px-4">
@@ -49,7 +52,7 @@
             <i class="fas fa-search"></i>
           </span>
           <input v-model="nombreBuscado" type="text" placeholder="Buscar por nombres"
-            class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
+            class="px-3 placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10" />
         </div>
 
         <!-- Búsqueda de Apellido -->
@@ -59,7 +62,7 @@
             <i class="fas fa-search"></i>
           </span>
           <input v-model="apellidoBuscado" type="text" placeholder="Buscar por apellidos"
-            class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
+            class="px-3 placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10" />
         </div>
 
         <!-- Filtrar por Estado -->
@@ -77,41 +80,14 @@
         </div>
 
       </div>
+
     </div>
     <div class="block w-full overflow-x-auto">
 
-      <!-- Projects table -->
+      <!-- Table -->
       <table class="items-center w-full bg-transparent border-collapse">
         <thead>
           <tr>
-            <!-- head table -->
-
-            <!-- <th v-for="element in encabezadosTabla" :key="element">
-              <div
-                class="border border-solid border-l-0 border-r-0 flex flex-row items-center justify-between cursor-pointer"
-                :class="[
-                color === 'light'
-                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                ordenarColumna === element.filtro ? 'font-bold text-blue-700' : '']"
-                @click="actualizarOrden(element.filtro)">
-                <div class="px-6 align-middle py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
-                  {{ element.cabecera }}
-                </div>
-                <div class="select-none">
-                  <span :class="{
-                    'text-blue-600': ordenarDireccion === 'asc' && ordenarColumna === element.filtro,
-                    'hidden': ordenarDireccion !== '' && ordenarDireccion !== 'asc' && ordenarColumna === element.filtro
-                  }">&uarr;</span>
-                  <span :class="{
-                    'text-blue-600': ordenarDireccion === 'desc' && ordenarColumna === element.filtro,
-                    'hidden': ordenarDireccion !== '' && ordenarDireccion !== 'desc' && ordenarColumna === element.filtro
-                  }">&darr;</span>
-                </div>
-              </div>
-            </th> -->
-
-
             <th class="px-0" v-for="element in encabezadosTabla" :key="element">
               <div
                 class="border border-solid border-l-0 border-r-0 flex flex-row items-center justify-between cursor-pointer"
@@ -139,7 +115,6 @@
               </div>
             </th>
             <!-- Plantilla -->
-
             <th class="px-0">
               <div
                 class="border border-solid border-l-0 border-r-0 flex flex-row items-center justify-between cursor-pointer"
@@ -157,8 +132,8 @@
             </th>
           </tr>
         </thead>
-        <tbody v-if="userStore.users.data && userStore.users.data.length > 0">
-          <tr v-for="user in userStore.users.data" :key="user.id">
+        <tbody v-if="userFormData.data && userFormData.data.length > 0">
+          <tr v-for="user in userFormData.data" :key="user.id">
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               {{ user.id }}
             </td>
@@ -200,59 +175,8 @@
           </tr>
         </tbody>
       </table>
+
     </div>
-
-    <!-- Pagination -->
-    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-      <div class="flex-1 flex justify-between sm:hidden">
-        <a href="#"
-          class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-          Previous </a>
-        <a href="#"
-          class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-          Next </a>
-      </div>
-      <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-        <div>
-          <p class="text-sm text-gray-700">
-            Mostrando del
-            {{ ' ' }}
-            <span class="font-medium">{{ userStore.users.meta !== undefined ? userStore.users.meta.from : 0 }}</span>
-            {{ ' ' }}
-            al
-            {{ ' ' }}
-            <span class="font-medium">{{ userStore.users.meta !== undefined ? userStore.users.meta.to : 0 }}</span>
-            {{ ' ' }}
-            de
-            {{ ' ' }}
-            <span class="font-medium">{{ userStore.users.meta !== undefined ? userStore.users.meta.total : 0 }}</span>
-            {{ ' ' }}
-            registros
-          </p>
-        </div>
-        <div>
-          <paginate :page-count="lastPage" :click-handler="page => userStore.getUsers(
-          page,
-          currBusquedaGlobal,
-          estadoBuscado,
-          idBuscado,
-          nombreBuscado,
-          apellidoBuscado,
-          ordenarColumna,
-          ordenarDireccion)" :prev-text="'Prev'" :next-text="'Next'"
-            :container-class="'relative z-0 inline-flex rounded-md shadow-sm -space-x-px cursor-pointer'"
-            :page-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
-            :prev-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
-            :next-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
-            :no-li-surround="true"
-            :active-class="'z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium'">
-          </paginate>
-        </div>
-      </div>
-    </div>
-
-    <editar-user :open="openModal" />
-
   </div>
 </template>
 
@@ -263,40 +187,30 @@ import TableDropdown from "../Dropdowns/TableDropdown.vue";
 import { inject, onMounted, provide, ref, watch } from "vue";
 import Paginate from "vuejs-paginate-next";
 import EditarUser from '../../views/admin/EditarUser.vue';
-import { useUserStore } from '../../stores/Users';
-import { useRouter } from 'vue-router';
+
+// import { useUserStore } from '../../stores/Users';
 
 const props = defineProps({
+  titulo: String,
+  formData: Object,
+  encabezadosTabla: Array,
   color: {
     default: "light",
     validator: function (value) {
       // The value must match one of these strings
       return ["light", "dark"].indexOf(value) !== -1;
     },
-  }
+  },
 })
 
-const emit = defineEmits(['tablaUsersLista'])
+const { encabezadosTabla } = props
 
-const openModal = ref(true);
+const emit = defineEmits(['customChange']);
 
-const router = useRouter();
-const titulo = router.currentRoute.value.meta.title
-const userStore = useUserStore()
+const userFormData = ref(props.formData);
+console.log("🚀 ~ file: CardTableUserCopy.vue ~ line 211 ~ userFormData", userFormData)
 
-
-const encabezadosTabla = [
-  { cabecera: 'ID', filtro: 'id' },
-  { cabecera: 'Rol', filtro: 'role_id' },
-  { cabecera: 'Nombres', filtro: 'first_name' },
-  { cabecera: 'Apellidos', filtro: 'last_name' },
-  { cabecera: 'Área Encargada', filtro: 'warehouses' },
-  { cabecera: 'Activo', filtro: 'is_active' },
-]
-
-  // await userStore.getUsers(); 
-
-const busquedaGlobal = ref('')
+// const { users, getUsers } = useUsers()
 const estadoBuscado = ref('')
 const idBuscado = ref('')
 const nombreBuscado = ref('')
@@ -304,16 +218,25 @@ const apellidoBuscado = ref('')
 const ordenarColumna = ref('created_at')
 const ordenarDireccion = ref('asc')
 
+const mostrarNombreAlmacenes = ((arrayAlmacen) => {
+  return arrayAlmacen.map((almacen) => {
+    return almacen.description
+  })
+})
+
+
+
+watch(userFormData, (curr, prev) => {
+  console.log('curr', curr);
+  console.log('prev', prev);
+})
+
 // const from = ref(0);
 // const to = ref(0);
 // const total = ref(0);
-const lastPage = ref(1);
+// const lastPage = ref(1);
 
-const showModal = ref(false);
-
-// const usersDataInject = inject('formData');
-// const usersData = usersDataInject.value;
-// console.log("🚀 ~ file: CardTableUser.vue ~ line 157 ~ usersData", usersData)
+// const showModal = ref(false);
 
 // const userStore = useUserStore()
 
@@ -321,61 +244,65 @@ const showModal = ref(false);
 // const links = ref({})
 // const meta = ref({})
 
-provide('showModal', showModal)
+// provide('showModal', showModal)
 
-const toggleModal = (() => {
-  showModal.value = !showModal.value;
-  console.log("🚀 ~ file: CardTableUser.vue ~ line 308 ~ toggleModal ~ showModal", showModal.value)
+// const toggleModal = (() => {
+//   showModal.value = !showModal.value;
+//   console.log("🚀 ~ file: CardTableUser.vue ~ line 308 ~ toggleModal ~ showModal", showModal.value)
 
-})
+// })
 
 
-const mostrarNombreAlmacenes = ((arrayAlmacen) => {
-  return arrayAlmacen.map((almacen) => {
-    return almacen.description
-  })
-})
 
-const actualizarOrden = async (columna) => {
+const actualizarOrden = (columna) => {
   ordenarColumna.value = columna
   ordenarDireccion.value = ordenarDireccion.value === 'asc' ? 'desc' : 'asc'
-  await userStore.getUsers(
-    1,
-    busquedaGlobal.value,
-    estadoBuscado.value,
-    idBuscado.value,
-    nombreBuscado.value,
-    apellidoBuscado.value,
-    ordenarColumna.value,
-    ordenarDireccion.value
-  )
-}
+  // getUsers(
+  //   1,
+  //   estadoBuscado.value,
+  //   idBuscado.value,
+  //   nombreBuscado.value,
+  //   apellidoBuscado.value,
+  //   ordenarColumna.value,
+  //   ordenarDireccion.value
+  // )
+  emit('customChange',
+    {
+      columna: ordenarColumna.value,
+      direccion: ordenarDireccion.value
+    });
+};
 
-onMounted(async () => {
+// onMounted(async () => {
+//   await getUsers();
+//   from.value = users.value.meta.from;
+//   to.value = users.value.meta.to;
+//   total.value = users.value.meta.total;
+//   lastPage.value = users.value.meta.last_page;
 
-  // await getUsers();
-  await userStore.getUsers();
-
-  // from.value = userStore.users.meta.from;
-  // to.value = userStore.users.meta.to;
-  // total.value = userStore.users.meta.total;
-  lastPage.value = userStore.users.meta.last_page;
-
-});
+// });
 
 
-watch([busquedaGlobal, estadoBuscado, idBuscado, nombreBuscado, apellidoBuscado], (
-  [currBusquedaGlobal, currEstadoBuscado, currIdBuscado, currNombreBuscado, currApellidoBuscado],
-  [prevBusquedaGlobal, prevEstadoBuscado, prevIdBuscado, prevNombreBuscado, prevApellidoBuscado]
-) => {
-  userStore.getUsers(
-    1,
-    currBusquedaGlobal,
-    currEstadoBuscado,
-    currIdBuscado,
-    currNombreBuscado,
-    currApellidoBuscado);
-});
+// watch([estadoBuscado, idBuscado, nombreBuscado, apellidoBuscado], (
+//   [currEstadoBuscado, currIdBuscado, currNombreBuscado, currApellidoBuscado],
+//   [prevEstadoBuscado, prevIdBuscado, prevNombreBuscado, prevApellidoBuscado]
+// ) => {
+//   getUsers(
+//     1,
+//     currEstadoBuscado,
+//     currIdBuscado,
+//     currNombreBuscado,
+//     currApellidoBuscado);
+// });
+
+// watch([users],
+//   (curr, prev) => {
+//     from.value = curr[0].meta.from;
+//     to.value = curr[0].meta.to;
+//     total.value = curr[0].meta.total;
+//     lastPage.value = curr[0].meta.last_page;
+//   });
+
 
 </script>
 

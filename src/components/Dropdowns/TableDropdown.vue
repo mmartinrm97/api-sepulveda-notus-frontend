@@ -8,10 +8,10 @@
                 hidden: !dropdownPopoverShow,
                 block: dropdownPopoverShow,
             }">
-            <a href="javascript:void(0);"
-                class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
+            <button 
+                class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700" @click="tryThis">
                 Action
-            </a>
+            </button>
             <a href="javascript:void(0);"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
                 Another action
@@ -45,6 +45,13 @@ const toggleDropdown = (event) => {
             placement: "bottom-start"
         })
     }
+}
+
+const emit = defineEmits('eventA')
+
+const tryThis = () =>{
+    console.log('trying toggleDropdown');
+    emit('eventA')
 }
 
 </script>

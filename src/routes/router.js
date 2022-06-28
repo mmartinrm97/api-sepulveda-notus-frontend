@@ -35,7 +35,8 @@ const routes = [
             {
                 path: "/admin/usuarios",
                 component: Users,
-                name: 'Usuarios'
+                name: 'users',
+                meta: {title: 'Usuarios'}
             },
             {
                 path: "/admin/almacenes",
