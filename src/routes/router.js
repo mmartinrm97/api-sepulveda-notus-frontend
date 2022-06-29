@@ -10,10 +10,11 @@ import Settings from "../views/admin/Settings.vue";
 import Tables from "../views/admin/Tables.vue";
 import Maps from "../views/admin/Maps.vue";
 import Users from '../views/admin/Users.vue'
-import CatalogoBien from '../views/admin/CatalogoBien.vue'
 import Almacen from '../views/admin/Almacen.vue'
+import CatalogoBien from '../views/admin/CatalogoBien.vue'
 import GrupoBien from '../views/admin/GrupoBien.vue'
 import ClaseBien from '../views/admin/ClaseBien.vue'
+import Bien from '../views/admin/Bien.vue'
 
 //views for auth layouts
 import Login from "../views/auth/Login.vue";
@@ -30,7 +31,8 @@ const routes = [
             {
                 path: "/admin/dashboard",
                 component: Dashboard,
-                name: 'Dashboard'
+                name: 'dashboard',
+                meta:{ title: 'Dashboard'},
             },
             {
                 path: "/admin/usuarios",
@@ -41,37 +43,47 @@ const routes = [
             {
                 path: "/admin/almacenes",
                 component: Almacen,
-                name: 'Almacenes'
+                name: 'almacenes',
+                meta:{ title: 'Admin'},
             },
             {
                 path: "/admin/catalogos-bienes",
                 component: CatalogoBien,
-                name: 'Catalogos de Bienes'
+                name: 'catalogosDeBienes',
+                meta:{ title: 'Catalogos de Bienes'},
             },
             {
                 path: "/admin/clases-bienes",
                 component: ClaseBien,
-                name: 'Clases de Bienes'
+                name: 'clasesDeBienes',
+                meta:{ title: 'Clases de Bienes'},
             },
             {
                 path: "/admin/grupos-bienes",
                 component: GrupoBien,
-                name: 'Grupos de Bienes'
+                name: 'gruposdeBienes',
+                meta:{ title: 'Grupos de Bienes'},
+            },
+            {
+                path: "/admin/bienes",
+                component: Bien,
+                name: 'bienes',
+                meta: {title: 'Bienes'}
             },
             {
                 path: "/admin/settings",
                 component: Settings,
-                name: 'Settings'
+                name: 'settings'
             },
             {
                 path: "/admin/tables",
                 component: Tables,
-                name: 'Tables'
+                name: 'tables'
             },
             {
                 path: "/admin/maps",
                 component: Maps,
-                name: 'Maps'
+                name: 'maps'
             },
         ],
     },{

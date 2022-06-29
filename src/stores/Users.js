@@ -43,7 +43,6 @@ export const useUserStore = defineStore('userStore', () => {
 
     const getUsers = async (
         pagina = 1,
-        currBusquedaGlobal = '',
         estadoBuscado = '',
         id = '',
         buscarNombre = '',
@@ -55,7 +54,6 @@ export const useUserStore = defineStore('userStore', () => {
             const params = {
                 include: 'role,warehouses',
                 page: pagina,
-                search_global: currBusquedaGlobal,
                 search_is_active: estadoBuscado,
                 search_id: id,
                 search_first_name: buscarNombre,

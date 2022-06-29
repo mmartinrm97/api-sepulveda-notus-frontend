@@ -12,7 +12,7 @@
       <!-- Brand -->
       <router-link
         class="md:block text-left md:pb-2 text-slate-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-        to="/">
+        :to="{name: 'dashboard'}">
         Sepulveda App
       </router-link>
       <!-- User -->
@@ -34,7 +34,7 @@
             <div class="w-6/12">
               <router-link
                 class="md:block text-left md:pb-2 text-slate-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-                to="/">
+                :to="{name: 'dashboard'}">
                 Sepulveda App
               </router-link>
             </div>
@@ -58,7 +58,34 @@
         <!-- Divider -->
         <hr class="my-4 md:min-w-full" />
         <!-- Heading -->
-        <sidebar-heading name="Admin Layout Pages" />
+        <sidebar-heading name="Inicio" />
+        <!-- Navigation -->
+
+        <ul class="md:flex-col md:min-w-full flex flex-col list-none">
+
+          <sidebar-admin-element name="Dashboard"
+            toRoute="/admin/dashboard" iconClass="fas fa-tv" />
+
+        </ul>
+                
+        <!-- Divider -->
+        <hr class="my-4 md:min-w-full" />
+        <!-- Heading -->
+        <sidebar-heading name="Bienes" />
+        <!-- Navigation -->
+
+        <ul class="md:flex-col md:min-w-full flex flex-col list-none">
+
+          <sidebar-admin-element v-for="element in sidebarBienesElements" :key="element" :name="element.name"
+            :toRoute="element.toRoute" :iconClass="element.iconClass" />
+        </ul>
+
+        
+
+        <!-- Divider -->
+        <hr class="my-4 md:min-w-full" />
+        <!-- Heading -->
+        <sidebar-heading name="Administración" />
         <!-- Navigation -->
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
@@ -71,7 +98,7 @@
         <!-- Divider -->
         <hr class="my-4 md:min-w-full" />
         <!-- Heading -->
-        <sidebar-heading name="Auth Layout Pages" />
+        <sidebar-heading name="Autenticación" />
         <!-- Navigation -->
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
@@ -81,33 +108,34 @@
 
         </ul>
 
+
         <!-- Divider -->
-        <hr class="my-4 md:min-w-full" />
+        <!-- <hr class="my-4 md:min-w-full" /> -->
         <!-- Heading -->
-        <sidebar-heading name="No Layout Pages" />
+        <!-- <sidebar-heading name="No Layout Pages" /> -->
         <!-- Navigation -->
 
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+        <!-- <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
           <sidebar-no-layout-element name="Landing Page" toRoute="" iconClass="fas fa-newspaper" />
 
           <sidebar-no-layout-element name="Profile Page" toRoute="" iconClass="fas fa-user-circle" />
-        </ul>
+        </ul> -->
 
         <!-- Divider -->
-        <hr class="my-4 md:min-w-full" />
+        <!-- <hr class="my-4 md:min-w-full" /> -->
         <!-- Heading -->
-        <sidebar-heading name="Documentation" />
+        <!-- <sidebar-heading name="Documentation" /> -->
         <!-- Navigation -->
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-
-
+        <!-- <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
           <sidebar-documentation-element v-for="element in sidebarDocumentElements" :key="element" :name="element.name"
             :tohref="element.tohref" :iconClass="element.iconClass" />
 
           <sidebar-documentation-element name="Styles"
             tohref="https://www.creative-tim.com/learning-lab/tailwind/vue/colors/notus"
             iconClass="fas fa-paint-brush" />
-        </ul>
+        </ul> -->
+
+        
       </div>
     </div>
   </nav>
@@ -125,15 +153,18 @@ import SidebarDocumentationElement from './SidebarDocumentationElement.vue';
 import { ref } from 'vue';
 
 const sidebarAdminElements = [
-  { name: 'Dashboard', toRoute: '/admin/dashboard', iconClass: 'fas fa-tv' },
-  { name: 'Usuarios', toRoute: '/admin/usuarios', iconClass: 'fas fa-users' },
-  { name: 'Almacenes', toRoute: '/admin/almacenes', iconClass: 'fas fa-warehouse' },
-  { name: 'Catálogo de Bienes', toRoute: '/admin/catalogos-bienes', iconClass: 'fas fa-book' },
-  { name: 'Clases de Bienes', toRoute: '/admin/clases-bienes', iconClass: 'fas fa-boxes' },
-  { name: 'Grupo de Bienes', toRoute: '/admin/grupos-bienes', iconClass: 'fas fa-sitemap' },
-  { name: 'Settings', toRoute: '/admin/settings', iconClass: 'fas fa-tools' },
-  { name: 'Tables', toRoute: '/admin/tables', iconClass: 'fas fa-table' },
-  { name: 'Maps', toRoute: '/admin/maps', iconClass: 'fas fa-map-marked' },
+  { name: 'Usuarios', toRoute: {name: 'users'}, iconClass: 'fas fa-users' },
+  { name: 'Almacenes', toRoute: {name: 'almacenes'}, iconClass: 'fas fa-warehouse' },
+  { name: 'Settings', toRoute: {name: 'settings'}, iconClass: 'fas fa-tools' },
+  { name: 'Tables', toRoute: {name: 'tables'}, iconClass: 'fas fa-table' },
+  { name: 'Maps', toRoute: {name: 'maps'}, iconClass: 'fas fa-map-marked' },
+]
+
+const sidebarBienesElements = [
+  { name: 'Ver Bienes', toRoute: {name: 'bienes'}, iconClass: 'fas fa-box-open' },
+  { name: 'Catálogo de Bienes', toRoute: {name: 'catalogosDeBienes'}, iconClass: 'fas fa-book' },
+  { name: 'Clases de Bienes', toRoute: {name: 'clasesDeBienes'}, iconClass: 'fas fa-boxes' },
+  { name: 'Grupo de Bienes', toRoute: {name: 'gruposdeBienes'}, iconClass: 'fas fa-sitemap' },
 ]
 
 const sidebarDocumentElements = [
@@ -148,7 +179,7 @@ const sidebarDocumentElements = [
 ]
 const collapseShow = ref('hidden')
 const toggleCollapseShow = (classes) => {
-  console.log('collapseShow',collapseShow.value);
+  console.log('collapseShow', collapseShow.value);
   collapseShow.value = classes
 }
 

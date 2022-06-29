@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-wrap mt-4">
     <div class="w-full mb-12 px-4">
-        <card-table-almacen v-if="isVisible" titulo="Catálogo de Bienes" color="dark"/>
+        <card-table-almacen v-if="isVisible" titulo="Catálogo de Bienes"/>
     </div>
     <div class="w-full mb-12 px-4">
     </div>

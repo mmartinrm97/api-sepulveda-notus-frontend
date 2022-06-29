@@ -17,21 +17,19 @@
       </Suspense>
     </div>
 
-    <div class="w-full mb-12 px-4">
-    </div>
+    <!-- <div class="w-full mb-12 px-4">
+      Espacio
+    </div> -->
   </div>
 </template>
 
 <script setup>
-import CardTableUser from '../../components/Cards/CardTableUser.vue';
-import CardTableUserCopy from '../../components/Cards/CardTableUserCopy.vue';
-import { onMounted, provide, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useUserStore } from '../../stores/Users';
+import CardTableUser from '../../components/Cards/Users/CardTableUser.vue';
 import CardTableSkeleton from '../../components/Cards/CardTableSkeleton.vue';
 
-const userStore = useUserStore()
 const isVisible = ref(false)
-const formData = ref([]);
 
 // const alerta = (async ({ columna, direccion }) => {
 

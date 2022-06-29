@@ -18,15 +18,7 @@
             Botón Prueba
           </button>
         </div>
-        <!-- Búsqueda Global -->
-        <!-- <div class="relative flex w-1/3 flex-wrap items-stretch m-3">
-          <span
-            class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pt-2 pl-3">
-            <i class="fas fa-search"></i>
-          </span>
-          <input v-model="busquedaGlobal" type="text" placeholder="Buscar ..."
-            class="px-3 placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10" />
-        </div> -->
+
       </div>
 
       <!-- Filtros -->
@@ -39,7 +31,7 @@
             class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
             <i class="fas fa-search"></i>
           </span>
-          <input v-model="idBuscado" type="text" placeholder="Buscar por id"
+          <input v-model="idBuscado" type="text" placeholder="Id"
             class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
         </div>
         <!-- Búsqueda de Nombre -->
@@ -48,7 +40,7 @@
             class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
             <i class="fas fa-search"></i>
           </span>
-          <input v-model="nombreBuscado" type="text" placeholder="Buscar por nombres"
+          <input v-model="codigoBuscado" type="text" placeholder="Código"
             class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
         </div>
 
@@ -58,7 +50,7 @@
             class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
             <i class="fas fa-search"></i>
           </span>
-          <input v-model="apellidoBuscado" type="text" placeholder="Buscar por apellidos"
+          <input v-model="descripcionBuscada" type="text" placeholder="Descripción"
             class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
         </div>
 
@@ -66,11 +58,11 @@
         <div class="relative flex flex-grow w-1/5 items-stretch m-3 sm:w-full px-4">
           <span
             class="z-10 h-full leading-snug font-normal text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
-            <i class="fas fa-search"></i>
+            <i class="fas fa-filter"></i>
           </span>
           <select v-model="estadoBuscado"
             class=" shadow px-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pl-10 pr-10">
-            <option value="">--Filtrar por Activo--</option>
+            <option value="">Estado</option>
             <option :value='1'>Activado</option>
             <option :value='0'>Desactivado</option>
           </select>
@@ -84,33 +76,6 @@
       <table class="items-center w-full bg-transparent border-collapse">
         <thead>
           <tr>
-            <!-- head table -->
-
-            <!-- <th v-for="element in encabezadosTabla" :key="element">
-              <div
-                class="border border-solid border-l-0 border-r-0 flex flex-row items-center justify-between cursor-pointer"
-                :class="[
-                color === 'light'
-                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                ordenarColumna === element.filtro ? 'font-bold text-blue-700' : '']"
-                @click="actualizarOrden(element.filtro)">
-                <div class="px-6 align-middle py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
-                  {{ element.cabecera }}
-                </div>
-                <div class="select-none">
-                  <span :class="{
-                    'text-blue-600': ordenarDireccion === 'asc' && ordenarColumna === element.filtro,
-                    'hidden': ordenarDireccion !== '' && ordenarDireccion !== 'asc' && ordenarColumna === element.filtro
-                  }">&uarr;</span>
-                  <span :class="{
-                    'text-blue-600': ordenarDireccion === 'desc' && ordenarColumna === element.filtro,
-                    'hidden': ordenarDireccion !== '' && ordenarDireccion !== 'desc' && ordenarColumna === element.filtro
-                  }">&darr;</span>
-                </div>
-              </div>
-            </th> -->
-
 
             <th class="px-0" v-for="element in encabezadosTabla" :key="element">
               <div
@@ -122,7 +87,7 @@
                   ordenarColumna === element.filtro ? 'font-bold text-blue-700' : ''
                 ]" @click="actualizarOrden(element.filtro)">
                 <div
-                  class="pl-3 pr-4 align-middle border-0 border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                  class="pl-6 pr-6 align-middle border-0 border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                   {{ element.cabecera }}
                 </div>
                 <div
@@ -157,29 +122,26 @@
             </th>
           </tr>
         </thead>
-        <tbody v-if="userStore.users.data && userStore.users.data.length > 0">
-          <tr v-for="user in userStore.users.data" :key="user.id">
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ user.id }}
+        <tbody v-if="bienesStore.bienes.data && bienesStore.bienes.data.length > 0">
+          <tr v-for="bien in bienesStore.bienes.data" :key="bien.id">
+            <td class="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap px-6  p-4 ">
+              {{ bien.id }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="mr-2"
-                :class="[user.role.description === 'Administrador' ? 'fas fa-crown text-yellow-500 ' : 'fas far fa-user text-slate-900 ']"></i>
-              {{ user.role.description }}
+              {{ bien.code }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ user.first_name }}
+              {{ bien.description }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ user.last_name }}
+              {{ bien.warehouse.description }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ user.warehouses[0] == null ? 'Sin área asignada' : mostrarNombreAlmacenes(user.warehouses).join(', ')
-              }}
+              {{ bien.goods_catalog.denomination }}
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="fas fa-circle mr-2" :class="[user.is_active ? 'text-green-600' : 'text-red-500']"> </i>{{
-                  user.is_active ? 'Activado' : 'Desactivado'
+              <i class="fas fa-circle mr-2" :class="[bien.is_active ? 'text-green-600' : 'text-red-500']"> </i>{{
+                  bien.is_active ? 'Activado' : 'Desactivado'
               }}
             </td>
 
@@ -217,27 +179,30 @@
           <p class="text-sm text-gray-700">
             Mostrando del
             {{ ' ' }}
-            <span class="font-medium">{{ userStore.users.meta !== undefined ? userStore.users.meta.from : 0 }}</span>
+            <span class="font-medium">{{ bienesStore.bienes.meta !== undefined ? bienesStore.bienes.meta.from : 0
+            }}</span>
             {{ ' ' }}
             al
             {{ ' ' }}
-            <span class="font-medium">{{ userStore.users.meta !== undefined ? userStore.users.meta.to : 0 }}</span>
+            <span class="font-medium">{{ bienesStore.bienes.meta !== undefined ? bienesStore.bienes.meta.to : 0
+            }}</span>
             {{ ' ' }}
             de
             {{ ' ' }}
-            <span class="font-medium">{{ userStore.users.meta !== undefined ? userStore.users.meta.total : 0 }}</span>
+            <span class="font-medium">{{ bienesStore.bienes.meta !== undefined ? bienesStore.bienes.meta.total : 0
+            }}</span>
             {{ ' ' }}
             registros
           </p>
         </div>
         <div>
-          <paginate :page-count="lastPage" :click-handler="page => userStore.getUsers(
+          <paginate :page-count="lastPage" :click-handler="page => bienesStore.getBienes(
           page,
           currBusquedaGlobal,
           estadoBuscado,
           idBuscado,
-          nombreBuscado,
-          apellidoBuscado,
+          codigoBuscado,
+          descripcionBuscada,
           ordenarColumna,
           ordenarDireccion)" :prev-text="'Prev'" :next-text="'Next'"
             :container-class="'relative z-0 inline-flex rounded-md shadow-sm -space-x-px cursor-pointer'"
@@ -251,19 +216,18 @@
       </div>
     </div>
 
-    <editar-user :open="openModal" />
+    <editar-bien :open="openModal" />
 
   </div>
 </template>
 
 <script setup>
 
-import useUsers from '../../hooks/users'
-import TableDropdown from "../Dropdowns/TableDropdown.vue";
-import { inject, onMounted, provide, ref, watch } from "vue";
+import TableDropdown from "../../Dropdowns/TableDropdown.vue";
+import { onMounted, provide, ref, watch } from "vue";
 import Paginate from "vuejs-paginate-next";
-import EditarUser from '../../views/admin/EditarUser.vue';
-import { useUserStore } from '../../stores/Users';
+import EditarBien from '../../../components/Modals/EditarBien.vue';
+import { useBienesStore } from '../../../stores/Bienes';
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
@@ -282,45 +246,31 @@ const openModal = ref(true);
 
 const router = useRouter();
 const titulo = router.currentRoute.value.meta.title
-const userStore = useUserStore()
+const bienesStore = useBienesStore()
 
 
 const encabezadosTabla = [
   { cabecera: 'ID', filtro: 'id' },
-  { cabecera: 'Rol', filtro: 'role_id' },
-  { cabecera: 'Nombres', filtro: 'first_name' },
-  { cabecera: 'Apellidos', filtro: 'last_name' },
-  { cabecera: 'Área Encargada', filtro: 'warehouses' },
-  { cabecera: 'Activo', filtro: 'is_active' },
+  { cabecera: 'Código', filtro: 'code' },
+  { cabecera: 'Descripción', filtro: 'description' },
+  { cabecera: 'Área de Inventario', filtro: 'warehouse_id' },
+  { cabecera: 'Catálogo de Bien', filtro: 'goods_catalog_id' },
+  { cabecera: 'Estado', filtro: 'is_active' },
 ]
 
-  // await userStore.getUsers(); 
 
 const busquedaGlobal = ref('')
 const estadoBuscado = ref('')
 const idBuscado = ref('')
-const nombreBuscado = ref('')
-const apellidoBuscado = ref('')
+const codigoBuscado = ref('')
+const descripcionBuscada = ref('')
 const ordenarColumna = ref('created_at')
 const ordenarDireccion = ref('asc')
 
-// const from = ref(0);
-// const to = ref(0);
-// const total = ref(0);
+
 const lastPage = ref(1);
 
 const showModal = ref(false);
-
-// const usersDataInject = inject('formData');
-// const usersData = usersDataInject.value;
-// console.log("🚀 ~ file: CardTableUser.vue ~ line 157 ~ usersData", usersData)
-
-// const userStore = useUserStore()
-
-// const usersDataTable = ref([])
-// const links = ref({})
-// const meta = ref({})
-
 provide('showModal', showModal)
 
 const toggleModal = (() => {
@@ -330,22 +280,16 @@ const toggleModal = (() => {
 })
 
 
-const mostrarNombreAlmacenes = ((arrayAlmacen) => {
-  return arrayAlmacen.map((almacen) => {
-    return almacen.description
-  })
-})
-
 const actualizarOrden = async (columna) => {
   ordenarColumna.value = columna
   ordenarDireccion.value = ordenarDireccion.value === 'asc' ? 'desc' : 'asc'
-  await userStore.getUsers(
+  await bienesStore.getBienes(
     1,
     busquedaGlobal.value,
     estadoBuscado.value,
     idBuscado.value,
-    nombreBuscado.value,
-    apellidoBuscado.value,
+    codigoBuscado.value,
+    descripcionBuscada.value,
     ordenarColumna.value,
     ordenarDireccion.value
   )
@@ -353,28 +297,23 @@ const actualizarOrden = async (columna) => {
 
 onMounted(async () => {
 
-  // await getUsers();
-  await userStore.getUsers();
-
-  // from.value = userStore.users.meta.from;
-  // to.value = userStore.users.meta.to;
-  // total.value = userStore.users.meta.total;
-  lastPage.value = userStore.users.meta.last_page;
+  await bienesStore.getBienes();
+  lastPage.value = bienesStore.bienes.meta.last_page;
 
 });
 
 
-watch([busquedaGlobal, estadoBuscado, idBuscado, nombreBuscado, apellidoBuscado], (
-  [currBusquedaGlobal, currEstadoBuscado, currIdBuscado, currNombreBuscado, currApellidoBuscado],
-  [prevBusquedaGlobal, prevEstadoBuscado, prevIdBuscado, prevNombreBuscado, prevApellidoBuscado]
+watch([busquedaGlobal, estadoBuscado, idBuscado, codigoBuscado, descripcionBuscada], (
+  [currBusquedaGlobal, currEstadoBuscado, currIdBuscado, currcodigoBuscado, currdescripcionBuscada],
+  [prevBusquedaGlobal, prevEstadoBuscado, prevIdBuscado, prevcodigoBuscado, prevdescripcionBuscada]
 ) => {
-  userStore.getUsers(
+  bienesStore.getBienes(
     1,
     currBusquedaGlobal,
     currEstadoBuscado,
     currIdBuscado,
-    currNombreBuscado,
-    currApellidoBuscado);
+    currcodigoBuscado,
+    currdescripcionBuscada);
 });
 
 </script>
