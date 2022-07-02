@@ -160,7 +160,7 @@ const anadirBien = (async () => {
     erroresPost.value = {}
     btnBloqueado.value = true
     await bienStore.postBien(state.bien)
-    console.log('despues del post',bienStore.errores);
+    // console.log('despues del post',bienStore.errores);
     if (Object.keys(bienStore.errores).length !== 0) {
 
       Swal.fire({
@@ -184,7 +184,7 @@ const anadirBien = (async () => {
     open.value = false
     btnBloqueado.value = false
     emit('refrescarUsers')
-    console.log('llego al final');
+    // console.log('llego al final');
 
   } catch (error) {
     Swal.fire({

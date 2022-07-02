@@ -76,12 +76,12 @@ const cancelarBien = (() => {
 
 const eliminarBien = (async () => {
   try {
-    console.log('entrooo');
+  
     erroresDelete.value = {}
     btnBloqueado.value = true
-    console.log('state id', state.id);
+    // console.log('state id', state.id);
     await bienStore.deleteBien(state.id)
-    console.log('despues del delete', bienStore.errores);
+    // console.log('despues del delete', bienStore.errores);
 
     if (Object.keys(bienStore.errores).length !== 0) {
       Swal.fire({

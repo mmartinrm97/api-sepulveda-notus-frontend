@@ -158,9 +158,9 @@ const actualizarBien = (async () => {
   try {
     erroresPatch.value = {}
     btnBloqueado.value = true
-    console.log(state.bien);
+    // console.log(state.bien);
     await bienStore.patchBien(state.bien)
-    console.log('despues del patch', bienStore.errores);
+    // console.log('despues del patch', bienStore.errores);
 
     if (Object.keys(bienStore.errores).length !== 0) {
       Swal.fire({
