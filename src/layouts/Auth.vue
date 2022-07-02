@@ -1,14 +1,14 @@
 <template>
     <div>
-    <auth-navbar />
+    <!-- <auth-navbar /> -->
     <main>
-      <section class="relative w-full h-full py-40 min-h-screen">
+      <section class="relative w-full h-full pt-28 min-h-screen">
         <div
-          class="absolute top-0 w-full h-full bg-blueGray-800 bg-no-repeat bg-full"
+          class="absolute top-0 w-full h-full bg-blueGray-800 bg-no-repeat"
           :style="`background-image: url('${registerBg2}');`"
         ></div>
         <router-view />
-        <footer-small absolute />
+        <!-- <footer-small absolute /> -->
       </section>
     </main>
   </div>

@@ -4,6 +4,7 @@
     :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
     <!-- Header -->
     <div class="rounded-t mb-0 px-4 py-3 border-0">
+
       <div class="flex flex-wrap px-4 py-4 items-center">
 
         <div class="relative flex w-1/3 px-4 py-2 flex-grow flex-1">
@@ -13,9 +14,9 @@
         </div>
         <div>
           <button
-            class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mx-3 ease-linear transition-all duration-150"
-            type="button" @click="toggleModal()">
-            Botón Prueba
+            class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-2 pl- rounded shadow hover:shadow-lg outline-none focus:outline-none mx-4 ease-linear transition-all duration-150"
+            type="button" @click="toggleModalCrearBien()">
+            Añadir nuevo bien
           </button>
         </div>
 
@@ -70,7 +71,7 @@
 
       </div>
     </div>
-    <div class="block w-full overflow-x-auto">
+    <div class="block w-full overflow-x-auto relative">
 
       <!-- Projects table -->
       <table class="items-center w-full bg-transparent border-collapse">
@@ -146,7 +147,25 @@
             </td>
 
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-              <table-dropdown @click="openModal = !openModal" />
+              <!-- <table-dropdown @custom-change="toggleTableDropdown" /> -->
+              <!-- <bienes-popover /> -->
+              <Popper :placement="'left-start'" arrow>
+                <button class="text-blueGray-500 py-1 px-3"><i class="fas fa-ellipsis-v"></i></button>
+                <template #content="{ close }">
+                  <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-xl min-w-48">
+                    <button
+                      class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                      @click="close(); toggleModalEditarBien(bien);">
+                      Editar
+                    </button>
+                    <button
+                      class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                      @click="close(); toggleModalEliminarBien(bien)">
+                      Eliminar
+                    </button>
+                  </div>
+                </template>
+              </Popper>
             </td>
           </tr>
         </tbody>
@@ -210,25 +229,33 @@
             :prev-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
             :next-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
             :no-li-surround="true"
-            :active-class="'z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium'">
+            :active-class="'z-10 bg-lightBlue-50 border-lightBlue-500 text-lightBlue-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium'">
           </paginate>
         </div>
       </div>
     </div>
 
-    <editar-bien :open="openModal" />
+    <modal-crear-bien :open="showModalCrearBien" @refrescar-users="refrescarTabla" />
+
+    <modal-editar-bien v-if="showModalEditarBien" :open="showModalEditarBien" @refrescar-users="refrescarTabla" />
+
+    <modal-eliminar-bien v-if="showModalEliminarBien" :open="showModalEliminarBien" @refrescar-users="refrescarTabla"/>
+
+
 
   </div>
 </template>
 
 <script setup>
 
-import TableDropdown from "../../Dropdowns/TableDropdown.vue";
 import { onMounted, provide, ref, watch } from "vue";
-import Paginate from "vuejs-paginate-next";
-import EditarBien from '../../../components/Modals/EditarBien.vue';
 import { useBienesStore } from '../../../stores/Bienes';
 import { useRouter } from 'vue-router';
+import ModalEditarBien from '../../../components/Modals/ModalEditarBien.vue';
+import ModalCrearBien from '../../../components/Modals/ModalCrearBien.vue';
+import ModalEliminarBien from '../../../components/Modals/ModalEliminarBien.vue';
+import Paginate from "vuejs-paginate-next";
+import Popper from "vue3-popper";
 
 const props = defineProps({
   color: {
@@ -240,14 +267,9 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['tablaUsersLista'])
-
-const openModal = ref(true);
-
 const router = useRouter();
 const titulo = router.currentRoute.value.meta.title
 const bienesStore = useBienesStore()
-
 
 const encabezadosTabla = [
   { cabecera: 'ID', filtro: 'id' },
@@ -257,7 +279,6 @@ const encabezadosTabla = [
   { cabecera: 'Catálogo de Bien', filtro: 'goods_catalog_id' },
   { cabecera: 'Estado', filtro: 'is_active' },
 ]
-
 
 const busquedaGlobal = ref('')
 const estadoBuscado = ref('')
@@ -269,15 +290,33 @@ const ordenarDireccion = ref('asc')
 
 
 const lastPage = ref(1);
+const showModalCrearBien = ref(false);
+const showModalEditarBien = ref(false);
+const showModalEliminarBien = ref(false);
 
-const showModal = ref(false);
-provide('showModal', showModal)
+const bienAEditar = ref({});
+const bienAEliminar = ref({});
 
-const toggleModal = (() => {
-  showModal.value = !showModal.value;
-  console.log("🚀 ~ file: CardTableUser.vue ~ line 308 ~ toggleModal ~ showModal", showModal.value)
+const toggleModalEditarBien = ((bien) => {
+  bienAEditar.value = bien;
+  showModalEditarBien.value = !showModalEditarBien.value;
 
 })
+
+const toggleModalCrearBien = (() => {
+  showModalCrearBien.value = !showModalCrearBien.value;
+})
+
+const toggleModalEliminarBien = ((bien) => {
+  bienAEliminar.value = bien;
+  showModalEliminarBien.value = !showModalEliminarBien.value;
+})
+
+provide('showModalEditarBien', showModalEditarBien)
+provide('showModalCrearBien', showModalCrearBien)
+provide('showModalEliminarBien', showModalEliminarBien)
+provide('bienAEditar', bienAEditar)
+provide('bienAEliminar', bienAEliminar)
 
 
 const actualizarOrden = async (columna) => {
@@ -303,17 +342,25 @@ onMounted(async () => {
 });
 
 
-watch([busquedaGlobal, estadoBuscado, idBuscado, codigoBuscado, descripcionBuscada], (
+const refrescarTabla = (async () => {
+  await bienesStore.getBienes();
+  lastPage.value = bienesStore.bienes.meta.last_page;
+})
+
+
+watch([busquedaGlobal, estadoBuscado, idBuscado, codigoBuscado, descripcionBuscada], async (
   [currBusquedaGlobal, currEstadoBuscado, currIdBuscado, currcodigoBuscado, currdescripcionBuscada],
   [prevBusquedaGlobal, prevEstadoBuscado, prevIdBuscado, prevcodigoBuscado, prevdescripcionBuscada]
 ) => {
-  bienesStore.getBienes(
+  await bienesStore.getBienes(
     1,
     currBusquedaGlobal,
     currEstadoBuscado,
     currIdBuscado,
     currcodigoBuscado,
     currdescripcionBuscada);
+
+  lastPage.value = bienesStore.bienes.meta.last_page;
 });
 
 </script>

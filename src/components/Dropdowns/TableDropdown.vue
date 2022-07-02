@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a class="text-blueGray-500 py-1 px-3" href="#pablo" ref="btnDropdownRef" @click="toggleDropdown($event)">
+        <a class="text-blueGray-500 py-1 px-3" href="#pablo" ref="btnDropdownRef" @click="toggleDropdown($event)" >
             <i class="fas fa-ellipsis-v"></i>
         </a>
         <div ref="popoverDropdownRef"
@@ -10,15 +10,15 @@
             }">
             <button 
                 class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700" @click="tryThis">
-                Action
+                Editar
             </button>
             <a href="javascript:void(0);"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
-                Another action
+                Activar
             </a>
             <a href="javascript:void(0);"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
-                Something else here
+                Eliminar
             </a>
         </div>
     </div>
@@ -27,7 +27,7 @@
 <script setup>
 
 import { createPopper } from "@popperjs/core";
-import { ref } from "vue";
+import { onBeforeUnmount, ref } from "vue";
 
 const dropdownPopoverShow = ref(false);
 
@@ -45,14 +45,8 @@ const toggleDropdown = (event) => {
             placement: "bottom-start"
         })
     }
-}
+};
 
-const emit = defineEmits('eventA')
-
-const tryThis = () =>{
-    console.log('trying toggleDropdown');
-    emit('eventA')
-}
 
 </script>
 

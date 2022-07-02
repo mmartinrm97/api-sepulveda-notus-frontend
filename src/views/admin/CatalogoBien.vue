@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-wrap mt-4">
-    <div class="w-full mb-12 px-4">
+  <div class="flex flex-wrap">
+    <div class="w-full mb-12">
         <card-table-catalogo-bien v-if="isVisible" titulo="Catálogo de Bienes"/>
     </div>
     <div class="w-full mb-12 px-4">
@@ -21,7 +21,7 @@ provide('formDataCatalogo', formData);
 
 onMounted(async () => {
   await catalogoBienStore.getCatalogoBienes();
-  formData.value = catalogoBienStore.catalogoBienes;
+  formData.value = catalogoBienStore.catalogoBienes.data;
   // console.log('formData',formData.value);
   isVisible.value = true;
 });

@@ -17,7 +17,7 @@
 
 const props = defineProps({
     name: String,
-    toRoute: String,
+    toRoute: Object,
     iconClass: String
 })
 

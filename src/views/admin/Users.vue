@@ -1,5 +1,6 @@
 <template>
-  <div class="flex flex-wrap mt-4">
+<!-- users -->
+  <div class="flex flex-wrap">
     <div class="w-full mb-12 px-4">
       <!-- <transition>
         <card-table-user v-if="isVisible" />
