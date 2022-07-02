@@ -7,6 +7,7 @@
       <div class="flex flex-wrap px-4 py-4 items-center">
 
         <div class="relative flex w-1/3 px-4 py-2 flex-grow flex-1">
+           <i class="fas fa-users py-2 pr-2"></i>
           <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
             {{ titulo }}
           </h3>

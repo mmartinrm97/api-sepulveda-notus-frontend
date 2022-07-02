@@ -1,5 +1,5 @@
 <template>
-  <TransitionRoot as="template" :show="open">
+  <TransitionRoot as="template" :show="open" v-if="modalListo">
     <Dialog as="div" class="relative z-10" @close="open = false">
       <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
         leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
@@ -20,7 +20,7 @@
                 <div class="sm:flex sm:items-start">
                   <div
                     class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-lightBlue-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <i class="fas fa-plus text-lightBlue-600" aria-hidden="true" />
+                    <i class="fas fa-pen text-lightBlue-600" aria-hidden="true" />
                   </div>
                   <div class="mx-auto align-middle text-center sm:mt-0 sm:ml-6 sm:text-left">
                     <DialogTitle as="h3" class="text-2xl font-medium text-gray-900"> Editar bien
@@ -140,7 +140,7 @@ const open = inject('showModalEditarBien');
 const bienAEditar = inject('bienAEditar')
 
 const emit = defineEmits(['refrescarUsers']);
-
+const modalListo = ref(false)
 //Validación
 const state = reactive({
   bien: {
@@ -218,7 +218,19 @@ const btnBloqueado = ref(false)
 onMounted(async () => {
   await catalogoBienStore.getAllCatalogoBienes()
   await almacenStore.getAllAlmacenes()
+  modalListo.value = true
 });
 
 
 </script>
+
+<style lang="scss">
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}</style>

@@ -25,48 +25,7 @@
 
             <!-- bg-green-500 md:bg-red-500 sm:bg-sky-500 add to view rensposive design-->
             <div class="flex flex-grow items-center ">
-                <!-- Búsqueda de Id -->
-                <div class="relative flex w-1/5 flex-grow items-stretch m-3 sm:w-full px-4">
-                    <span
-                        class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
-                        <i class="fas fa-search"></i>
-                    </span>
-                    <input v-model="idBuscado" disabled type="text" placeholder="Buscar por id"
-                        class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
-                </div>
-                <!-- Búsqueda de Nombre -->
-                <div class="relative flex w-1/5 flex-grow items-stretch m-3 sm:w-full px-4">
-                    <span
-                        class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
-                        <i class="fas fa-search"></i>
-                    </span>
-                    <input v-model="nombreBuscado" disabled type="text" placeholder="Buscar por nombres"
-                        class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
-                </div>
 
-                <!-- Búsqueda de Apellido -->
-                <div class="relative flex w-1/5 flex-grow items-stretch m-3 sm:w-full px-4">
-                    <span
-                        class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
-                        <i class="fas fa-search"></i>
-                    </span>
-                    <input v-model="apellidoBuscado" disabled type="text" placeholder="Buscar por apellidos"
-                        class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
-                </div>
-
-                <!-- Filtrar por Estado -->
-                <div class="relative flex flex-grow w-1/5 items-stretch m-3 sm:w-full px-4">
-                    <span
-                        class="z-10 h-full leading-snug font-normal text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
-                        <i class="fas fa-search"></i>
-                    </span>
-                    <select v-model="estadoBuscado" disabled
-                        class=" shadow px-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pl-10 pr-10">
-                        <option value="">--Filtrar por Activo--</option>
-                        <option :value='1'>Activado</option>
-                        <option :value='0'>Desactivado</option>
-                    </select>
-                </div>
 
             </div>
         </div>
@@ -74,35 +33,9 @@
 
             <!-- Projects table -->
             <table class="items-center w-full bg-transparent border-collapse">
-                <thead>
-                    <tr>
-                        <!-- head table -->
-                        <th class="px-0" v-for="element in encabezadosTabla" :key="element">
-                            <div class="border border-solid border-l-0 border-r-0 flex flex-row items-center justify-between cursor-pointer light'
-                                        ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                                @click="actualizarOrden(element.filtro)">
-                                <div
-                                    class="pl-3 pr-4 align-middle border-0 border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                    {{ element.cabecera }}
-                                </div>
-                                <div
-                                    class="px-2 align-middle py-1 text-xl uppercase whitespace-nowrap font-semibold text-left border-0 border-l-0 border-r-0 select-none">
-                                    <span :class="{
-                                        'text-blue-600': ordenarDireccion === 'asc' && ordenarColumna === element.filtro,
-                                        'hidden': ordenarDireccion !== '' && ordenarDireccion !== 'asc' && ordenarColumna === element.filtro
-                                    }">&uarr;</span>
-                                    <span :class="{
-                                        'text-blue-600': ordenarDireccion === 'desc' && ordenarColumna === element.filtro,
-                                        'hidden': ordenarDireccion !== '' && ordenarDireccion !== 'desc' && ordenarColumna === element.filtro
-                                    }">&darr;</span>
-                                </div>
-                            </div>
-                        </th>
-                        <!-- Plantilla -->
-                    </tr>
-                </thead>
+
                 <tbody class="animate-pulse">
-                    <tr>
+                    <tr v-for="index in 5">
                         <td>&nbsp</td>
                     </tr>
                     <tr>
@@ -124,44 +57,11 @@
                             Cargando Registros
                         </td>
                     </tr>
-                    <tr>
+                    <tr v-for="index in 5">
                         <td>&nbsp</td>
                     </tr>
                 </tbody>
             </table>
-        </div>
-
-        <!-- Pagination -->
-        <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-            <div class="flex-1 flex justify-between sm:hidden">
-                <a href="#"
-                    class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                    Previous </a>
-                <a href="#"
-                    class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                    Next </a>
-            </div>
-            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                <div>
-                    <p class="text-sm text-gray-700">
-                        Mostrando del
-                        {{ ' ' }}
-                        <span class="font-medium">0</span>
-                        {{ ' ' }}
-                        al
-                        {{ ' ' }}
-                        <span class="font-medium">0</span>
-                        {{ ' ' }}
-                        de
-                        {{ ' ' }}
-                        <span class="font-medium">0</span>
-                        {{ ' ' }}
-                        registros
-                    </p>
-                </div>
-                <div>
-                </div>
-            </div>
         </div>
 
     </div>
@@ -170,13 +70,4 @@
 
   <script setup>
   
-  const encabezadosTabla = [
-      { cabecera: 'ID', filtro: 'id' },
-      { cabecera: 'Rol', filtro: 'role_id' },
-      { cabecera: 'Nombres', filtro: 'first_name' },
-      { cabecera: 'Apellidos', filtro: 'last_name' },
-      { cabecera: 'Área Encargada', filtro: 'warehouses' },
-      { cabecera: 'Activo', filtro: 'is_active' },
-  
-  ]
   </script>

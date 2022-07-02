@@ -34,7 +34,7 @@ export const useBienesStore = defineStore('bienesStore', () => {
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods`
             const res = await axios.get(url, { params })
 
-            bienes.value = []
+            bienes.value = {}
             bienes.value = res.data
 
         } catch (error) {
@@ -53,9 +53,8 @@ export const useBienesStore = defineStore('bienesStore', () => {
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods/${id}`
             const res = await axios.get(url, { params })
 
-            bien.value = []
+            bien.value = {}
             bien.value = res.data
-            console.log(res.data);
 
         } catch (error) {
             console.log(error);

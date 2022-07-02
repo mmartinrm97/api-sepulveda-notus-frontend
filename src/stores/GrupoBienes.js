@@ -1,23 +1,27 @@
 import axios from "axios";
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
-export const useGrupoBienesStore = defineStore('GrupoBienesStore', {
-    state: () => ({
-        grupoBienes: null,
-    }),
-    actions: {
-        async getGrupoBienes(){
-            try {         
+export const useGrupoBienesStore = defineStore('GrupoBienesStore', ()=> {
+    const grupoBienes = ref({})
 
-                const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods-groups`
-                const res = await axios.get(url)
+    const getGrupoBienes = async (pagina = 1)=>{
+        try {         
 
-                this.grupoBienes = []
-                this.grupoBienes = res.data.data
-                
-            } catch (error) {
-                console.log(error);
+            const params = {
+                page: pagina
             }
+
+            const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods-groups`
+            const res = await axios.get(url, {params})
+
+            grupoBienes.value = {}
+            grupoBienes.value = res.data
+            
+        } catch (error) {
+            console.log(error);
         }
     }
+
+    return {grupoBienes, getGrupoBienes}
 })

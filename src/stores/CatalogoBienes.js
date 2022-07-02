@@ -1,38 +1,45 @@
 import axios from "axios";
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
-export const useCatalogoBienStore = defineStore('CatalogoBienStore', {
-    state: () => ({
-        catalogoBienes: null,
-        allCatalogoBienes: null
-    }),
-    actions: {
-        async getCatalogoBienes() {
-            try {
-                const params = {
-                    include: 'goodsGroup,goodsClass'
-                }
-                const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods-catalogs`
-                const res = await axios.get(url, { params })
+export const useCatalogoBienStore = defineStore('CatalogoBienStore', () =>{
+    const catalogoBienes = ref({})
+    const allCatalogoBienes = ref({})
+    const catalogoBien = ref({})
+    const errores = ref({})
 
-                this.catalogoBienes = []
-                this.catalogoBienes = res.data
-
-            } catch (error) {
-                console.log(error);
+    const getCatalogoBienes = async(
+        pagina = 1
+    ) => {
+        try {
+            const params = {
+                include: 'goodsGroup,goodsClass',
+                page: pagina
             }
-        },
-        async getAllCatalogoBienes() {
-            try {
-                const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods-catalogs/all`
-                const res = await axios.get(url)
+            
+            const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods-catalogs`
+            const res = await axios.get(url, { params })
+            
+            catalogoBienes.value = {}
+            catalogoBienes.value = res.data
 
-                this.allCatalogoBienes = []
-                this.allCatalogoBienes = res.data
-
-            } catch (error) {
-                console.log(error);
-            }
-        },
+        } catch (error) {
+            console.log(error);
+        }
     }
+
+    const getAllCatalogoBienes = async()=>{
+        try {
+            const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods-catalogs/all`
+            const res = await axios.get(url)
+
+            allCatalogoBienes.value = {}
+            allCatalogoBienes.value = res.data
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    return {catalogoBien, catalogoBienes, allCatalogoBienes, getCatalogoBienes, getAllCatalogoBienes, errores}
 })

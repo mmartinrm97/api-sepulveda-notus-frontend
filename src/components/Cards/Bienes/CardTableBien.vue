@@ -8,6 +8,7 @@
       <div class="flex flex-wrap px-4 py-4 items-center">
 
         <div class="relative flex w-1/3 px-4 py-2 flex-grow flex-1">
+          <i class="fas fa-box-open py-2 pr-2"></i>
           <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
             {{ titulo }}
           </h3>
@@ -156,11 +157,13 @@
                     <button
                       class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                       @click="close(); toggleModalEditarBien(bien);">
+                      <i class="fas fa-pen w-4 h-4 mr-2 -ml-1 text-amber-500"></i>
                       Editar
                     </button>
                     <button
                       class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                       @click="close(); toggleModalEliminarBien(bien)">
+                      <i class="fas fa-exclamation w-4 h-4 mr-2 -ml-1 text-red-500"></i>
                       Eliminar
                     </button>
                   </div>
@@ -184,7 +187,7 @@
     </div>
 
     <!-- Pagination -->
-    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+    <div v-if="isReady" class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
       <div class="flex-1 flex justify-between sm:hidden">
         <a href="#"
           class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
@@ -239,7 +242,7 @@
 
     <modal-editar-bien v-if="showModalEditarBien" :open="showModalEditarBien" @refrescar-users="refrescarTabla" />
 
-    <modal-eliminar-bien v-if="showModalEliminarBien" :open="showModalEliminarBien" @refrescar-users="refrescarTabla"/>
+    <modal-eliminar-bien v-if="showModalEliminarBien" :open="showModalEliminarBien" @refrescar-users="refrescarTabla" />
 
 
 
@@ -288,7 +291,6 @@ const descripcionBuscada = ref('')
 const ordenarColumna = ref('created_at')
 const ordenarDireccion = ref('asc')
 
-
 const lastPage = ref(1);
 const showModalCrearBien = ref(false);
 const showModalEditarBien = ref(false);
@@ -296,6 +298,9 @@ const showModalEliminarBien = ref(false);
 
 const bienAEditar = ref({});
 const bienAEliminar = ref({});
+
+const isReady = ref(true);
+
 
 const toggleModalEditarBien = ((bien) => {
   bienAEditar.value = bien;
@@ -343,8 +348,10 @@ onMounted(async () => {
 
 
 const refrescarTabla = (async () => {
+  isReady.value = false;
   await bienesStore.getBienes();
   lastPage.value = bienesStore.bienes.meta.last_page;
+  isReady.value = true;
 })
 
 
@@ -366,13 +373,4 @@ watch([busquedaGlobal, estadoBuscado, idBuscado, codigoBuscado, descripcionBusca
 </script>
 
 <style lang="scss" script>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
 </style>

@@ -1,7 +1,17 @@
 <template>
   <div class="flex flex-wrap ">
     <div class="w-full mb-12 px-4">
-        <card-table-clase-bien v-if="isVisible" titulo="Clases de Bienes" />
+
+      <Suspense>
+        <template #default>
+          <transition>
+            <card-table-clase-bien />
+          </transition>
+        </template>
+        <template #fallback>
+          <card-table-skeleton />
+        </template>
+      </Suspense>
     </div>
     <div class="w-full mb-12 px-4">
     </div>
@@ -10,24 +20,9 @@
 
 <script setup>
 import CardTableClaseBien from '../../components/Cards/CardTableClaseBien.vue';
-import { onMounted, provide, ref } from 'vue';
-import {useClaseBienesStore} from '../../stores/ClaseBienes'
-
-const claseBienStore = useClaseBienesStore()
-const isVisible = ref(false)
-
-const formData = ref([]);
-provide('formDataClaseBien', formData);
-
-onMounted(async () => {
-  await claseBienStore.getClaseBienes();
-  formData.value = claseBienStore.claseBienes;
-  console.log('formData',formData.value);
-  isVisible.value = true;
-});
+import CardTableSkeleton from '../../components/Cards/CardTableSkeleton.vue';
 
 </script>
 
 <style lang="scss" scoped>
-
 </style>
