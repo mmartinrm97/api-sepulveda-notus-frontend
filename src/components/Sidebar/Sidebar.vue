@@ -29,7 +29,7 @@
         class="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded"
         v-bind:class="collapseShow">
         <!-- Collapse header -->
-        <div class="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-slate-200">
+        <div class="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-slate-200 z-30">
           <div class="flex flex-wrap">
             <div class="w-6/12">
               <router-link
@@ -178,7 +178,7 @@ const sidebarDocumentElements = [
 ]
 const collapseShow = ref('hidden')
 const toggleCollapseShow = (classes) => {
-  console.log('collapseShow', collapseShow.value);
+  // console.log('collapseShow', collapseShow.value);
   collapseShow.value = classes
 }
 
