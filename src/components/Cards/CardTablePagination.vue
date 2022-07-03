@@ -13,17 +13,17 @@
                 <p class="text-sm text-gray-700">
                     Mostrando del
                     {{ ' ' }}
-                    <span class="font-medium">{{ modelStore.bienes.meta !== undefined ? modelStore.bienes.meta.from : 0
+                    <span class="font-medium">{{ modelStore.meta !== undefined ? modelStore.meta.from : 0
                     }}</span>
                     {{ ' ' }}
                     al
                     {{ ' ' }}
-                    <span class="font-medium">{{ modelStore.bienes.meta !== undefined ? modelStore.bienes.meta.to : 0
+                    <span class="font-medium">{{ modelStore.meta !== undefined ? modelStore.meta.to : 0
                     }}</span>
                     {{ ' ' }}
                     de
                     {{ ' ' }}
-                    <span class="font-medium">{{ modelStore.bienes.meta !== undefined ? modelStore.bienes.meta.total : 0
+                    <span class="font-medium">{{ modelStore.meta !== undefined ? modelStore.meta.total : 0
                     }}</span>
                     {{ ' ' }}
                     registros
@@ -55,10 +55,11 @@ const props = defineProps({
     camposPaginacion: Array
 });
 
-watch(() => props.lastPage, async (curr, prev) => {
-    await props.modelStoreFunction(1, ...props.camposPaginacion)
-    console.log(props.modelStore.bienes.meta);
-});
+// watch(() => props.lastPage, async (curr, prev) => {
+//     await props.modelStoreFunction(1, ...props.camposPaginacion)
+//     console.log(props.modelStore.meta);
+// });
+
 
 </script>
 

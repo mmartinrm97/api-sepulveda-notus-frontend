@@ -4,12 +4,11 @@
     :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
     <!-- Header -->
     <div class="rounded-t mb-0 px-4 py-3 border-0">
-
       <div class="flex flex-wrap py-4 items-center">
 
-        <div class="relative flex flex-grow w-full sm:w-1/3 px-4 py-2 ">
-          <i class="fas fa-box-open py-2 pr-2"></i>
-          <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
+        <div class="relative flex flex-grow w-full sm:w-1/2 px-4 py-2 ">
+          <i class="fas fa-users py-2 pr-2"></i>
+          <h3 class="font-semibold text-lg pl-2" :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
             {{ titulo }}
           </h3>
         </div>
@@ -23,19 +22,21 @@
 
       <!-- bg-green-500 md:bg-red-500 sm:bg-sky-500 add to view rensposive design-->
       <div class="flex flex-wrap items-center lg:flex-grow">
-        <!-- Búsqueda por Id -->
-        <InputSearch v-model:modelValue="idBuscado" :placeholder="'Id'" />
-        <!-- Búsqueda por Codigo -->
 
-        <InputSearch v-model:modelValue="codigoBuscado" :placeholder="'Código'" />
+        <!-- Búsqueda por Id -->
+        <InputSearch v-model:modelValue="idBuscado" :placeholder="'Id'" :cantidad-filtros="cantidadFiltros" />
+
+        <!-- Búsqueda por Codigo -->
+        <InputSearch v-model:modelValue="codigoBuscado" :placeholder="'Código'" :cantidad-filtros="cantidadFiltros"/>
+
         <!-- Búsqueda por Descripción -->
-        <InputSearch v-model:modelValue="descripcionBuscada" :placeholder="'Descripción'" />
+        <InputSearch v-model:modelValue="descripcionBuscada" :placeholder="'Descripción'" :cantidad-filtros="cantidadFiltros"/>
 
         <!-- Filtrar por Estado -->
-        <InputFilter v-model:modelValue="estadoBuscado" :default-label="'Estado'" />
-
+        <InputFilter v-model:modelValue="estadoBuscado" :default-label="'Estado'" :cantidad-filtros="cantidadFiltros"/>
       </div>
     </div>
+
     <div class="block w-full overflow-x-auto relative">
 
       <!-- Projects table -->
@@ -49,7 +50,7 @@
                 :class="[
                   color === 'light'
                     ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                    : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700',
                   ordenarColumna === element.filtro ? 'font-bold text-blue-700' : ''
                 ]" @click="actualizarOrden(element.filtro)">
                 <div
@@ -75,7 +76,7 @@
                 :class="[
                   color === 'light'
                     ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                    : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700',
                 ]">
                 <div
                   class="px-6 align-middle border-0 border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
@@ -135,8 +136,6 @@
                 </template>
               </Popper>
             </td>
-
-
           </tr>
         </tbody>
         <CardTableEmpty v-else />
@@ -177,7 +176,7 @@
         <div>
           <paginate :page-count="lastPage" :click-handler="page => bienesStore.getBienes(
           page,
-          currBusquedaGlobal,
+          
           estadoBuscado,
           idBuscado,
           codigoBuscado,
@@ -195,8 +194,7 @@
       </div>
     </div> -->
 
-    <CardTablePagination v-if="paginacionLista" :model-store="bienesStore" :last-page="lastPage" :campos-paginacion="[
-      currBusquedaGlobal,
+    <CardTablePagination v-if="paginacionLista" :model-store="bienesStore.bienes" :last-page="lastPage" :campos-paginacion="[
       estadoBuscado,
       idBuscado,
       codigoBuscado,
@@ -262,7 +260,6 @@ const codigoBuscado = ref('')
 const descripcionBuscada = ref('')
 const ordenarColumna = ref('id')
 const ordenarDireccion = ref('asc')
-const currBusquedaGlobal = ref('')
 
 const lastPage = ref(1);
 const showModalCrearBien = ref(false);
@@ -273,6 +270,7 @@ const bienAEditar = ref({});
 const bienAEliminar = ref({});
 
 const paginacionLista = ref(false);
+const cantidadFiltros = 4;
 
 
 const toggleModalEditarBien = ((bien) => {
@@ -327,13 +325,13 @@ const refrescarTabla = (async () => {
 })
 
 
-watch([busquedaGlobal, estadoBuscado, idBuscado, codigoBuscado, descripcionBuscada], async (
-  [currBusquedaGlobal, currEstadoBuscado, currIdBuscado, currcodigoBuscado, currdescripcionBuscada],
+watch([estadoBuscado, idBuscado, codigoBuscado, descripcionBuscada], async (
+  [ currEstadoBuscado, currIdBuscado, currcodigoBuscado, currdescripcionBuscada],
   [prevBusquedaGlobal, prevEstadoBuscado, prevIdBuscado, prevcodigoBuscado, prevdescripcionBuscada]
 ) => {
   await bienesStore.getBienes(
     1,
-    currBusquedaGlobal,
+    
     currEstadoBuscado,
     currIdBuscado,
     currcodigoBuscado,

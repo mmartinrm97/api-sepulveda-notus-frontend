@@ -3,9 +3,9 @@
     <div class="w-full mb-12 px-4">
       <Suspense>
         <template #default>
-          <transition-group>
-            <card-table-grupo-bien/>
-          </transition-group>
+          <transition>
+            <card-table-grupo-bien />
+          </transition>
         </template>
         <template #fallback>
           <card-table-skeleton />

@@ -1,31 +1,35 @@
 <template>
+  <!-- Tabla -->
   <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
-    :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
+    :class="[color === 'light' ? 'bg-white' : 'bg-lightBlue-900 text-white']">
+    <!-- Header -->
     <div class="rounded-t mb-0 px-4 py-3 border-0">
-      <div class="flex flex-wrap p-4 items-center">
+
+      <div class="flex flex-wrap py-4 items-center">
+
         <div class="relative flex w-1/3 px-4 py-2 flex-grow flex-1">
           <i class="fas fa-sitemap pt-2 pr-2"></i>
           <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
             {{ titulo }}
           </h3>
         </div>
+
       </div>
+
+      <div class="flex flex-wrap items-center lg:flex-grow">
+        <!-- Búsqueda por Descripción -->
+        <InputSearch v-model:modelValue="descripcionBuscada" :placeholder="'Descripción'"
+          :cantidad-filtros="cantidadFiltros" />
+      </div>
+
     </div>
+
     <div class="block w-full overflow-x-auto">
       <!-- Projects table -->
       <table class="items-center w-full bg-transparent border-collapse">
         <thead>
-          <tr>
-            <th v-for="element in encabezadosTabla" :key="element"
-              class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-              :class="[
-                color === 'light'
-                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-              ]">
-              {{ element }}
-            </th>
-          </tr>
+          <CardTableHeader :color="'light'" :encabezados-tabla="encabezadosTabla" :ordenar-columna="ordenarColumna"
+            :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" />
         </thead>
         <tbody v-if="grupoBienStore.grupoBienes.data && grupoBienStore.grupoBienes.data.length > 0">
           <tr v-for="catalogoBien in grupoBienStore.grupoBienes.data" :key="catalogoBien.id">
@@ -43,66 +47,29 @@
             </td>
           </tr>
         </tbody>
+        <CardTableEmpty v-else />
       </table>
     </div>
     <!-- Pagination -->
-    <div v-if="paginacionLista"
-      class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-      <div class="flex-1 flex justify-between sm:hidden">
-        <a href="#"
-          class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-          Previous </a>
-        <a href="#"
-          class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-          Next </a>
-      </div>
-      <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-        <div>
-          <p class="text-sm text-gray-700">
-            Mostrando del
-            {{ ' ' }}
-            <span class="font-medium">{{ grupoBienStore.grupoBienes.meta !== undefined ?
-                grupoBienStore.grupoBienes.meta.from : 0
-            }}</span>
-            {{ ' ' }}
-            al
-            {{ ' ' }}
-            <span class="font-medium">{{ grupoBienStore.grupoBienes.meta !== undefined ?
-                grupoBienStore.grupoBienes.meta.to : 0
-            }}</span>
-            {{ ' ' }}
-            de
-            {{ ' ' }}
-            <span class="font-medium">{{ grupoBienStore.grupoBienes.meta !== undefined ?
-                grupoBienStore.grupoBienes.meta.total : 0
-            }}</span>
-            {{ ' ' }}
-            registros
-          </p>
-        </div>
-        <div>
-          <paginate :page-count="lastPage" :click-handler="page => grupoBienStore.getGrupoBienes(page)"
-            :prev-text="'Prev'" :next-text="'Next'"
-            :container-class="'relative z-0 inline-flex rounded-md shadow-sm -space-x-px cursor-pointer'"
-            :page-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
-            :prev-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
-            :next-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
-            :no-li-surround="true"
-            :active-class="'z-10 bg-lightBlue-50 border-lightBlue-500 text-lightBlue-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium'">
-          </paginate>
-        </div>
-      </div>
-    </div>
+    <CardTablePagination v-if="paginacionLista" :model-store="grupoBienStore.grupoBienes" :last-page="lastPage"
+      :campos-paginacion="[
+        descripcionBuscada,
+        ordenarColumna,
+        ordenarDireccion
+      ]" :model-store-function="grupoBienStore.getGrupoBienes" />
   </div>
 
 </template>
 
 <script setup>
 
-import { onBeforeMount, onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useGrupoBienesStore } from "../../stores/GrupoBienes";
-import Paginate from "vuejs-paginate-next";
+import InputSearch from "../Inputs/InputSearch.vue";
+import CardTableHeader from "./CardTableHeader.vue";
+import CardTablePagination from "./CardTablePagination.vue";
+import CardTableEmpty from "./CardTableEmpty.vue";
 
 const props = defineProps({
   titulo: String,
@@ -115,19 +82,47 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['tablaGrupoBienLista'])
+const encabezadosTabla = [
+  { cabecera: 'ID', filtro: 'id' },
+  { cabecera: 'Descripción', filtro: 'description' },
+  { cabecera: 'Activo', filtro: 'is_active' }
+]
 
-const encabezadosTabla = ['#', 'Descripción', 'Activo', '']
 const router = useRouter();
 const titulo = router.currentRoute.value.meta.title
 const grupoBienStore = useGrupoBienesStore()
-const lastPage = ref(1)
-//onMounted
 
-const paginacionLista = ref(true);
+const lastPage = ref(1);
+const paginacionLista = ref(false);
+const ordenarColumna = ref('id')
+const ordenarDireccion = ref('asc')
+const descripcionBuscada = ref('')
+const cantidadFiltros = 1;
 
-onBeforeMount(async () => {
+const actualizarOrden = async (columna) => {
+  ordenarColumna.value = columna
+  ordenarDireccion.value = ordenarDireccion.value === 'asc' ? 'desc' : 'asc'
+  await grupoBienStore.getGrupoBienes(
+    1,
+    descripcionBuscada.value,
+    ordenarColumna.value,
+    ordenarDireccion.value
+  )
+}
+
+onMounted(async () => {
   await grupoBienStore.getGrupoBienes();
+  lastPage.value = grupoBienStore.grupoBienes.meta.last_page;
+  paginacionLista.value = true
+});
+
+watch([descripcionBuscada], async (
+  [currdescripcionBuscada],
+  [prevdescripcionBuscada]
+) => {
+  await grupoBienStore.getGrupoBienes(
+    1,
+    currdescripcionBuscada);
   lastPage.value = grupoBienStore.grupoBienes.meta.last_page;
 });
 

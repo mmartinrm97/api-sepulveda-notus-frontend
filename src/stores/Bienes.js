@@ -10,7 +10,6 @@ export const useBienesStore = defineStore('bienesStore', () => {
 
     const getBienes = async (
         pagina = 1,
-        busquedaGlobal = '',
         estadoBuscado = '',
         id = '',
         buscarCodigo = '',
@@ -23,7 +22,6 @@ export const useBienesStore = defineStore('bienesStore', () => {
             const params = {
                 include: 'warehouse,goodsCatalog',
                 page: pagina,
-                search_global: busquedaGlobal,
                 search_is_active: estadoBuscado,
                 search_id: id,
                 search_code: buscarCodigo,
