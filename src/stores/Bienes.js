@@ -34,8 +34,6 @@ export const useBienesStore = defineStore('bienesStore', () => {
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods`
             const res = await axios.get(url, { params })
 
-            console.log(res.data);
-
             bienes.value = {}
             bienes.value = res.data
 

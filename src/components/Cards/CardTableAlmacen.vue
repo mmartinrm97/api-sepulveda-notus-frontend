@@ -13,12 +13,8 @@
           </h3>
         </div>
 
-         <div class="relative flex-wrap w-full sm:w-1/2 sm:grow flex justify-end">
-          <button
-            class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 items-center justify-center w-full sm:w-auto"
-            type="button" @click="toggleModal()">
-            Botón Prueba
-          </button>
+       <div class="relative flex-wrap w-full sm:w-1/2 sm:grow flex justify-end">
+          <ButtonAnadir :titulo="'Añadir Almacén'"/>
         </div>
       </div>
     </div>
@@ -148,6 +144,7 @@ import { useAlmacenStore } from "../../stores/Almacenes";
 import Paginate from "vuejs-paginate-next";
 import Popper from "vue3-popper";
 import { onMounted, ref } from "vue";
+import ButtonAnadir from "../Buttons/ButtonAnadir.vue";
 
 const props = defineProps({
   color: {
