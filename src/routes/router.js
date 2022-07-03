@@ -44,7 +44,7 @@ const routes = [
                 path: "/admin/almacenes",
                 component: Almacen,
                 name: 'almacenes',
-                meta:{ title: 'Admin'},
+                meta:{ title: 'Áreas de Inventario'},
             },
             {
                 path: "/admin/catalogos-bienes",

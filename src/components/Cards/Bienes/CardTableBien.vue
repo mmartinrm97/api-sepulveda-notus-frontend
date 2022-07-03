@@ -5,17 +5,17 @@
     <!-- Header -->
     <div class="rounded-t mb-0 px-4 py-3 border-0">
 
-      <div class="flex flex-wrap px-4 py-4 items-center">
+        <div class="flex flex-wrap py-4 items-center">
 
-        <div class="relative flex w-1/3 px-4 py-2 flex-grow flex-1">
+        <div class="relative flex flex-grow w-full sm:w-1/3 px-4 py-2 ">
           <i class="fas fa-box-open py-2 pr-2"></i>
           <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
             {{ titulo }}
           </h3>
         </div>
-        <div>
+        <div class="relative flex-wrap w-full sm:w-1/2 sm:grow flex justify-end">
           <button
-            class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-2 pl- rounded shadow hover:shadow-lg outline-none focus:outline-none mx-4 ease-linear transition-all duration-150"
+            class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-2 pl- rounded shadow hover:shadow-lg outline-none focus:outline-none mx-4 ease-linear transition-all duration-150 items-center justify-center w-full sm:w-auto"
             type="button" @click="toggleModalCrearBien()">
             Añadir nuevo bien
           </button>
@@ -26,42 +26,41 @@
       <!-- Filtros -->
 
       <!-- bg-green-500 md:bg-red-500 sm:bg-sky-500 add to view rensposive design-->
-      <div class="flex flex-grow items-center ">
+      <div class="flex flex-wrap items-center lg:flex-grow">
         <!-- Búsqueda de Id -->
-        <div class="relative flex w-1/5 flex-grow items-stretch m-3 sm:w-full px-4">
-          <span
-            class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
-            <i class="fas fa-search"></i>
-          </span>
+        <div class="relative flex items-stretch my-3 w-full sm:w-1/2 lg:w-1/4">
+          <div class="flex absolute inset-y-0 left-0 items-center pl-7 pointer-events-none ">
+            <i class="fas fa-search text-blueGray-300"></i>
+          </div>
+
           <input v-model="idBuscado" type="text" placeholder="Id"
-            class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
+            class="placeholder-blueGray-400 text-blueGray-600 bg-white text-sm border border-blueGray-300 rounded outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3 mx-4" />
         </div>
-        <!-- Búsqueda de Nombre -->
-        <div class="relative flex w-1/5 flex-grow items-stretch m-3 sm:w-full px-4">
-          <span
-            class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
-            <i class="fas fa-search"></i>
-          </span>
+        <!-- Búsqueda de Codigo -->
+        <div class="relative flex items-stretch my-3 px-4 w-full sm:w-1/2 lg:w-1/4">
+
+          <div class="flex absolute inset-y-0 left-0 items-center pl-7 pointer-events-none ">
+            <i class="fas fa-search text-blueGray-300"></i>
+          </div>
+
           <input v-model="codigoBuscado" type="text" placeholder="Código"
-            class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
+            class="placeholder-blueGray-400 text-blueGray-600 bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
         </div>
 
         <!-- Búsqueda de Apellido -->
-        <div class="relative flex w-1/5 flex-grow items-stretch m-3 sm:w-full px-4">
-          <span
-            class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
-            <i class="fas fa-search"></i>
-          </span>
+        <div class="relative flex items-stretch my-3 px-4 w-full sm:w-1/2 lg:w-1/4">
+          <div class="flex absolute inset-y-0 left-0 items-center pl-7 pointer-events-none ">
+            <i class="fas fa-search text-blueGray-300"></i>
+          </div>
           <input v-model="descripcionBuscada" type="text" placeholder="Descripción"
-            class="placeholder-blueGray-400 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
+            class="placeholder-blueGray-400 text-blueGray-600 bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none shadow focus:shadow-outline w-full pl-10 px-3" />
         </div>
 
         <!-- Filtrar por Estado -->
-        <div class="relative flex flex-grow w-1/5 items-stretch m-3 sm:w-full px-4">
-          <span
-            class="z-10 h-full leading-snug font-normal text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-2">
-            <i class="fas fa-filter"></i>
-          </span>
+        <div class="relative flex items-stretch my-3 px-4 w-full sm:w-1/2 lg:w-1/4">
+          <div class="flex absolute inset-y-0 left-0 items-center pl-7 pointer-events-none ">
+            <i class="fas fa-filter text-blueGray-300"></i>
+          </div>
           <select v-model="estadoBuscado"
             class=" shadow px-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pl-10 pr-10">
             <option value="">Estado</option>

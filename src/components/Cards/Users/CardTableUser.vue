@@ -8,10 +8,11 @@
 
         <div class="relative flex flex-grow w-full sm:w-1/2 px-4 py-2 ">
           <i class="fas fa-users py-2 pr-2"></i>
-          <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
+          <h3 class="font-semibold text-lg pl-2" :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
             {{ titulo }}
           </h3>
         </div>
+
         <div class="relative flex-wrap w-full sm:w-1/2 sm:grow flex justify-end">
           <button
             class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 items-center justify-center w-full sm:w-auto"
@@ -32,12 +33,12 @@
 
       <!-- Filtros -->
 
-      <!-- bg-green-500 md:bg-red-500 sm:bg-sky-500 add to view rensposive design-->
+      <!-- bg-green-500 sm:bg-sky-500 md:bg-red-500 lg:bg-yellow-500  add to view rensposive design-->
       <div
-        class="flex flex-wrap items-center lg:flex-grow bg-green-500 sm:bg-sky-500 md:bg-red-500 lg:bg-yellow-500   ">
+        class="flex flex-wrap items-center lg:flex-grow  ">
         <!-- Búsqueda de Id -->
         <div class="relative flex items-stretch my-3 w-full sm:w-1/2 lg:w-1/4">
-            <div class="flex absolute inset-y-0 left-0 items-center pl-7 pointer-events-none ">
+          <div class="flex absolute inset-y-0 left-0 items-center pl-7 pointer-events-none ">
             <i class="fas fa-search text-blueGray-300"></i>
           </div>
 
