@@ -2,28 +2,27 @@ import axios from "axios";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-export const useAlmacenStore = defineStore('AlmacenStore', ()=>{
+export const useAlmacenStore = defineStore('AlmacenStore', () => {
     const almacenes = ref({})
     const allAlmacenes = ref({})
 
     const getAlmacenes = async (
         pagina = 1,
-        busquedaGlobal = '',
         estadoBuscado = '',
         id = '',
-        buscarCodigo = '',
         buscarDescripcion = '',
+        buscarUsuario = '',
         ordenarColumna = 'id',
-        ordenarDireccion = 'asc')=>{
+        ordenarDireccion = 'asc'
+    ) => {
         try {
             const params = {
                 include: 'users',
                 page: pagina,
-                search_global: busquedaGlobal,
                 search_is_active: estadoBuscado,
                 search_id: id,
-                search_code: buscarCodigo,
                 search_description: buscarDescripcion,
+                search_user: buscarUsuario,
                 order_column: ordenarColumna,
                 order_direction: ordenarDireccion
             }
@@ -37,7 +36,7 @@ export const useAlmacenStore = defineStore('AlmacenStore', ()=>{
         }
     }
 
-    const getAllAlmacenes = async () =>{
+    const getAllAlmacenes = async () => {
         try {
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/warehouses/all`
             const res = await axios.get(url)
@@ -50,5 +49,5 @@ export const useAlmacenStore = defineStore('AlmacenStore', ()=>{
         }
     }
 
-    return {almacenes, allAlmacenes, getAlmacenes, getAllAlmacenes}
+    return { almacenes, allAlmacenes, getAlmacenes, getAllAlmacenes }
 })

@@ -21,7 +21,7 @@
       <!-- Filtros -->
 
       <!-- bg-green-500 md:bg-red-500 sm:bg-sky-500 add to view rensposive design-->
-      <div class="flex flex-wrap items-center lg:flex-grow">
+      <div class="flex flex-wrap items-center lg:flex-grow bg-green-500 sm:bg-sky-500 md:bg-red-500 lg:bg-yellow-500 ">
 
         <!-- Búsqueda por Id -->
         <InputSearch v-model:modelValue="idBuscado" :placeholder="'Id'" :cantidad-filtros="cantidadFiltros" />
@@ -203,12 +203,11 @@
       ordenarDireccion
     ]" :model-store-function="bienesStore.getBienes" />
 
-    <modal-crear-bien :open="showModalCrearBien" @refrescar-users="refrescarTabla" />
+    <modal-crear-bien v-if="showModalCrearBien" :open="showModalCrearBien" @refrescar-users="refrescarTabla" />
 
     <modal-editar-bien v-if="showModalEditarBien" :open="showModalEditarBien" @refrescar-users="refrescarTabla" />
 
     <modal-eliminar-bien v-if="showModalEliminarBien" :open="showModalEliminarBien" @refrescar-users="refrescarTabla" />
-
 
 
   </div>
@@ -253,7 +252,6 @@ const encabezadosTabla = [
   { cabecera: 'Estado', filtro: 'is_active' },
 ]
 
-const busquedaGlobal = ref('')
 const estadoBuscado = ref('')
 const idBuscado = ref('')
 const codigoBuscado = ref('')
@@ -262,9 +260,6 @@ const ordenarColumna = ref('id')
 const ordenarDireccion = ref('asc')
 
 const lastPage = ref(1);
-const showModalCrearBien = ref(false);
-const showModalEditarBien = ref(false);
-const showModalEliminarBien = ref(false);
 
 const bienAEditar = ref({});
 const bienAEliminar = ref({});
@@ -272,15 +267,19 @@ const bienAEliminar = ref({});
 const paginacionLista = ref(false);
 const cantidadFiltros = 4;
 
+const showModalCrearBien = ref(false);
+const showModalEditarBien = ref(false);
+const showModalEliminarBien = ref(false);
+
+
+const toggleModalCrearBien = (() => {
+  showModalCrearBien.value = !showModalCrearBien.value;
+})
 
 const toggleModalEditarBien = ((bien) => {
   bienAEditar.value = bien;
   showModalEditarBien.value = !showModalEditarBien.value;
 
-})
-
-const toggleModalCrearBien = (() => {
-  showModalCrearBien.value = !showModalCrearBien.value;
 })
 
 const toggleModalEliminarBien = ((bien) => {
@@ -300,7 +299,6 @@ const actualizarOrden = async (columna) => {
   ordenarDireccion.value = ordenarDireccion.value === 'asc' ? 'desc' : 'asc'
   await bienesStore.getBienes(
     1,
-    busquedaGlobal.value,
     estadoBuscado.value,
     idBuscado.value,
     codigoBuscado.value,
