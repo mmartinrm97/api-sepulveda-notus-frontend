@@ -1,5 +1,5 @@
 <template>
-  <TransitionRoot as="template" :show="open">
+    <TransitionRoot as="template" :show="open"  v-if="modalListo">
     <Dialog as="div" class="relative z-10" @close="open = false">
       <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
         leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
@@ -33,10 +33,8 @@
                 </div>
               </div>
 
-              <div class="mt-10 sm:mt-0">
-
-
-                <div class="mt-5 md:mt-0 md:col-span-2">
+              <div class="mt-3 sm:mt-0">
+                <div class="mt-3 md:mt-0 md:col-span-2">
                   <form action="#" method="POST">
                     <div class="shadow overflow-hidden sm:rounded-md">
                       <div class="px-4 py-5 bg-white sm:p-6">

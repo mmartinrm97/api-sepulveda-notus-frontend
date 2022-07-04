@@ -74,9 +74,29 @@
               }}
             </td>
 
+            <!-- Acciones -->
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-              <table-dropdown @click="openModal = !openModal" />
+              <Popper :placement="'left-start'" arrow>
+                <button class="text-blueGray-500 py-1 px-3"><i class="fas fa-ellipsis-v"></i></button>
+                <template #content="{ close }">
+                  <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-xl min-w-48">
+                    <button
+                      class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                      @click="close(); toggleModalEditarUser(user);">
+                      <i class="fas fa-pen w-4 h-4 mr-2 -ml-1 text-amber-500"></i>
+                      Editar
+                    </button>
+                    <button
+                      class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                      @click="close(); toggleModalEliminarUser(user)">
+                      <i class="fas fa-exclamation w-4 h-4 mr-2 -ml-1 text-red-500"></i>
+                      Eliminar
+                    </button>
+                  </div>
+                </template>
+              </Popper>
             </td>
+
           </tr>
         </tbody>
         <card-table-empty v-else />
@@ -94,25 +114,30 @@
         ordenarDireccion
       ]" :model-store-function="userStore.getUsers" />
 
-    <editar-user :open="openModal" />
+    <modal-crear-user v-if="showModalCrearUser" :open="showModalCrearUser" @refrescar-users="refrescarTabla" />
+
+    <modal-editar-user v-if="showModalEditarUser" :open="showModalEditarUser" @refrescar-users="refrescarTabla" />
+
+    <modal-eliminar-user v-if="showModalEliminarUser" :open="showModalEliminarUser" @refrescar-users="refrescarTabla" />
 
   </div>
 </template>
 
 <script setup>
 
-import TableDropdown from "../../Dropdowns/TableDropdown.vue";
 import { onMounted, provide, ref, watch } from "vue";
-import Paginate from "vuejs-paginate-next";
-import EditarUser from '../../../components/Modals/EditarUser.vue';
 import { useUserStore } from '../../../stores/Users';
 import { useRouter } from 'vue-router';
 import ButtonAnadir from "../../Buttons/ButtonAnadir.vue";
+import Popper from "vue3-popper";
 import InputSearch from "../../Inputs/InputSearch.vue";
 import InputFilter from "../../Inputs/InputFilter.vue";
 import CardTableHeader from "../CardTableHeader.vue";
 import CardTableEmpty from "../CardTableEmpty.vue";
 import CardTablePagination from "../CardTablePagination.vue";
+import ModalEditarUser from "../../Modals/User/ModalEditarUser.vue";
+import ModalCrearUser from "../../Modals/User/ModalCrearUser.vue";
+import ModalEliminarUser from "../../Modals/User/ModalEliminarUser.vue";
 
 const props = defineProps({
   color: {
@@ -123,8 +148,6 @@ const props = defineProps({
     },
   }
 })
-
-const openModal = ref(true);
 
 const router = useRouter();
 const titulo = router.currentRoute.value.meta.title
@@ -153,6 +176,37 @@ const showModal = ref(false);
 const cantidadFiltros = 4;
 const paginacionLista = ref(false);
 
+const userAEditar = ref({});
+const userAEliminar = ref({});
+
+const showModalCrearUser = ref(false);
+const showModalEditarUser = ref(false);
+const showModalEliminarUser = ref(false);
+
+
+const toggleModalCrearUser = (() => {
+  showModalCrearUser.value = !showModalCrearUser.value;
+})
+
+const toggleModalEditarUser = ((user) => {
+  userAEditar.value = user;
+  showModalEditarUser.value = !showModalEditarUser.value;
+
+})
+
+const toggleModalEliminarUser = ((user) => {
+  userAEliminar.value = user;
+  showModalEliminarUser.value = !showModalEliminarUser.value;
+})
+
+provide('showModalEditarUser', showModalEditarUser)
+provide('showModalCrearUser', showModalCrearUser)
+provide('showModalEliminarUser', showModalEliminarUser)
+provide('userAEditar', userAEditar)
+provide('userAEliminar', userAEliminar)
+
+
+
 onMounted(async () => {
   await userStore.getUsers();
   lastPage.value = userStore.users.meta.last_page;
@@ -180,6 +234,13 @@ const actualizarOrden = async (columna) => {
     ordenarDireccion.value
   )
 }
+
+const refrescarTabla = (async () => {
+  paginacionLista.value = false;
+  await userStore.getUsers();
+  lastPage.value = userStore.users.meta.last_page;
+  paginacionLista.value = true;
+})
 
 
 watch([estadoBuscado, idBuscado, nombreBuscado, apellidoBuscado], async (

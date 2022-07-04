@@ -136,6 +136,7 @@
                 </template>
               </Popper>
             </td>
+
           </tr>
         </tbody>
         <CardTableEmpty v-else />
@@ -218,9 +219,9 @@
 import { onMounted, provide, ref, watch } from "vue";
 import { useBienesStore } from '../../../stores/Bienes';
 import { useRouter } from 'vue-router';
-import ModalEditarBien from '../../../components/Modals/ModalEditarBien.vue';
-import ModalCrearBien from '../../../components/Modals/ModalCrearBien.vue';
-import ModalEliminarBien from '../../../components/Modals/ModalEliminarBien.vue';
+import ModalEditarBien from '../../../components/Modals/Bien/ModalEditarBien.vue';
+import ModalCrearBien from '../../../components/Modals/Bien/ModalCrearBien.vue';
+import ModalEliminarBien from '../../../components/Modals/Bien/ModalEliminarBien.vue';
 import Popper from "vue3-popper";
 import ButtonAnadir from "../../Buttons/ButtonAnadir.vue";
 import InputSearch from "../../Inputs/InputSearch.vue";
