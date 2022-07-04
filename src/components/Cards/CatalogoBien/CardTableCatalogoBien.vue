@@ -37,7 +37,7 @@
         </thead>
 
         <tbody v-if="catalogoBienStore.catalogoBienes.data && catalogoBienStore.catalogoBienes.data.length > 0">
-          <tr v-for="catalogoBien in catalogoBienStore.catalogoBienes.data">
+          <tr v-for="catalogoBien in catalogoBienStore.catalogoBienes.data" class="hover:bg-lightBlue-100">
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               {{ catalogoBien.id }}
             </td>

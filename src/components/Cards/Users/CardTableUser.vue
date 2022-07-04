@@ -49,7 +49,7 @@
             :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" />
         </thead>
         <tbody v-if="userStore.users.data && userStore.users.data.length > 0">
-          <tr v-for="user in userStore.users.data" :key="user.id">
+          <tr v-for="user in userStore.users.data" :key="user.id" class="hover:bg-lightBlue-100">
             <td class="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap px-6  p-4 ">
               {{ user.id }}
             </td>

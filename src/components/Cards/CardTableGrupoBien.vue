@@ -32,7 +32,7 @@
             :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" />
         </thead>
         <tbody v-if="grupoBienStore.grupoBienes.data && grupoBienStore.grupoBienes.data.length > 0">
-          <tr v-for="catalogoBien in grupoBienStore.grupoBienes.data" :key="catalogoBien.id">
+          <tr v-for="catalogoBien in grupoBienStore.grupoBienes.data" :key="catalogoBien.id" class="hover:bg-lightBlue-100">
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               {{ catalogoBien.id }}
             </td>

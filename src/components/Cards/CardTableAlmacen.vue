@@ -14,7 +14,7 @@
         </div>
 
         <div class="relative flex-wrap w-full sm:w-1/2 sm:grow flex justify-end">
-          <ButtonAnadir :titulo="'Añadir Almacén'" />
+          <ButtonAnadir :titulo="'Añadir Almacén'" @click="toggleModalCrearAlmacen()"/>
         </div>
       </div>
 
@@ -46,7 +46,7 @@
             :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" />
         </thead>
         <tbody v-if="almacenStore.almacenes.data && almacenStore.almacenes.data.length > 0">
-          <tr v-for="almacen in almacenStore.almacenes.data" :key="almacen.id">
+          <tr v-for="almacen in almacenStore.almacenes.data" :key="almacen.id" class="hover:bg-lightBlue-100">
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               {{ almacen.id }}
             </td>
@@ -72,13 +72,13 @@
                   <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-xl min-w-48">
                     <button
                       class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                      @click="close();">
+                      @click="close(); toggleModalEditarAlmacen(almacen)">
                       <i class="fas fa-pen w-4 h-4 mr-2 -ml-1 text-amber-500"></i>
                       Editar
                     </button>
                     <button
                       class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                      @click="close();">
+                      @click="close(); toggleModalEliminarAlmacen(almacen)">
                       <i class="fas fa-exclamation w-4 h-4 mr-2 -ml-1 text-red-500"></i>
                       Eliminar
                     </button>
@@ -103,6 +103,12 @@
         ordenarDireccion
       ]" :model-store-function="almacenStore.getAlmacenes" />
 
+      <ModalCrearAlmacen v-if="showModalCrearAlmacen" :open="showModalCrearAlmacen" @refrescar-users="refrescarTabla" />
+
+      <ModalEditarAlmacen v-if="showModalEditarAlmacen" :open="showModalEditarAlmacen" @refrescar-users="refrescarTabla" />
+
+      <ModalEliminarAlmacen v-if="showModalEliminarAlmacen" :open="showModalEliminarAlmacen" @refrescar-users="refrescarTabla" />
+
   </div>
 </template>
 
@@ -111,13 +117,16 @@
 import { useRouter } from "vue-router";
 import { useAlmacenStore } from "../../stores/Almacenes";
 import Popper from "vue3-popper";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, provide, ref, watch } from "vue";
 import ButtonAnadir from "../Buttons/ButtonAnadir.vue";
 import InputFilter from "../Inputs/InputFilter.vue";
 import InputSearch from "../Inputs/InputSearch.vue";
 import CardTableHeader from "./CardTableHeader.vue";
 import CardTableEmpty from "./CardTableEmpty.vue";
 import CardTablePagination from "./CardTablePagination.vue";
+import ModalCrearAlmacen from "../Modals/Almacen/ModalCrearAlmacen.vue";
+import ModalEditarAlmacen from "../Modals/Almacen/ModalEditarAlmacen.vue";
+import ModalEliminarAlmacen from "../Modals/Almacen/ModalEliminarAlmacen.vue";
 
 const props = defineProps({
   color: {
@@ -142,17 +151,42 @@ const idBuscado = ref('')
 const descripcionBuscada = ref('')
 const usuarioBuscado = ref('')
 const estadoBuscado = ref('')
-const ordenarColumna = ref('')
-const ordenarDireccion = ref('')
+const ordenarColumna = ref('id')
+const ordenarDireccion = ref('asc')
 
 const cantidadFiltros = 4;
 const paginacionLista = ref(false);
 
 const lastPage = ref(1);
 
+const almacenAEditar = ref({});
+const almacenAEliminar = ref({});
+
 const showModalCrearAlmacen = ref(false);
 const showModalEditarAlmacen = ref(false);
 const showModalEliminarAlmacen = ref(false);
+
+const toggleModalCrearAlmacen = (() => {
+  showModalCrearAlmacen.value = !showModalCrearAlmacen.value;
+  console.log('cardtable');
+})
+
+const toggleModalEditarAlmacen = ((almacen) => {
+  almacenAEditar.value = almacen;
+  showModalEditarAlmacen.value = !showModalEditarAlmacen.value;
+
+})
+
+const toggleModalEliminarAlmacen = ((almacen) => {
+  almacenAEliminar.value = almacen;
+  showModalEliminarAlmacen.value = !showModalEliminarAlmacen.value;
+})
+
+provide('showModalEditarAlmacen', showModalEditarAlmacen)
+provide('showModalCrearAlmacen', showModalCrearAlmacen)
+provide('showModalEliminarAlmacen', showModalEliminarAlmacen)
+provide('almacenAEditar', almacenAEditar)
+provide('almacenAEliminar', almacenAEliminar)
 
 const actualizarOrden = async (columna) => {
   ordenarColumna.value = columna
@@ -175,6 +209,13 @@ onMounted(async () => {
   paginacionLista.value = true;
 
 });
+
+const refrescarTabla = (async () => {
+  paginacionLista.value = false;
+  await almacenStore.getAlmacenes();
+  lastPage.value = almacenStore.almacenes.meta.last_page;
+  paginacionLista.value = true;
+})
 
 watch([estadoBuscado, idBuscado, descripcionBuscada, usuarioBuscado], async (
   [ currEstadoBuscado, currIdBuscado, currDescripcionBuscada, currUsuarioBuscado],

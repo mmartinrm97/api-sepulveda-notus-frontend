@@ -34,7 +34,7 @@
         </thead>
 
         <tbody v-if="claseBienStore.clasesBienes.data && claseBienStore.clasesBienes.data.length > 0">
-          <tr v-for="claseBien in claseBienStore.clasesBienes.data" :key="claseBien.id">
+          <tr v-for="claseBien in claseBienStore.clasesBienes.data" :key="claseBien.id" class="hover:bg-lightBlue-100">
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               {{ claseBien.id }}
             </td>

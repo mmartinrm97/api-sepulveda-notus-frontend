@@ -5,6 +5,7 @@ import { ref } from "vue";
 export const useUserStore = defineStore('userStore', () => {
 
     const users = ref({})
+    const allUsers = ref({})
     const user = ref({})
     const errores = ref({})
 
@@ -43,6 +44,24 @@ export const useUserStore = defineStore('userStore', () => {
         }
     }
 
+    const getAllUsers = async(userWarehouse = false)=>{
+        try {
+            
+            const params = {
+                users_without_warehouses: userWarehouse
+            }
+
+            const url = `${import.meta.env.VITE_APP_URL}/api/v1/users/all`
+            const res = await axios.get(url, {params})
+
+            allUsers.value = {}
+            allUsers.value = res.data
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const postUser = async (usuario) => {
         // console.log("🚀 ~ file: Bienes.js ~ line 44 ~ postusuario ~ usuario", usuario)
 
@@ -73,6 +92,7 @@ export const useUserStore = defineStore('userStore', () => {
 
     const patchUser = async (usuario) => {
         try {
+        
             errores.value = {};
             const user = {
                 role_id: usuario.rolID,
@@ -115,5 +135,5 @@ export const useUserStore = defineStore('userStore', () => {
         }
     };
 
-    return { users, user, getUsers, postUser, patchUser, deleteUser, errores }
+    return { users, user, allUsers, getUsers, getAllUsers,postUser, patchUser, deleteUser, errores }
 })

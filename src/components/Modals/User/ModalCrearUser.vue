@@ -85,7 +85,7 @@
                             <span v-if="erroresPost.email" class="text-red-700">{{ erroresPost.email }} </span>
                           </div>
 
-                          <div class="col-span-3 sm:col-span-3 lg:col-span-3">
+                          <div class="col-span-6 sm:col-span-3 lg:col-span-3">
                             <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
                             <input type="password" name="password" id="password" autocomplete="address-level1"
                               class="mt-1 focus:ring-lightBlue-500 focus:border-lightBlue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
@@ -93,10 +93,10 @@
                             <span v-if="erroresPost.password" class="text-red-700">{{ erroresPost.password }} </span>
                           </div>
 
-                          <div class="col-span-3 sm:col-span-3 lg:col-span-3">
+                          <div class="col-span-6 sm:col-span-3 lg:col-span-3">
                             <label for="password-confirmation" class="block text-sm font-medium text-gray-700">Repita la
                               contraseña
-                              code</label>
+                            </label>
                             <input type="password" name="password-confirmation" id="password-confirmation"
                               autocomplete="postal-code"
                               class="mt-1 focus:ring-lightBlue-500 focus:border-lightBlue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
