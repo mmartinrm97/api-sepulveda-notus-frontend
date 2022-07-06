@@ -15,6 +15,7 @@ import CatalogoBien from '../views/admin/CatalogoBien.vue'
 import GrupoBien from '../views/admin/GrupoBien.vue'
 import ClaseBien from '../views/admin/ClaseBien.vue'
 import Bien from '../views/admin/Bien.vue'
+import Reporte from '../views/admin/Reporte.vue'
 
 //views for auth layouts
 import Login from "../views/auth/Login.vue";
@@ -69,6 +70,12 @@ const routes = [
                 component: Bien,
                 name: 'bienes',
                 meta: {title: 'Bienes'}
+            },
+            {
+                path: "/admin/reportes",
+                component: Reporte,
+                name: 'reportes',
+                meta: {title: 'Reportes'}
             },
             {
                 path: "/admin/settings",

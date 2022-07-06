@@ -154,6 +154,7 @@ import { ref } from 'vue';
 const sidebarAdminElements = [
   { name: 'Usuarios', toRoute: { name: 'users' }, iconClass: 'fas fa-users' },
   { name: 'Almacenes', toRoute: { name: 'almacenes' }, iconClass: 'fas fa-warehouse' },
+  { name: 'Reportes', toRoute: { name: 'reportes' }, iconClass: 'fas fa-file-alt' },
   // { name: 'Settings', toRoute: { name: 'settings' }, iconClass: 'fas fa-tools' },
   // { name: 'Tables', toRoute: { name: 'tables' }, iconClass: 'fas fa-table' },
   // { name: 'Maps', toRoute: { name: 'maps' }, iconClass: 'fas fa-map-marked' },

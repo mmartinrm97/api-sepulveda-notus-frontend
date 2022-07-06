@@ -23,8 +23,9 @@
       <!-- bg-green-500 sm:bg-sky-500 md:bg-red-500 lg:bg-yellow-500  add to view rensposive design-->
       <div class="flex flex-wrap items-center lg:flex-grow  ">
 
-        <!-- Búsqueda por Id -->
-        <input-search v-model:modelValue="idBuscado" :placeholder="'Id'" :cantidad-filtros="cantidadFiltros" />
+        <!-- Filtrar por Rol -->
+        <input-filter v-model:modelValue="rolBuscado" :default-label="'Rol'"
+          :cantidad-filtros="cantidadFiltros" :dataFiltros="'rol'"/>
 
         <!-- Búsqueda de Nombre -->
         <input-search v-model:modelValue="nombreBuscado" :placeholder="'Nombres'" :cantidad-filtros="cantidadFiltros" />
@@ -107,7 +108,7 @@
     <card-table-pagination v-if="paginacionLista" :model-store="userStore.users" :last-page="lastPage"
       :campos-paginacion="[
         estadoBuscado,
-        idBuscado,
+        rolBuscado,
         nombreBuscado,
         apellidoBuscado,
         ordenarColumna,
@@ -164,7 +165,7 @@ const encabezadosTabla = [
 ]
 
 const estadoBuscado = ref('')
-const idBuscado = ref('')
+const rolBuscado = ref('')
 const nombreBuscado = ref('')
 const apellidoBuscado = ref('')
 const ordenarColumna = ref('id')
@@ -227,7 +228,7 @@ const actualizarOrden = async (columna) => {
   await userStore.getUsers(
     1,
     estadoBuscado.value,
-    idBuscado.value,
+    rolBuscado.value,
     nombreBuscado.value,
     apellidoBuscado.value,
     ordenarColumna.value,
@@ -243,14 +244,14 @@ const refrescarTabla = (async () => {
 })
 
 
-watch([estadoBuscado, idBuscado, nombreBuscado, apellidoBuscado], async (
-  [currEstadoBuscado, currIdBuscado, currNombreBuscado, currApellidoBuscado],
-  [prevEstadoBuscado, prevIdBuscado, prevNombreBuscado, prevApellidoBuscado]
+watch([estadoBuscado, rolBuscado, nombreBuscado, apellidoBuscado], async (
+  [currEstadoBuscado, currRolBuscado, currNombreBuscado, currApellidoBuscado],
+  [prevEstadoBuscado, prevRolBuscado, prevNombreBuscado, prevApellidoBuscado]
 ) => {
   await userStore.getUsers(
     1,
     currEstadoBuscado,
-    currIdBuscado,
+    currRolBuscado,
     currNombreBuscado,
     currApellidoBuscado);
   lastPage.value = userStore.users.meta.last_page;

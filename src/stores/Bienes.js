@@ -15,7 +15,8 @@ export const useBienesStore = defineStore('bienesStore', () => {
         buscarCodigo = '',
         buscarDescripcion = '',
         ordenarColumna = 'id',
-        ordenarDireccion = 'asc'
+        ordenarDireccion = 'asc',
+        buscarAlmacenID = ''
     ) => {
         try {
 
@@ -27,7 +28,8 @@ export const useBienesStore = defineStore('bienesStore', () => {
                 search_code: buscarCodigo,
                 search_description: buscarDescripcion,
                 order_column: ordenarColumna,
-                order_direction: ordenarDireccion
+                order_direction: ordenarDireccion,
+                search_warehouse: buscarAlmacenID
             }
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods`
             const res = await axios.get(url, { params })
@@ -122,6 +124,51 @@ export const useBienesStore = defineStore('bienesStore', () => {
         }
     };
 
-    return { bienes, getBienes, showBien, postBien, patchBien, deleteBien, errores }
+    const generarReporte = async(almacen = '') =>  {
+        try {
+
+            const params = {
+                search_warehouse_id: almacen
+            }
+            // console.log("🚀 ~ file: Bienes.js ~ line 133 ~ generarReporte ~ almacen", almacen)
+            
+            const url = `${import.meta.env.VITE_APP_URL}/api/v1/reports/generate-reports`
+            const response = await axios.get(url, { params, responseType: 'arraybuffer' })
+            let blob = new Blob([response.data], { type: 'application/pdf' })
+            let link = document.createElement('a')
+            link.href = window.URL.createObjectURL(blob)
+            link.download = 'test.pdf'
+            link.click()
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    // const downloadfile = (response, filename) => {
+    //     // It is necessary to create a new blob object with mime-type explicitly set
+    //     // otherwise only Chrome works like it should
+    //     var newBlob = new Blob([response.body], {type: 'application/pdf'})
+      
+    //     // IE doesn't allow using a blob object directly as link href
+    //     // instead it is necessary to use msSaveOrOpenBlob
+    //     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    //       window.navigator.msSaveOrOpenBlob(newBlob)
+    //       return
+    //     }
+      
+    //     // For other browsers:
+    //     // Create a link pointing to the ObjectURL containing the blob.
+    //     const data = window.URL.createObjectURL(newBlob)
+    //     var link = document.createElement('a')
+    //     link.href = data
+    //     link.download = filename + '.pdf'
+    //     link.click()
+    //     setTimeout(function () {
+    //       // For Firefox it is necessary to delay revoking the ObjectURL
+    //       window.URL.revokeObjectURL(data)
+    //     }, 100)
+    //   }
+
+    return { bienes, getBienes, showBien, postBien, patchBien, deleteBien, generarReporte, errores }
 
 })
