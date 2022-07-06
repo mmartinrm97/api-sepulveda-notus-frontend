@@ -84,11 +84,13 @@
             ]" :model-store-function="bienesStore.getBienes" />
 
     </div>
+
+    <ModalReporte v-if="showModalReporte" :open="showModalReporte"/>
 </template>
 
 <script setup>
 
-import { onBeforeMount, onMounted, ref, watch } from "vue";
+import { onBeforeMount, onMounted, provide, ref, watch } from "vue";
 import { useBienesStore } from '../../../stores/Bienes';
 import { useRouter } from 'vue-router';
 import ButtonAnadir from "../../Buttons/ButtonAnadir.vue";
@@ -99,6 +101,9 @@ import CardTablePagination from "../CardTablePagination.vue";
 import { useAlmacenStore } from "../../../stores/Almacenes";
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
+import ModalFormPrueba from "../../Modals/ModalFormPrueba.vue";
+import ModalEliminarUser from "../../Modals/User/ModalEliminarUser.vue";
+import ModalReporte from "../../Modals/Reporte/ModalReporte.vue";
 
 
 const props = defineProps({
@@ -139,6 +144,10 @@ const paginacionLista = ref(false);
 const cantidadFiltros = 4;
 const filtroListo = ref(false);
 
+const showModalReporte = ref(false);
+
+provide('showModalReporte', showModalReporte)
+
 const actualizarOrden = async (columna) => {
     ordenarColumna.value = columna
     ordenarDireccion.value = ordenarDireccion.value === 'asc' ? 'desc' : 'asc'
@@ -154,7 +163,9 @@ const actualizarOrden = async (columna) => {
 }
 
 const generarReporte = async () => {
+    showModalReporte.value = !showModalReporte.value;
     await bienesStore.generarReporte(almacenBuscadoID.value);
+    showModalReporte.value = !showModalReporte.value;
 }
 
 onMounted(async () => {
@@ -167,6 +178,7 @@ onBeforeMount(async () => {
     await almacenStore.getAllAlmacenes();
     filtroListo.value = true;
 })
+
 
 
 watch([almacenBuscadoID], async (

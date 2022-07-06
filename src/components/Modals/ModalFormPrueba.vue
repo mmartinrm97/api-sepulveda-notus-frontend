@@ -25,15 +25,15 @@
                   <div class="mx-auto align-middle text-center sm:mt-0 sm:ml-6 sm:text-left">
                     <DialogTitle as="h3" class="text-2xl font-medium text-gray-900"> Añadir nuevo bien
                     </DialogTitle>
-                    <!-- <div class="mt-2">
+                    <div class="mt-2">
                       <p class="text-sm text-gray-500">Are you sure you want to deactivate your account? All of your
                         data will be permanently removed. This action cannot be undone.</p>
-                    </div> -->
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div class="mt-3 sm:mt-0">
+              <!-- <div class="mt-3 sm:mt-0">
                 <div class="mt-3 md:mt-0 md:col-span-2">
                   <form action="#" method="POST">
                     <div class="shadow overflow-hidden sm:rounded-md">
@@ -101,7 +101,7 @@
                   </form>
                 </div>
 
-              </div>
+              </div> -->
 
               <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button type="button"
@@ -123,8 +123,14 @@
 </template>
 
 <script setup>
-import { inject, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
 const open = inject('showModalCrearBien');
+const modalListo = ref(false)
+
+onMounted(async () => {
+  modalListo.value = true
+});
+
 </script>
