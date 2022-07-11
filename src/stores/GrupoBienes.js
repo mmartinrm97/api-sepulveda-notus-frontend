@@ -4,6 +4,7 @@ import { ref } from "vue";
 
 export const useGrupoBienesStore = defineStore('GrupoBienesStore', () => {
     const grupoBienes = ref({})
+    const token = localStorage.getItem('authToken');
 
     const getGrupoBienes = async (
         pagina = 1,
@@ -20,7 +21,10 @@ export const useGrupoBienesStore = defineStore('GrupoBienesStore', () => {
             }
 
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods-groups`
-            const res = await axios.get(url, { params })
+            const res = await axios.get(url, { params,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                } })
 
             grupoBienes.value = {}
             grupoBienes.value = res.data

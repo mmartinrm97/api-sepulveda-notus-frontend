@@ -7,6 +7,7 @@ export const useCatalogoBienStore = defineStore('CatalogoBienStore', () =>{
     const allCatalogoBienes = ref({})
     const catalogoBien = ref({})
     const errores = ref({})
+    const token = localStorage.getItem('authToken');
 
     const getCatalogoBienes = async(
         pagina = 1,
@@ -26,7 +27,10 @@ export const useCatalogoBienStore = defineStore('CatalogoBienStore', () =>{
             }
             
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods-catalogs`
-            const res = await axios.get(url, { params })
+            const res = await axios.get(url, { params,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                } })
             
             catalogoBienes.value = {}
             catalogoBienes.value = res.data
@@ -38,8 +42,12 @@ export const useCatalogoBienStore = defineStore('CatalogoBienStore', () =>{
 
     const getAllCatalogoBienes = async()=>{
         try {
-            const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods-catalogs/all`
-            const res = await axios.get(url)
+            const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods-catalogs/list`
+            const res = await axios.get(url,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
 
             allCatalogoBienes.value = {}
             allCatalogoBienes.value = res.data

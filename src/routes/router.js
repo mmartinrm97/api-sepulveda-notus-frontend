@@ -16,66 +16,83 @@ import GrupoBien from '../views/admin/GrupoBien.vue'
 import ClaseBien from '../views/admin/ClaseBien.vue'
 import Bien from '../views/admin/Bien.vue'
 import Reporte from '../views/admin/Reporte.vue'
+import Prueba from '../views/admin/Prueba.vue'
+
+//views for not found
+import NotFound from '../views/admin/NotFound.vue'
 
 //views for auth layouts
 import Login from "../views/auth/Login.vue";
 
+
 const routes = [
-    { path: "/", name: 'Inicio', redirect: '/auth/login' },
+    { path: "/", name: 'Home', redirect: '/auth/login' },
+
+    {
+        path: '/:pathMatch(.*)*',
+        // component: Login
+        redirect: '/'
+    },
 
     {
         path: "/admin",
         redirect: "/admin/dashboard",
         component: Admin,
-        meta:{ title: 'Admin'},
+        meta: { title: 'Admin' },
         children: [
             {
                 path: "/admin/dashboard",
                 component: Dashboard,
                 name: 'dashboard',
-                meta:{ title: 'Dashboard'},
+                meta: { title: 'Dashboard' },
             },
             {
                 path: "/admin/usuarios",
                 component: Users,
                 name: 'users',
-                meta: {title: 'Usuarios'}
+                meta: { title: 'Usuarios' }
             },
             {
                 path: "/admin/almacenes",
                 component: Almacen,
                 name: 'almacenes',
-                meta:{ title: 'Áreas de Inventario'},
+                meta: { title: 'Áreas de Inventario' },
             },
             {
                 path: "/admin/catalogos-bienes",
                 component: CatalogoBien,
                 name: 'catalogosDeBienes',
-                meta:{ title: 'Catalogos de Bienes'},
+                meta: { title: 'Catalogos de Bienes' },
             },
             {
                 path: "/admin/clases-bienes",
                 component: ClaseBien,
                 name: 'clasesDeBienes',
-                meta:{ title: 'Clases de Bienes'},
+                meta: { title: 'Clases de Bienes' },
             },
             {
                 path: "/admin/grupos-bienes",
                 component: GrupoBien,
                 name: 'gruposdeBienes',
-                meta:{ title: 'Grupos de Bienes'},
+                meta: { title: 'Grupos de Bienes' },
             },
             {
                 path: "/admin/bienes",
                 component: Bien,
                 name: 'bienes',
-                meta: {title: 'Bienes'}
+                meta: { title: 'Bienes' }
             },
             {
                 path: "/admin/reportes",
                 component: Reporte,
                 name: 'reportes',
-                meta: {title: 'Reportes'}
+                meta: { title: 'Reportes' }
+            },
+            {
+                path: "/admin/prueba",
+                component: Prueba,
+                name: 'prueba',
+                meta: { title: 'Prueba' }
             },
             {
                 path: "/admin/settings",
@@ -93,15 +110,15 @@ const routes = [
                 name: 'maps'
             },
         ],
-    },{
+    }, {
         path: "/auth",
-        redirect:"/auth/login",
+        redirect: "/auth/login",
         component: Auth,
         children: [
             {
                 path: "/auth/login",
                 component: Login,
-                name: 'login'
+                name: 'Login'
             }
         ],
     }
@@ -111,7 +128,18 @@ const routes = [
 const router = createRouter({
     routes,
     history: createWebHistory(),
+
+});
+
+router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem('authToken')
+    console.log(!!token);
+
+    if(to.name !== 'Login' && !(!!token)) next({name: 'Login'})
+    else next()
     
 });
+
+
 
 export default router;

@@ -3,14 +3,14 @@
         <div class="w-full mb-12 px-4">
             <Suspense>
                 <template #default>
-                    <transition>
-                       <CardTableReporte/>
-                    </transition>
+                        <CardTableReporte />
                 </template>
                 <template #fallback>
                     <card-table-skeleton />
                 </template>
             </Suspense>
+        </div>
+        <div class="w-full mb-12 px-4">
         </div>
     </div>
 </template>

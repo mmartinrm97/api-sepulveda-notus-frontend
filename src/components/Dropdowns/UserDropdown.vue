@@ -26,10 +26,10 @@
                 Something else here
             </a>
             <div class="h-0 my-2 border border-solid border-slate-100" />
-            <router-link :to="{name: 'login'}"
+            <button @click="authStore.submitLogout()"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700">
                 Cerrar Sesión
-            </router-link>
+            </button>
         </div>
     </div>
 </template>
@@ -40,6 +40,7 @@
 import image from '../../assets/img/team-1-800x800.jpg'
 import { createPopper } from "@popperjs/core";
 import { ref } from "vue";
+import { useAuthStore } from '../../stores/Auth';
 
 const dropdownPopoverShow = ref(false)
 
@@ -57,6 +58,8 @@ const toggleDropdown = (event) => {
         })
     }
 }
+
+const authStore = useAuthStore();
 
 
 </script>

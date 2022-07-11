@@ -9,8 +9,8 @@
                 Next </a>
         </div> -->
 
-        <!-- <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between"> -->
         <div class="sm:flex-1 sm:flex sm:items-center sm:justify-between">
+        <!-- <div class="sm:flex-1 sm:flex sm:items-center sm:justify-between"> -->
             <div>
                 <p class="text-sm text-gray-700">
                     Mostrando del
@@ -34,13 +34,13 @@
             <div>
                 <paginate :page-count="lastPage" :click-handler="page => props.modelStoreFunction(
                 page, ...camposPaginacion)" :prev-text="'Prev'" :next-text="'Next'"
-                    :container-class="'relative z-0 inline-flex rounded-md shadow-sm -space-x-px cursor-pointer'"
-                    :page-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
-                    :prev-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
+                    :container-class="'relative z-0 inline-flex rounded-md shadow-sm -space-x-px cursor-pointer content-center'"
+                    :page-link-class=" 'hidden ' + classMD"
+                    :prev-link-class="classMD"
                     :next-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
                     :no-li-surround="true"
                     :active-class="'z-10 bg-lightBlue-50 border-lightBlue-500 text-lightBlue-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium'"
-                    :hide-prev-next="true">
+                    :hide-prev-next="false">
                 </paginate>
             </div>
         </div>
@@ -62,6 +62,8 @@ const props = defineProps({
 //     await props.modelStoreFunction(1, ...props.camposPaginacion)
 //     console.log(props.modelStore.meta);
 // });
+
+const classMD = 'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 lg:flex';
 
 
 </script>

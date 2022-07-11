@@ -1,6 +1,7 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import jwtDecode from "jwt-decode";
 
 export const useUserStore = defineStore('userStore', () => {
 
@@ -8,6 +9,7 @@ export const useUserStore = defineStore('userStore', () => {
     const allUsers = ref({})
     const user = ref({})
     const errores = ref({})
+    const token = localStorage.getItem('authToken');
 
 
     const getUsers = async (
@@ -31,28 +33,39 @@ export const useUserStore = defineStore('userStore', () => {
                 order_direction: ordenarDireccion
             }
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/users`
-            const res = await axios.get(url, { params })
-
-            // console.log("🚀 ~ file: users.js ~ line 23 ~ useUsers ~ res", 
-            // res.data)
+            const res = await axios.get(url, {
+                params,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
 
             users.value = []
             users.value = res.data
+
+            // const decoded = jwtDecode(token);
+            // console.log("🚀 ~ file: Users.js ~ line 47 ~ useUserStore ~ decoded", decoded.email)
+            
 
         } catch (error) {
             console.log(error);
         }
     }
 
-    const getAllUsers = async(userWarehouse = false)=>{
+    const getAllUsers = async (userWarehouse = false) => {
         try {
-            
+
             const params = {
                 users_without_warehouses: userWarehouse
             }
 
-            const url = `${import.meta.env.VITE_APP_URL}/api/v1/users/all`
-            const res = await axios.get(url, {params})
+            const url = `${import.meta.env.VITE_APP_URL}/api/v1/users/list`
+            const res = await axios.get(url, {
+                params,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
 
             allUsers.value = {}
             allUsers.value = res.data
@@ -78,7 +91,11 @@ export const useUserStore = defineStore('userStore', () => {
                 is_active: usuario.activo
             }
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/users`
-            const res = await axios.post(url, user);
+            const res = await axios.post(url, user, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
 
         } catch (error) {
             console.log(error);
@@ -92,7 +109,7 @@ export const useUserStore = defineStore('userStore', () => {
 
     const patchUser = async (usuario) => {
         try {
-        
+
             errores.value = {};
             const user = {
                 role_id: usuario.rolID,
@@ -103,13 +120,17 @@ export const useUserStore = defineStore('userStore', () => {
                 is_active: usuario.activo
             }
 
-            if(usuario.password !== undefined){
+            if (usuario.password !== undefined) {
                 user.password = usuario.password
                 user.password_confirmation = usuario.passwordConfirmado
             }
 
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/users/${usuario.id}`
-            const res = await axios.patch(url, user);
+            const res = await axios.patch(url, user,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
         } catch (error) {
             console.log(error);
             if (error.response.status === 422) {
@@ -124,7 +145,11 @@ export const useUserStore = defineStore('userStore', () => {
         try {
             errores.value = {};
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/users/${usuario.id}`
-            const res = await axios.delete(url);
+            const res = await axios.delete(url,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
         } catch (error) {
             console.log(error);
             if (error.response.status === 422) {
@@ -135,5 +160,5 @@ export const useUserStore = defineStore('userStore', () => {
         }
     };
 
-    return { users, user, allUsers, getUsers, getAllUsers,postUser, patchUser, deleteUser, errores }
+    return { users, user, allUsers, getUsers, getAllUsers, postUser, patchUser, deleteUser, errores }
 })

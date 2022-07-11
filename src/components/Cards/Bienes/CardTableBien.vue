@@ -20,8 +20,8 @@
 
       <!-- Filtros -->
 
-      <!-- bg-green-500 md:bg-red-500 sm:bg-sky-500 add to view rensposive design-->
-      <div class="flex flex-wrap items-center lg:flex-grow  ">
+      <!-- lg:flex-grow bg-green-500 sm:bg-sky-500 md:bg-red-500 lg:bg-yellow-500 add to view rensposive design-->
+      <div class="flex flex-wrap items-center ">
 
         <!-- Búsqueda por Id -->
         <InputSearch v-model:modelValue="idBuscado" :placeholder="'Id'" :cantidad-filtros="cantidadFiltros" />

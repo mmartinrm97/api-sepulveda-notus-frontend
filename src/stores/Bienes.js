@@ -7,6 +7,7 @@ export const useBienesStore = defineStore('bienesStore', () => {
     const bienes = ref({})
     const bien = ref({})
     const errores = ref({})
+    const token = localStorage.getItem('authToken');
 
     const getBienes = async (
         pagina = 1,
@@ -32,7 +33,12 @@ export const useBienesStore = defineStore('bienesStore', () => {
                 search_warehouse: buscarAlmacenID
             }
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods`
-            const res = await axios.get(url, { params })
+            const res = await axios.get(url, {
+                params,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
 
             bienes.value = {}
             bienes.value = res.data
@@ -51,7 +57,12 @@ export const useBienesStore = defineStore('bienesStore', () => {
                 include: 'warehouse,goodsCatalog',
             }
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods/${id}`
-            const res = await axios.get(url, { params })
+            const res = await axios.get(url, {
+                params,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
 
             bien.value = {}
             bien.value = res.data
@@ -75,7 +86,11 @@ export const useBienesStore = defineStore('bienesStore', () => {
                 is_active: bien.activo
             }
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods`
-            const res = await axios.post(url, good);
+            const res = await axios.post(url, good, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
 
         } catch (error) {
             console.log(error);
@@ -98,7 +113,11 @@ export const useBienesStore = defineStore('bienesStore', () => {
                 is_active: bien.activo
             }
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods/${bien.id}`
-            const res = await axios.patch(url, good);
+            const res = await axios.patch(url, good, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
         } catch (error) {
             console.log(error);
             if (error.response.status === 422) {
@@ -113,7 +132,11 @@ export const useBienesStore = defineStore('bienesStore', () => {
         try {
             errores.value = {};
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods/${bien.id}`
-            const res = await axios.delete(url);
+            const res = await axios.delete(url, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
         } catch (error) {
             console.log(error);
             if (error.response.status === 422) {
@@ -124,16 +147,23 @@ export const useBienesStore = defineStore('bienesStore', () => {
         }
     };
 
-    const generarReporte = async(almacen = '') =>  {
+    const generarReporte = async (almacen = '') => {
         try {
 
             const params = {
                 search_warehouse_id: almacen
             }
             // console.log("🚀 ~ file: Bienes.js ~ line 133 ~ generarReporte ~ almacen", almacen)
-            
+
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/reports/generate-reports`
-            const response = await axios.get(url, { params, responseType: 'arraybuffer' })
+            const response = await axios.get(url, {
+                params,
+                responseType: 'arraybuffer', headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+
             let blob = new Blob([response.data], { type: 'application/pdf' })
             let link = document.createElement('a')
             link.href = window.URL.createObjectURL(blob)
@@ -148,14 +178,14 @@ export const useBienesStore = defineStore('bienesStore', () => {
     //     // It is necessary to create a new blob object with mime-type explicitly set
     //     // otherwise only Chrome works like it should
     //     var newBlob = new Blob([response.body], {type: 'application/pdf'})
-      
+
     //     // IE doesn't allow using a blob object directly as link href
     //     // instead it is necessary to use msSaveOrOpenBlob
     //     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
     //       window.navigator.msSaveOrOpenBlob(newBlob)
     //       return
     //     }
-      
+
     //     // For other browsers:
     //     // Create a link pointing to the ObjectURL containing the blob.
     //     const data = window.URL.createObjectURL(newBlob)

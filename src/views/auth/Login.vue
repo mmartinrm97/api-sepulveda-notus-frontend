@@ -38,14 +38,17 @@
             <div class="text-blueGray-500 text-center mb-3 font-bold">
               <div class="text-xl mt-6">Bienvenido (a)</div>
             </div>
-            <form>
+            <form @submit.prevent="submitLogin">
               <div class="relative w-full mb-3">
                 <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
                   Email
                 </label>
                 <input type="email"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Email" />
+                  placeholder="Email"
+                  v-model="state.user.email" required/>
+                  <span v-if="erroresLogin.email" class="text-red-700">{{ erroresLogin.email
+                            }}</span>
               </div>
 
               <div class="relative w-full mb-3">
@@ -54,7 +57,10 @@
                 </label>
                 <input type="password"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Password" />
+                  placeholder="Password" 
+                  v-model="state.user.password" required/>
+                  <span v-if="erroresLogin.password" class="text-red-700">{{ erroresLogin.password
+                            }}</span>
               </div>
               <div>
                 <label class="inline-flex items-center cursor-pointer">
@@ -67,11 +73,11 @@
               </div>
 
               <div class="text-center mt-6">
-                <router-link
+                <button
                   class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                  tag="button" to="/admin">
+                  tag="button" @click="authStore.submitLogin(state.user)">
                   Iniciar sesión
-                </router-link>
+                </button>
               </div>
             </form>
           </div>
@@ -97,6 +103,20 @@
 
 // import github from '../../assets/img/github.svg'
 // import google from '../../assets/img/google.svg'
+
+import { ref } from 'vue';
+import {useAuthStore} from '../../stores/Auth'
+
+const state = ref({
+  user: {
+    email:'',
+    password: ''
+  }
+});
+
+const authStore = useAuthStore();
+const erroresLogin = ref(authStore.errores);
+
 
 </script>
 

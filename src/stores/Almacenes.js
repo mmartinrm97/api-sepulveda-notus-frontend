@@ -6,6 +6,7 @@ export const useAlmacenStore = defineStore('almacenStore', () => {
     const almacenes = ref({})
     const allAlmacenes = ref({})
     const errores = ref({})
+    const token = localStorage.getItem('authToken');
 
     const getAlmacenes = async (
         pagina = 1,
@@ -28,7 +29,12 @@ export const useAlmacenStore = defineStore('almacenStore', () => {
                 order_direction: ordenarDireccion
             }
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/warehouses`
-            const res = await axios.get(url, { params })
+            const res = await axios.get(url, {
+                params,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             almacenes.value = {}
             almacenes.value = res.data
 
@@ -39,8 +45,12 @@ export const useAlmacenStore = defineStore('almacenStore', () => {
 
     const getAllAlmacenes = async () => {
         try {
-            const url = `${import.meta.env.VITE_APP_URL}/api/v1/warehouses/all`
-            const res = await axios.get(url)
+            const url = `${import.meta.env.VITE_APP_URL}/api/v1/warehouses/list`
+            const res = await axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
 
             allAlmacenes.value = {}
             allAlmacenes.value = res.data
@@ -50,7 +60,7 @@ export const useAlmacenStore = defineStore('almacenStore', () => {
         }
     }
 
-    const postAlmacen = async(almacen) =>{
+    const postAlmacen = async (almacen) => {
         try {
             errores.value = {};
             const warehouse = {
@@ -59,7 +69,11 @@ export const useAlmacenStore = defineStore('almacenStore', () => {
                 is_active: almacen.activo
             }
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/warehouses`
-            const res = await axios.post(url, warehouse);
+            const res = await axios.post(url, warehouse, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
 
         } catch (error) {
             console.log(error);
@@ -71,7 +85,7 @@ export const useAlmacenStore = defineStore('almacenStore', () => {
         }
     }
 
-    const patchAlmacen = async(almacen) =>{
+    const patchAlmacen = async (almacen) => {
         try {
             errores.value = {};
             const warehouse = {
@@ -80,7 +94,11 @@ export const useAlmacenStore = defineStore('almacenStore', () => {
                 is_active: almacen.activo
             }
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/warehouses/${almacen.id}`
-            const res = await axios.patch(url, warehouse);
+            const res = await axios.patch(url, warehouse, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
 
         } catch (error) {
             console.log(error);
@@ -96,7 +114,11 @@ export const useAlmacenStore = defineStore('almacenStore', () => {
         try {
             errores.value = {};
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/warehouses/${almacen.id}`
-            const res = await axios.delete(url);
+            const res = await axios.delete(url,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
         } catch (error) {
             console.log(error);
             if (error.response.status === 422) {
