@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+    <div class="bg-white px-4 py-3 flex items-center justify-center w-auto border-t border-gray-200 sm:px-6">
         <!-- <div class="flex-1 flex justify-between sm:hidden">
             <a href="#"
                 class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
@@ -12,7 +12,7 @@
         <div class="sm:flex-1 sm:flex sm:items-center sm:justify-between">
         <!-- <div class="sm:flex-1 sm:flex sm:items-center sm:justify-between"> -->
             <div>
-                <p class="text-sm text-gray-700">
+                <p class="text-sm text-gray-700 text-center">
                     Mostrando del
                     {{ ' ' }}
                     <span class="font-medium">{{ modelStore.meta !== undefined ? modelStore.meta.from : 0
@@ -34,10 +34,10 @@
             <div>
                 <paginate :page-count="lastPage" :click-handler="page => props.modelStoreFunction(
                 page, ...camposPaginacion)" :prev-text="'Prev'" :next-text="'Next'"
-                    :container-class="'relative z-0 inline-flex rounded-md shadow-sm -space-x-px cursor-pointer content-center'"
+                    :container-class="'flex items-center justify-center w-auto rounded-md shadow-sm -space-x-px cursor-pointer content-center '"
                     :page-link-class=" 'hidden ' + classMD"
                     :prev-link-class="classMD"
-                    :next-link-class="'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50'"
+                    :next-link-class="classMD"
                     :no-li-surround="true"
                     :active-class="'z-10 bg-lightBlue-50 border-lightBlue-500 text-lightBlue-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium'"
                     :hide-prev-next="false">
@@ -64,7 +64,6 @@ const props = defineProps({
 // });
 
 const classMD = 'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 lg:flex';
-
 
 </script>
 
