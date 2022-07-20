@@ -1,11 +1,11 @@
 <template>
     <tr>
         <th class="px-0" v-for="element in encabezadosTabla" :key="element">
-            <div class="border border-solid border-l-0 border-r-0 flex flex-row items-center justify-between cursor-pointer"
+            <div class="border border-solid border-l-0 border-r-0 flex flex-row items-center justify-between cursor-pointer hover:bg-lightBlue-100 hover:text-black"
                 :class="[
                     color === 'light'
                         ? 'bg-blueGray-200 text-blueGray-700 border-blueGray-100'
-                        : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                        : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700',
                     ordenarColumna === element.filtro ? 'text-blue-700 font-light' : ''
                 ]" @click="$emit('cambiarOrden', element.filtro)">
                 <div
@@ -32,7 +32,7 @@
                 :class="[
                     color === 'light'
                         ? 'bg-blueGray-200 text-blueGray-700 border-blueGray-100'
-                        : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                        : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700',
                 ]">
                 <div
                     class="px-6 align-middle border-0 border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">

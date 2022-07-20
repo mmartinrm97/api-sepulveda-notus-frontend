@@ -17,6 +17,7 @@
 
 <script setup>
 import CardTableBien from  '../../components/Cards/Bienes/CardTableBien.vue'
+import CardTable from  '../../components/Cards/CardTable.vue'
 import CardTableSkeleton from '../../components/Cards/CardTableSkeleton.vue';
 
 </script>

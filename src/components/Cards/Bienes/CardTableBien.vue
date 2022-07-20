@@ -1,7 +1,7 @@
 <template>
   <!-- Tabla -->
   <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
-    :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
+    :class="[color === 'light' ? 'bg-white' : 'bg-lightBlue-900 text-white']">
     <!-- Header -->
     <div class="rounded-t mb-0 px-4 py-3 border-0">
       <div class="flex flex-wrap py-4 items-center">
@@ -27,120 +27,176 @@
         <InputSearch v-model:modelValue="idBuscado" :placeholder="'Id'" :cantidad-filtros="cantidadFiltros" />
 
         <!-- Búsqueda por Codigo -->
-        <InputSearch v-model:modelValue="codigoBuscado" :placeholder="'Código'" :cantidad-filtros="cantidadFiltros"/>
+        <InputSearch v-model:modelValue="codigoBuscado" :placeholder="'Código'" :cantidad-filtros="cantidadFiltros" />
 
         <!-- Búsqueda por Descripción -->
-        <InputSearch v-model:modelValue="descripcionBuscada" :placeholder="'Descripción'" :cantidad-filtros="cantidadFiltros"/>
+        <InputSearch v-model:modelValue="descripcionBuscada" :placeholder="'Descripción'"
+          :cantidad-filtros="cantidadFiltros" />
 
         <!-- Filtrar por Estado -->
-        <InputFilter v-model:modelValue="estadoBuscado" :default-label="'Estado'" :cantidad-filtros="cantidadFiltros"/>
+        <InputFilter v-model:modelValue="estadoBuscado" :default-label="'Estado'" :cantidad-filtros="cantidadFiltros" />
       </div>
     </div>
 
     <div class="block w-full overflow-x-auto relative">
 
       <!-- Projects table -->
-      <table class="items-center w-full bg-transparent border-collapse">
-        <thead>
-          <!-- Encabezado -->
-          <!-- <tr>
-            <th class="px-0" v-for="element in encabezadosTabla" :key="element">
-              <div
-                class="border border-solid border-l-0 border-r-0 flex flex-row items-center justify-between cursor-pointer"
-                :class="[
-                  color === 'light'
-                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700',
-                  ordenarColumna === element.filtro ? 'font-bold text-blue-700' : ''
-                ]" @click="actualizarOrden(element.filtro)">
-                <div
-                  class="pl-6 pr-6 align-middle border-0 border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                  {{ element.cabecera }}
+
+      <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+
+          <thead class="text-xs text-white uppercase bg-slate-700 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="py-3 px-6">
+                Product name
+              </th>
+              <th scope="col" class="py-3 px-6">
+                <div class="flex items-center">
+                  Color
+                  <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-3 h-3" aria-hidden="true"
+                      fill="currentColor" viewBox="0 0 320 512">
+                      <path
+                        d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z">
+                      </path>
+                    </svg></a>
                 </div>
-                <div
-                  class="px-2 align-middle py-1 text-xl uppercase whitespace-nowrap font-semibold text-left border-0 border-l-0 border-r-0 select-none">
-                  <span :class="{
-                    'text-blue-600': ordenarDireccion === 'asc' && ordenarColumna === element.filtro,
-                    'hidden': ordenarDireccion !== '' && ordenarDireccion !== 'asc' && ordenarColumna === element.filtro
-                  }">&uarr;</span>
-                  <span :class="{
-                    'text-blue-600': ordenarDireccion === 'desc' && ordenarColumna === element.filtro,
-                    'hidden': ordenarDireccion !== '' && ordenarDireccion !== 'desc' && ordenarColumna === element.filtro
-                  }">&darr;</span>
+              </th>
+              <th scope="col" class="py-3 px-6">
+                <div class="flex items-center">
+                  Category
+                  <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-3 h-3" aria-hidden="true"
+                      fill="currentColor" viewBox="0 0 320 512">
+                      <path
+                        d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z">
+                      </path>
+                    </svg></a>
                 </div>
-              </div>
-            </th>
-            <th class="px-0">
-              <div
-                class="border border-solid border-l-0 border-r-0 flex flex-row items-center justify-between cursor-pointer"
-                :class="[
-                  color === 'light'
-                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700',
-                ]">
-                <div
-                  class="px-6 align-middle border-0 border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                  &nbsp
+              </th>
+              <th scope="col" class="py-3 px-6">
+                <div class="flex items-center">
+                  Accesories
+                  <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-3 h-3" aria-hidden="true"
+                      fill="currentColor" viewBox="0 0 320 512">
+                      <path
+                        d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z">
+                      </path>
+                    </svg></a>
                 </div>
+              </th>
+              <th scope="col" class="py-3 px-6">
+                <div class="flex items-center">
+                  Available
+                  <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-3 h-3" aria-hidden="true"
+                      fill="currentColor" viewBox="0 0 320 512">
+                      <path
+                        d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z">
+                      </path>
+                    </svg></a>
+                </div>
+              </th>
+              <th scope="col" class="py-3 px-6">
+                <div class="flex items-center">
+                  Price
+                  <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-3 h-3" aria-hidden="true"
+                      fill="currentColor" viewBox="0 0 320 512">
+                      <path
+                        d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z">
+                      </path>
+                    </svg></a>
+                </div>
+              </th>
+              <th scope="col" class="py-3 px-6">
+                <div class="flex items-center">
+                  Weight
+                  <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-3 h-3" aria-hidden="true"
+                      fill="currentColor" viewBox="0 0 320 512">
+                      <path
+                        d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z">
+                      </path>
+                    </svg></a>
+                </div>
+              </th>
+              <th scope="col" class="py-3 px-6">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="index in 10" :key="index"
+              class="border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+              :class="[index % 2 === 0 ? 'bg-warmGray-50' : 'bg-white']">
+              <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                Apple MacBook Pro 17"
+              </th>
+              <td class="py-4 px-6">
+                Sliver
+              </td>
+              <td class="py-4 px-6">
+                Laptop
+              </td>
+              <td class="py-4 px-6">
+                Yes
+              </td>
+              <td class="py-4 px-6">
+                Yes
+              </td>
+              <td class="py-4 px-6">
+                $2999
+              </td>
+              <td class="py-4 px-6">
+                3.0 lb.
+              </td>
+              <td class="flex items-center py-4 px-6 space-x-3">
+                <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-              </div>
-            </th>
-          </tr> -->
+      </div>
+      <nav class="flex justify-between items-center p-4" aria-label="Table navigation">
+        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span
+            class="font-semibold text-gray-900 dark:text-white">1-10</span> of <span
+            class="font-semibold text-gray-900 dark:text-white">1000</span></span>
+        <ul class="inline-flex items-center -space-x-px">
+          <li>
+            <a href="#"
+              class="py-2 px-3 leading-tight rounded-l-lg text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i
+                class="fas fa-angle-left"></i></a>
+          </li>
+          <li>
+            <a href="#"
+              class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+          </li>
+          <li>
+            <a href="#"
+              class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+          </li>
+          <li>
+            <a href="#" aria-current="page"
+              class="z-10 py-2 px-3 leading-tight text-blue-600 bg-blue-50 border border-blue-300 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+          </li>
+          <li>
+            <a href="#"
+              class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
+          </li>
+          <li>
+            <a href="#"
+              class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
+          </li>
+          <li>
+            <a href="#"
+              class="py-2 px-3 leading-tight rounded-r-lg text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i
+                class="fas fa-angle-right"></i></a>
+          </li>
+        </ul>
+      </nav>
 
-          <card-table-header :color="'light'" :encabezados-tabla="encabezadosTabla" :ordenar-columna="ordenarColumna"
-            :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" />
 
-        </thead>
-        <tbody v-if="bienesStore.bienes.data && bienesStore.bienes.data.length > 0">
-          <tr v-for="bien in bienesStore.bienes.data" :key="bien.id" class="hover:bg-lightBlue-100">
-            <td class="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap px-6  p-4 ">
-              {{ bien.id }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ bien.code }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ bien.description }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ bien.warehouse.description }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ bien.goods_catalog.denomination }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="fas fa-circle mr-2" :class="[bien.is_active ? 'text-green-600' : 'text-red-500']"> </i>{{
-                  bien.is_active ? 'Activado' : 'Desactivado'
-              }}
-            </td>
 
-            <!-- Acciones -->
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-              <Popper :placement="'left-start'" arrow>
-                <button class="text-blueGray-500 py-1 px-3"><i class="fas fa-ellipsis-v"></i></button>
-                <template #content="{ close }">
-                  <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-xl min-w-48">
-                    <button
-                      class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                      @click="close(); toggleModalEditarBien(bien);">
-                      <i class="fas fa-pen w-4 h-4 mr-2 -ml-1 text-amber-500"></i>
-                      Editar
-                    </button>
-                    <button
-                      class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                      @click="close(); toggleModalEliminarBien(bien)">
-                      <i class="fas fa-exclamation w-4 h-4 mr-2 -ml-1 text-red-500"></i>
-                      Eliminar
-                    </button>
-                  </div>
-                </template>
-              </Popper>
-            </td>
 
-          </tr>
-        </tbody>
-        <CardTableEmpty v-else />
-      </table>
+
     </div>
 
     <!-- Pagination -->
@@ -195,14 +251,15 @@
       </div>
     </div> -->
 
-    <CardTablePagination v-if="paginacionLista" :model-store="bienesStore.bienes" :last-page="lastPage" :campos-paginacion="[
-      estadoBuscado,
-      idBuscado,
-      codigoBuscado,
-      descripcionBuscada,
-      ordenarColumna,
-      ordenarDireccion
-    ]" :model-store-function="bienesStore.getBienes" />
+    <!-- <CardTablePagination v-if="paginacionLista" :model-store="bienesStore.bienes" :last-page="lastPage"
+      :campos-paginacion="[
+        estadoBuscado,
+        idBuscado,
+        codigoBuscado,
+        descripcionBuscada,
+        ordenarColumna,
+        ordenarDireccion
+      ]" :model-store-function="bienesStore.getBienes" /> -->
 
     <modal-crear-bien v-if="showModalCrearBien" :open="showModalCrearBien" @refrescar-users="refrescarTabla" />
 
@@ -325,12 +382,12 @@ const refrescarTabla = (async () => {
 
 
 watch([estadoBuscado, idBuscado, codigoBuscado, descripcionBuscada], async (
-  [ currEstadoBuscado, currIdBuscado, currcodigoBuscado, currdescripcionBuscada],
+  [currEstadoBuscado, currIdBuscado, currcodigoBuscado, currdescripcionBuscada],
   [prevBusquedaGlobal, prevEstadoBuscado, prevIdBuscado, prevcodigoBuscado, prevdescripcionBuscada]
 ) => {
   await bienesStore.getBienes(
     1,
-    
+
     currEstadoBuscado,
     currIdBuscado,
     currcodigoBuscado,
