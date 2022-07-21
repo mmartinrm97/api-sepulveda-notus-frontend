@@ -19,6 +19,7 @@
 import CardTableBien from  '../../components/Cards/Bienes/CardTableBien.vue'
 import CardTable from  '../../components/Cards/CardTable.vue'
 import CardTableSkeleton from '../../components/Cards/CardTableSkeleton.vue';
+import TheTable from '../../components/Tables/TheTable.vue';
 
 </script>
 

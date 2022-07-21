@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import CardTableClaseBien from '../../components/Cards/CardTableClaseBien.vue';
+import CardTableClaseBien from '../../components/Cards/ClaseBien/CardTableClaseBien.vue';
 import CardTableSkeleton from '../../components/Cards/CardTableSkeleton.vue';
 
 </script>

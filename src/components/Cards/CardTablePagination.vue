@@ -33,11 +33,11 @@
             </div>
             <div>
                 <paginate :page-count="lastPage" :click-handler="page => props.modelStoreFunction(
-                page, ...camposPaginacion)" :prev-text="'Prev'" :next-text="'Next'"
+                page, ...camposPaginacion)" :prev-text="'<'" :next-text="'>'"
                     :container-class="'flex items-center justify-center w-auto rounded-md shadow-sm -space-x-px cursor-pointer content-center '"
                     :page-link-class=" 'hidden ' + classMD"
-                    :prev-link-class="classMD"
-                    :next-link-class="classMD"
+                    :prev-link-class="classMD + ' rounded-l-lg'"
+                    :next-link-class="classMD + ' rounded-r-lg'"
                     :no-li-surround="true"
                     :active-class="'z-10 bg-lightBlue-50 border-lightBlue-500 text-lightBlue-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium'"
                     :hide-prev-next="false">

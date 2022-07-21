@@ -14,7 +14,7 @@
         </div>
 
         <div class="relative flex-wrap w-full sm:w-1/2 sm:grow flex justify-end">
-          <ButtonAnadir :titulo="'Añadir Almacén'" @click="toggleModalCrearAlmacen()"/>
+          <ButtonAnadir :titulo="'Añadir Almacén'" @click="toggleModalCrearAlmacen()" />
         </div>
       </div>
 
@@ -27,7 +27,8 @@
         <InputSearch v-model:modelValue="idBuscado" :placeholder="'Id'" :cantidad-filtros="cantidadFiltros" />
 
         <!-- Búsqueda por Descripción -->
-        <InputSearch v-model:modelValue="descripcionBuscada" :placeholder="'Descripción'" :cantidad-filtros="cantidadFiltros" />
+        <InputSearch v-model:modelValue="descripcionBuscada" :placeholder="'Descripción'"
+          :cantidad-filtros="cantidadFiltros" />
 
         <!-- Búsqueda por Usuario -->
         <InputSearch v-model:modelValue="usuarioBuscado" :placeholder="'Usuario Asignado'"
@@ -40,56 +41,59 @@
     </div>
     <div class="block w-full overflow-x-auto">
       <!-- Projects table -->
-      <table class="items-center w-full bg-transparent border-collapse">
-        <thead>
-          <CardTableHeader :color="'light'" :encabezados-tabla="encabezadosTabla" :ordenar-columna="ordenarColumna"
-            :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" />
-        </thead>
-        <tbody v-if="almacenStore.almacenes.data && almacenStore.almacenes.data.length > 0">
-          <tr v-for="almacen in almacenStore.almacenes.data" :key="almacen.id" class="hover:bg-lightBlue-100">
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ almacen.id }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="mr-2"></i> {{ almacen.description }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="mr-2"></i>
-              {{ almacen.users[0] !== undefined ?
-                  `${almacen.users[0].first_name} ${almacen.users[0].last_name}` : 'No tiene usuario asignado'
-              }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="fas fa-circle mr-2" :class="[almacen.is_active ? 'text-green-600' : 'text-red-500']"> </i>{{
-                  almacen.is_active ? 'Activo' : 'Inactivo'
-              }}
-            </td>
+      <div class="overflow-x-auto relative shadow-md mx-0 rounded-none sm:mx-8 sm:mb-6 sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-800 dark:text-gray-400">
 
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-              <Popper :placement="'left-start'" arrow>
-                <button class="text-blueGray-500 py-1 px-3"><i class="fas fa-ellipsis-v"></i></button>
-                <template #content="{ close }">
-                  <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-xl min-w-48">
-                    <button
-                      class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                      @click="close(); toggleModalEditarAlmacen(almacen)">
-                      <i class="fas fa-pen w-4 h-4 mr-2 -ml-1 text-amber-500"></i>
-                      Editar
-                    </button>
-                    <button
-                      class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                      @click="close(); toggleModalEliminarAlmacen(almacen)">
-                      <i class="fas fa-exclamation w-4 h-4 mr-2 -ml-1 text-red-500"></i>
-                      Eliminar
-                    </button>
-                  </div>
-                </template>
-              </Popper>
-            </td>
-          </tr>
-        </tbody>
-        <CardTableEmpty v-else />
-      </table>
+          <CardTableHeader :color="'light'" :encabezados-tabla="encabezadosTabla" :ordenar-columna="ordenarColumna"
+            :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" :accion="true" />
+
+          <tbody v-if="almacenStore.almacenes.data && almacenStore.almacenes.data.length > 0">
+            <tr v-for="almacen in almacenStore.almacenes.data" :key="almacen.id" class="border-b"
+              :class="[color === 'light' ? 'hover:bg-lightBlue-100' : 'hover:bg-lightBlue-100 hover:text-black', i % 2 === 0 ? 'bg-white' : 'bg-warmGray-50']">
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                {{ almacen.id }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                <i class="mr-2"></i> {{ almacen.description }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                <i class="mr-2"></i>
+                {{ almacen.users[0] !== undefined ?
+                    `${almacen.users[0].first_name} ${almacen.users[0].last_name}` : 'No tiene usuario asignado'
+                }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                <i class="fas fa-circle mr-2" :class="[almacen.is_active ? 'text-green-600' : 'text-red-500']"> </i>{{
+                    almacen.is_active ? 'Activo' : 'Inactivo'
+                }}
+              </td>
+
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 text-right">
+                <Popper :placement="'left-start'" arrow>
+                  <button class="text-blueGray-500 py-1 px-3"><i class="fas fa-ellipsis-v"></i></button>
+                  <template #content="{ close }">
+                    <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-xl min-w-48">
+                      <button
+                        class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                        @click="close(); toggleModalEditarAlmacen(almacen)">
+                        <i class="fas fa-pen w-4 h-4 mr-2 -ml-1 text-amber-500"></i>
+                        Editar
+                      </button>
+                      <button
+                        class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                        @click="close(); toggleModalEliminarAlmacen(almacen)">
+                        <i class="fas fa-exclamation w-4 h-4 mr-2 -ml-1 text-red-500"></i>
+                        Eliminar
+                      </button>
+                    </div>
+                  </template>
+                </Popper>
+              </td>
+            </tr>
+          </tbody>
+          <CardTableEmpty v-else />
+        </table>
+      </div>
     </div>
 
     <!-- Pagination -->
@@ -103,11 +107,13 @@
         ordenarDireccion
       ]" :model-store-function="almacenStore.getAlmacenes" />
 
-      <ModalCrearAlmacen v-if="showModalCrearAlmacen" :open="showModalCrearAlmacen" @refrescar-users="refrescarTabla" />
+    <ModalCrearAlmacen v-if="showModalCrearAlmacen" :open="showModalCrearAlmacen" @refrescar-users="refrescarTabla" />
 
-      <ModalEditarAlmacen v-if="showModalEditarAlmacen" :open="showModalEditarAlmacen" @refrescar-users="refrescarTabla" />
+    <ModalEditarAlmacen v-if="showModalEditarAlmacen" :open="showModalEditarAlmacen"
+      @refrescar-users="refrescarTabla" />
 
-      <ModalEliminarAlmacen v-if="showModalEliminarAlmacen" :open="showModalEliminarAlmacen" @refrescar-users="refrescarTabla" />
+    <ModalEliminarAlmacen v-if="showModalEliminarAlmacen" :open="showModalEliminarAlmacen"
+      @refrescar-users="refrescarTabla" />
 
   </div>
 </template>
@@ -115,18 +121,18 @@
 <script setup>
 
 import { useRouter } from "vue-router";
-import { useAlmacenStore } from "../../stores/Almacenes";
+import { useAlmacenStore } from "../../../stores/Almacenes";
 import Popper from "vue3-popper";
 import { onMounted, provide, ref, watch } from "vue";
-import ButtonAnadir from "../Buttons/ButtonAnadir.vue";
-import InputFilter from "../Inputs/InputFilter.vue";
-import InputSearch from "../Inputs/InputSearch.vue";
-import CardTableHeader from "./CardTableHeader.vue";
-import CardTableEmpty from "./CardTableEmpty.vue";
-import CardTablePagination from "./CardTablePagination.vue";
-import ModalCrearAlmacen from "../Modals/Almacen/ModalCrearAlmacen.vue";
-import ModalEditarAlmacen from "../Modals/Almacen/ModalEditarAlmacen.vue";
-import ModalEliminarAlmacen from "../Modals/Almacen/ModalEliminarAlmacen.vue";
+import ButtonAnadir from "../../Buttons/ButtonAnadir.vue";
+import InputFilter from "../../Inputs/InputFilter.vue";
+import InputSearch from "../../Inputs/InputSearch.vue";
+import CardTableHeader from "./../CardTableHeader.vue";
+import CardTableEmpty from "./../CardTableEmpty.vue";
+import CardTablePagination from "./../CardTablePagination.vue";
+import ModalCrearAlmacen from "../../Modals/Almacen/ModalCrearAlmacen.vue";
+import ModalEditarAlmacen from "../../Modals/Almacen/ModalEditarAlmacen.vue";
+import ModalEliminarAlmacen from "../../Modals/Almacen/ModalEliminarAlmacen.vue";
 
 const props = defineProps({
   color: {
@@ -218,16 +224,16 @@ const refrescarTabla = (async () => {
 })
 
 watch([estadoBuscado, idBuscado, descripcionBuscada, usuarioBuscado], async (
-  [ currEstadoBuscado, currIdBuscado, currDescripcionBuscada, currUsuarioBuscado],
-  [ prevEstadoBuscado, prevIdBuscado, prevDescripcionBuscada, prevUsuarioBuscado]
+  [currEstadoBuscado, currIdBuscado, currDescripcionBuscada, currUsuarioBuscado],
+  [prevEstadoBuscado, prevIdBuscado, prevDescripcionBuscada, prevUsuarioBuscado]
 ) => {
   await almacenStore.getAlmacenes(
     1,
     currEstadoBuscado,
     currIdBuscado,
     currDescripcionBuscada,
-    currUsuarioBuscado);  
-    lastPage.value = almacenStore.almacenes.meta.last_page;
+    currUsuarioBuscado);
+  lastPage.value = almacenStore.almacenes.meta.last_page;
 });
 
 

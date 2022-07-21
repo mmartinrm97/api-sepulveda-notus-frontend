@@ -24,8 +24,8 @@
       <div class="flex flex-wrap items-center lg:flex-grow  ">
 
         <!-- Filtrar por Rol -->
-        <input-filter v-model:modelValue="rolBuscado" :default-label="'Rol'"
-          :cantidad-filtros="cantidadFiltros" :dataFiltros="'rol'"/>
+        <input-filter v-model:modelValue="rolBuscado" :default-label="'Rol'" :cantidad-filtros="cantidadFiltros"
+          :dataFiltros="'rol'" />
 
         <!-- Búsqueda de Nombre -->
         <input-search v-model:modelValue="nombreBuscado" :placeholder="'Nombres'" :cantidad-filtros="cantidadFiltros" />
@@ -40,68 +40,75 @@
 
       </div>
     </div>
-    <div class="block w-full overflow-x-auto">
+    <div class="block w-full overflow-x-auto relative">
 
       <!-- Projects table -->
-      <table class="items-center w-full bg-transparent border-collapse">
-        <thead>
+      <div class="overflow-x-auto relative shadow-md mx-0 rounded-none sm:mx-8 sm:mb-6 sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-800 dark:text-gray-400">
 
           <card-table-header :color="'light'" :encabezados-tabla="encabezadosTabla" :ordenar-columna="ordenarColumna"
-            :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" />
-        </thead>
-        <tbody v-if="userStore.users.data && userStore.users.data.length > 0">
-          <tr v-for="user in userStore.users.data" :key="user.id" class="hover:bg-lightBlue-100">
-            <td class="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap px-6  p-4 ">
-              {{ user.id }}
-            </td>
-            <td class="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap px-6 p-4">
-              <i class="mr-2"
-                :class="[user.role.description === 'Administrador' ? 'fas fa-crown text-yellow-500 ' : 'fas far fa-user text-slate-900 ']"></i>
-              {{ user.role.description }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ user.first_name }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ user.last_name }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ user.warehouses[0] == null ? 'Sin área asignada' : mostrarNombreAlmacenes(user.warehouses).join(', ')
-              }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="fas fa-circle mr-2" :class="[user.is_active ? 'text-green-600' : 'text-red-500']"> </i>{{
-                  user.is_active ? 'Activado' : 'Desactivado'
-              }}
-            </td>
+            :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)"  :accion="true"/>
 
-            <!-- Acciones -->
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-              <Popper :placement="'left-start'" arrow>
-                <button class="text-blueGray-500 py-1 px-3"><i class="fas fa-ellipsis-v"></i></button>
-                <template #content="{ close }">
-                  <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-xl min-w-48">
-                    <button
-                      class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                      @click="close(); toggleModalEditarUser(user);">
-                      <i class="fas fa-pen w-4 h-4 mr-2 -ml-1 text-amber-500"></i>
-                      Editar
-                    </button>
-                    <button
-                      class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                      @click="close(); toggleModalEliminarUser(user)">
-                      <i class="fas fa-exclamation w-4 h-4 mr-2 -ml-1 text-red-500"></i>
-                      Eliminar
-                    </button>
-                  </div>
-                </template>
-              </Popper>
-            </td>
+          <tbody v-if="userStore.users.data && userStore.users.data.length > 0">
+            <tr v-for="(user, i) in userStore.users.data" :key="user.id" class="border-b"
+              :class="[color === 'light' ? 'hover:bg-lightBlue-100' : 'hover:bg-lightBlue-100 hover:text-black', i % 2 === 0 ? 'bg-white' : 'bg-warmGray-50']">
+              <td class="border-t-0 align-middle border-l-0 border-r-0  whitespace-nowrap px-6  p-4 ">
+                {{ user.id }}
+              </td>
+              <td class="border-t-0 align-middle border-l-0 border-r-0  whitespace-nowrap px-6 p-4">
+                <i class="mr-2"
+                  :class="[user.role.description === 'Administrador' ? 'fas fa-crown text-yellow-500 ' : 'fas far fa-user text-slate-900 ']"></i>
+                {{ user.role.description }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0  whitespace-nowrap p-4">
+                {{ user.first_name }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0  whitespace-nowrap p-4">
+                {{ user.last_name }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0  whitespace-nowrap p-4">
+                {{ user.warehouses[0] == null ? 'Sin área asignada' : mostrarNombreAlmacenes(user.warehouses).join(', ')
+                }}
+              </td>
+              <td class="py-4 px-6">
+                <div class="flex items-center">
+                  <div class="h-2.5 w-2.5 rounded-full mr-2" :class="[user.is_active ? 'bg-green-600' : 'bg-red-600']">
+                  </div> {{ user.is_active ? 'Activado' : 'Desactivado' }}
+                </div>
+              </td>
 
-          </tr>
-        </tbody>
-        <card-table-empty v-else />
-      </table>
+              <!-- Acciones -->
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
+                <Popper :placement="'left-start'" arrow>
+                  <button class="text-blueGray-500 py-1 px-3"><i class="fas fa-ellipsis-v"></i></button>
+                  <template #content="{ close }">
+                    <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-xl min-w-48">
+                      <button
+                        class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                        @click="close(); toggleModalEditarUser(user);">
+                        <i class="fas fa-pen w-4 h-4 mr-2 -ml-1 text-amber-500"></i>
+                        Editar
+                      </button>
+                      <button
+                        class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                        @click="close(); toggleModalEliminarUser(user)">
+                        <i class="fas fa-exclamation w-4 h-4 mr-2 -ml-1 text-red-500"></i>
+                        Eliminar
+                      </button>
+                    </div>
+                  </template>
+                </Popper>
+              </td>
+
+            </tr>
+          </tbody>
+          <card-table-empty v-else />
+        </table>
+      </div>
+
+
+      <div class="block w-full overflow-x-auto relative">
+      </div>
     </div>
 
     <!-- Pagination -->
@@ -160,7 +167,7 @@ const encabezadosTabla = [
   { cabecera: 'Rol', filtro: 'role_id' },
   { cabecera: 'Nombres', filtro: 'first_name' },
   { cabecera: 'Apellidos', filtro: 'last_name' },
-  { cabecera: 'Área Encargada', filtro: 'warehouses' },
+  { cabecera: 'Área', filtro: 'warehouses' },
   { cabecera: 'Estado', filtro: 'is_active' },
 ]
 
