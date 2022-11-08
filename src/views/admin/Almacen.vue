@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import CardTableAlmacen from '../../components/Cards/CardTableAlmacen.vue';
+import CardTableAlmacen from '../../components/Cards/Almacen/CardTableAlmacen.vue';
 import CardTableSkeleton from '../../components/Cards/CardTableSkeleton.vue';
 </script>
 

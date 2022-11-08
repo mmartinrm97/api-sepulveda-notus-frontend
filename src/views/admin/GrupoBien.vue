@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import CardTableGrupoBien from '../../components/Cards/CardTableGrupoBien.vue';
+import CardTableGrupoBien from '../../components/Cards/GrupoBien/CardTableGrupoBien.vue';
 import CardTableSkeleton from '../../components/Cards/CardTableSkeleton.vue';
 
 </script>

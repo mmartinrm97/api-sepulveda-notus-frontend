@@ -1,7 +1,7 @@
 <template>
   <!-- Tabla -->
   <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
-    :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
+    :class="[color === 'light' ? 'bg-white' : 'bg-lightBlue-900 text-white']">
     <!-- Header -->
     <div class="rounded-t mb-0 px-4 py-3 border-0">
       <div class="flex flex-wrap py-4 items-center">
@@ -27,21 +27,22 @@
         <InputSearch v-model:modelValue="idBuscado" :placeholder="'Id'" :cantidad-filtros="cantidadFiltros" />
 
         <!-- Búsqueda por Codigo -->
-        <InputSearch v-model:modelValue="codigoBuscado" :placeholder="'Código'" :cantidad-filtros="cantidadFiltros"/>
+        <InputSearch v-model:modelValue="codigoBuscado" :placeholder="'Código'" :cantidad-filtros="cantidadFiltros" />
 
         <!-- Búsqueda por Descripción -->
-        <InputSearch v-model:modelValue="descripcionBuscada" :placeholder="'Descripción'" :cantidad-filtros="cantidadFiltros"/>
+        <InputSearch v-model:modelValue="descripcionBuscada" :placeholder="'Descripción'"
+          :cantidad-filtros="cantidadFiltros" />
 
         <!-- Filtrar por Estado -->
-        <InputFilter v-model:modelValue="estadoBuscado" :default-label="'Estado'" :cantidad-filtros="cantidadFiltros"/>
+        <InputFilter v-model:modelValue="estadoBuscado" :default-label="'Estado'" :cantidad-filtros="cantidadFiltros" />
       </div>
     </div>
 
     <div class="block w-full overflow-x-auto relative">
 
       <!-- Projects table -->
-      <table class="items-center w-full bg-transparent border-collapse">
-        <thead>
+      <div class="overflow-x-auto relative shadow-md mx-0 rounded-none sm:mx-8 sm:mb-6 sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-800 dark:text-gray-400">
           <!-- Encabezado -->
           <!-- <tr>
             <th class="px-0" v-for="element in encabezadosTabla" :key="element">
@@ -88,59 +89,68 @@
           </tr> -->
 
           <card-table-header :color="'light'" :encabezados-tabla="encabezadosTabla" :ordenar-columna="ordenarColumna"
-            :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" />
+            :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" :accion="true" />
 
-        </thead>
-        <tbody v-if="bienesStore.bienes.data && bienesStore.bienes.data.length > 0">
-          <tr v-for="bien in bienesStore.bienes.data" :key="bien.id" class="hover:bg-lightBlue-100">
-            <td class="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap px-6  p-4 ">
-              {{ bien.id }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ bien.code }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ bien.description }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ bien.warehouse.description }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ bien.goods_catalog.denomination }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="fas fa-circle mr-2" :class="[bien.is_active ? 'text-green-600' : 'text-red-500']"> </i>{{
+          <tbody v-if="bienesStore.bienes.data && bienesStore.bienes.data.length > 0">
+            <tr v-for="(bien, i) in bienesStore.bienes.data" :key="bien.id" class="border-b"
+              :class="[color === 'light' ? 'hover:bg-lightBlue-100' : 'hover:bg-lightBlue-100 hover:text-black', i % 2 === 0 ? 'bg-white' : 'bg-warmGray-50']">
+              <td class="border-t-0 align-middle border-l-0 border-r-0 whitespace-nowrap px-6  p-4 ">
+                {{ bien.id }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                {{ bien.code }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                {{ bien.description }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                {{ bien.warehouse.description }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                {{ bien.goods_catalog.denomination }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                <!-- <i class="fas fa-circle mr-2" :class="[bien.is_active ? 'text-green-600' : 'text-red-500']"> </i>{{
                   bien.is_active ? 'Activado' : 'Desactivado'
-              }}
-            </td>
+              }} -->
+                <span class="relative inline-block px-3 py-1 font-bold leading-tight"
+                  :class="[bien.is_active ? 'text-green-900 ' : 'text-red-900 ']">
+                  <span aria-hidden class="absolute inset-0 opacity-50 rounded-full"
+                    :class="[bien.is_active ? 'bg-green-200  ' : 'bg-red-200  ']"></span>
+                  <span class="relative">{{
+                      bien.is_active ? 'Activo' : 'Inactivo'
+                  }}</span>
+                </span>
+              </td>
 
-            <!-- Acciones -->
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-              <Popper :placement="'left-start'" arrow>
-                <button class="text-blueGray-500 py-1 px-3"><i class="fas fa-ellipsis-v"></i></button>
-                <template #content="{ close }">
-                  <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-xl min-w-48">
-                    <button
-                      class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                      @click="close(); toggleModalEditarBien(bien);">
-                      <i class="fas fa-pen w-4 h-4 mr-2 -ml-1 text-amber-500"></i>
-                      Editar
-                    </button>
-                    <button
-                      class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                      @click="close(); toggleModalEliminarBien(bien)">
-                      <i class="fas fa-exclamation w-4 h-4 mr-2 -ml-1 text-red-500"></i>
-                      Eliminar
-                    </button>
-                  </div>
-                </template>
-              </Popper>
-            </td>
+              <!-- Acciones -->
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
+                <Popper :placement="'left-start'" arrow>
+                  <button class="text-blueGray-500 py-1 px-3"><i class="fas fa-ellipsis-v text-gray-500"></i></button>
+                  <template #content="{ close }">
+                    <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-xl min-w-48">
+                      <button
+                        class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                        @click="close(); toggleModalEditarBien(bien);">
+                        <i class="fas fa-pen w-4 h-4 mr-2 -ml-1 text-amber-500"></i>
+                        Editar
+                      </button>
+                      <button
+                        class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+                        @click="close(); toggleModalEliminarBien(bien)">
+                        <i class="fas fa-exclamation w-4 h-4 mr-2 -ml-1 text-red-500"></i>
+                        Eliminar
+                      </button>
+                    </div>
+                  </template>
+                </Popper>
+              </td>
 
-          </tr>
-        </tbody>
-        <CardTableEmpty v-else />
-      </table>
+            </tr>
+          </tbody>
+          <CardTableEmpty v-else />
+        </table>
+      </div>
     </div>
 
     <!-- Pagination -->
@@ -195,14 +205,15 @@
       </div>
     </div> -->
 
-    <CardTablePagination v-if="paginacionLista" :model-store="bienesStore.bienes" :last-page="lastPage" :campos-paginacion="[
-      estadoBuscado,
-      idBuscado,
-      codigoBuscado,
-      descripcionBuscada,
-      ordenarColumna,
-      ordenarDireccion
-    ]" :model-store-function="bienesStore.getBienes" />
+    <CardTablePagination v-if="paginacionLista" :model-store="bienesStore.bienes" :last-page="lastPage"
+      :campos-paginacion="[
+        estadoBuscado,
+        idBuscado,
+        codigoBuscado,
+        descripcionBuscada,
+        ordenarColumna,
+        ordenarDireccion
+      ]" :model-store-function="bienesStore.getBienes" />
 
     <modal-crear-bien v-if="showModalCrearBien" :open="showModalCrearBien" @refrescar-users="refrescarTabla" />
 
@@ -325,12 +336,12 @@ const refrescarTabla = (async () => {
 
 
 watch([estadoBuscado, idBuscado, codigoBuscado, descripcionBuscada], async (
-  [ currEstadoBuscado, currIdBuscado, currcodigoBuscado, currdescripcionBuscada],
+  [currEstadoBuscado, currIdBuscado, currcodigoBuscado, currdescripcionBuscada],
   [prevBusquedaGlobal, prevEstadoBuscado, prevIdBuscado, prevcodigoBuscado, prevdescripcionBuscada]
 ) => {
   await bienesStore.getBienes(
     1,
-    
+
     currEstadoBuscado,
     currIdBuscado,
     currcodigoBuscado,

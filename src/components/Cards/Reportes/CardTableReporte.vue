@@ -33,41 +33,50 @@
         <div class="block w-full overflow-x-auto relative">
 
             <!-- Projects table -->
-            <table class="items-center w-full bg-transparent border-collapse" id="tabla-pdf">
-                <thead>
+            <div class="overflow-x-auto relative shadow-md mx-0 rounded-none sm:mx-8 sm:mb-6 sm:rounded-lg">
+                <table class="w-full text-sm text-left text-gray-800 dark:text-gray-400">
+
                     <!-- Encabezado -->
                     <card-table-header :color="'light'" :encabezados-tabla="encabezadosTabla"
                         :ordenar-columna="ordenarColumna" :ordenar-direccion="ordenarDireccion"
                         @cambiar-orden="(i) => actualizarOrden(i)" />
 
-                </thead>
-                <tbody v-if="bienesStore.bienes.data && bienesStore.bienes.data.length > 0">
-                    <tr v-for="bien in bienesStore.bienes.data" :key="bien.id" class="hover:bg-lightBlue-100">
-                        <td class="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap px-6  p-4 ">
-                            {{ bien.id }}
-                        </td>
-                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            {{ bien.code }}
-                        </td>
-                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            {{ bien.description }}
-                        </td>
-                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            {{ bien.warehouse.description }}
-                        </td>
-                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            {{ bien.goods_catalog.denomination }}
-                        </td>
-                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            <i class="fas fa-circle mr-2" :class="[bien.is_active ? 'text-green-600' : 'text-red-500']">
-                            </i>{{
-                                    bien.is_active ? 'Activado' : 'Desactivado'
-                            }}
-                        </td>
-                    </tr>
-                </tbody>
-                <CardTableEmpty v-else />
-            </table>
+                    <tbody v-if="bienesStore.bienes.data && bienesStore.bienes.data.length > 0">
+                        <tr v-for="(bien,i) in bienesStore.bienes.data" :key="bien.id" class="border-b"
+              :class="[color === 'light' ? 'hover:bg-lightBlue-100' : 'hover:bg-lightBlue-100 hover:text-black', i % 2 === 0 ? 'bg-white' : 'bg-warmGray-50']">
+                            <td
+                                class="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap px-6  p-4 ">
+                                {{ bien.id }}
+                            </td>
+                            <td
+                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                {{ bien.code }}
+                            </td>
+                            <td
+                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                {{ bien.description }}
+                            </td>
+                            <td
+                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                {{ bien.warehouse.description }}
+                            </td>
+                            <td
+                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                {{ bien.goods_catalog.denomination }}
+                            </td>
+                            <td
+                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                <i class="fas fa-circle mr-2"
+                                    :class="[bien.is_active ? 'text-green-600' : 'text-red-500']">
+                                </i>{{
+                                        bien.is_active ? 'Activado' : 'Desactivado'
+                                }}
+                            </td>
+                        </tr>
+                    </tbody>
+                    <CardTableEmpty v-else />
+                </table>
+            </div>
         </div>
 
         <!-- Pagination -->
@@ -85,7 +94,7 @@
 
     </div>
 
-    <ModalReporte v-if="showModalReporte" :open="showModalReporte"/>
+    <ModalReporte v-if="showModalReporte" :open="showModalReporte" />
 </template>
 
 <script setup>
@@ -165,6 +174,7 @@ const actualizarOrden = async (columna) => {
 const generarReporte = async () => {
     showModalReporte.value = !showModalReporte.value;
     await bienesStore.generarReporte(almacenBuscadoID.value);
+    console.log('holaaa cardtable');
     showModalReporte.value = !showModalReporte.value;
 }
 

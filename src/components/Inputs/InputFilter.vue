@@ -36,7 +36,7 @@ const mostrarDataFiltro = () => {
     ] :
       [
         { description: 'Activado', id: 1 },
-        { description: 'Desactivado', id: 0 },
+        { description: 'Inactivo', id: 0 },
       ]
   }else{
       //  console.log("🚀 no", dataOptions.data)

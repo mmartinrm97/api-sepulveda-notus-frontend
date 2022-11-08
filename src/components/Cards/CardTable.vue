@@ -501,6 +501,7 @@ const props = defineProps({
 })
 
 const {color} = props
+console.log(color);
 
 </script>
 

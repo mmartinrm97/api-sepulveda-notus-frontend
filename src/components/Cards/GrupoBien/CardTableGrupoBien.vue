@@ -25,53 +25,53 @@
     </div>
 
     <div class="block w-full overflow-x-auto">
-
       <!-- Projects table -->
-      <table class="items-center w-full bg-transparent border-collapse">
-        <thead>
+      <div class="overflow-x-auto relative shadow-md mx-0 rounded-none sm:mx-8 sm:mb-6 sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-800 dark:text-gray-400">
           <CardTableHeader :color="'light'" :encabezados-tabla="encabezadosTabla" :ordenar-columna="ordenarColumna"
             :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" />
-        </thead>
 
-        <tbody v-if="claseBienStore.clasesBienes.data && claseBienStore.clasesBienes.data.length > 0">
-          <tr v-for="claseBien in claseBienStore.clasesBienes.data" :key="claseBien.id" class="hover:bg-lightBlue-100">
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ claseBien.id }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="mr-2"></i> {{ claseBien.description }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="fas fa-circle mr-2" :class="[claseBien.is_active ? 'text-green-600' : 'text-red-500']">
-              </i>{{
-                  claseBien.is_active ? 'Activo' : 'Inactivo'
-              }}
-            </td>
-          </tr>
-        </tbody>
+          <tbody v-if="grupoBienStore.grupoBienes.data && grupoBienStore.grupoBienes.data.length > 0">
+            <tr v-for="(catalogoBien,i) in grupoBienStore.grupoBienes.data" :key="catalogoBien.id" class="border-b"
+              :class="[color === 'light' ? 'hover:bg-lightBlue-100' : 'hover:bg-lightBlue-100 hover:text-black', i % 2 === 0 ? 'bg-white' : 'bg-warmGray-50']">
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                {{ catalogoBien.id }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <i class="mr-2"></i> {{ catalogoBien.description }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <i class="fas fa-circle mr-2" :class="[catalogoBien.is_active ? 'text-green-600' : 'text-red-500']">
+                </i>{{
+                    catalogoBien.is_active ? 'Activo' : 'Inactivo'
+                }}
+              </td>
+            </tr>
+          </tbody>
           <CardTableEmpty v-else />
-      </table>
+        </table>
+      </div>
     </div>
     <!-- Pagination -->
-    <CardTablePagination v-if="paginacionLista" :model-store="claseBienStore.clasesBienes" :last-page="lastPage"
+    <CardTablePagination v-if="paginacionLista" :model-store="grupoBienStore.grupoBienes" :last-page="lastPage"
       :campos-paginacion="[
         descripcionBuscada,
         ordenarColumna,
         ordenarDireccion
-      ]" :model-store-function="claseBienStore.getClasesBienes" />
-
+      ]" :model-store-function="grupoBienStore.getGrupoBienes" />
   </div>
+
 </template>
 
 <script setup>
 
 import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { useClaseBienesStore } from "../../stores/ClaseBienes";
-import InputSearch from "../Inputs/InputSearch.vue";
-import CardTableHeader from "./CardTableHeader.vue";
-import CardTablePagination from "./CardTablePagination.vue";
-import CardTableEmpty from "./CardTableEmpty.vue";
+import { useGrupoBienesStore } from "../../../stores/GrupoBienes";
+import InputSearch from "../../Inputs/InputSearch.vue";
+import CardTableHeader from "./../CardTableHeader.vue";
+import CardTablePagination from "./../CardTablePagination.vue";
+import CardTableEmpty from "./../CardTableEmpty.vue";
 
 const props = defineProps({
   titulo: String,
@@ -92,8 +92,7 @@ const encabezadosTabla = [
 
 const router = useRouter();
 const titulo = router.currentRoute.value.meta.title
-const claseBienStore = useClaseBienesStore()
-
+const grupoBienStore = useGrupoBienesStore()
 
 const lastPage = ref(1);
 const paginacionLista = ref(false);
@@ -105,7 +104,7 @@ const cantidadFiltros = 1;
 const actualizarOrden = async (columna) => {
   ordenarColumna.value = columna
   ordenarDireccion.value = ordenarDireccion.value === 'asc' ? 'desc' : 'asc'
-  await claseBienStore.getClasesBienes(
+  await grupoBienStore.getGrupoBienes(
     1,
     descripcionBuscada.value,
     ordenarColumna.value,
@@ -114,8 +113,8 @@ const actualizarOrden = async (columna) => {
 }
 
 onMounted(async () => {
-  await claseBienStore.getClasesBienes();
-  lastPage.value = claseBienStore.clasesBienes.meta.last_page;
+  await grupoBienStore.getGrupoBienes();
+  lastPage.value = grupoBienStore.grupoBienes.meta.last_page;
   paginacionLista.value = true
 });
 
@@ -123,11 +122,12 @@ watch([descripcionBuscada], async (
   [currdescripcionBuscada],
   [prevdescripcionBuscada]
 ) => {
-  await claseBienStore.getClasesBienes(
+  await grupoBienStore.getGrupoBienes(
     1,
     currdescripcionBuscada);
-  lastPage.value = claseBienStore.clasesBienes.meta.last_page;
+  lastPage.value = grupoBienStore.grupoBienes.meta.last_page;
 });
+
 
 </script>
 

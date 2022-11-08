@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <div class="flex flex-wrap items-center lg:flex-grow">
+      <div class="flex flex-wrap items-center ">
         <!-- Búsqueda por Codigo -->
         <InputSearch v-model:modelValue="codigoBuscado" :placeholder="'Código'" :cantidad-filtros="cantidadFiltros" />
         <!-- Búsqueda por Denominación -->
@@ -29,37 +29,39 @@
     <div class="block w-full overflow-x-auto">
 
       <!-- Projects table -->
-      <table class="items-center w-full bg-transparent border-collapse">
-        <thead>
+      <div class="overflow-x-auto relative shadow-md mx-0 rounded-none sm:mx-8 sm:mb-6 sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-800 dark:text-gray-400">
+
           <!-- Encabezado -->
           <CardTableHeader :color="'light'" :encabezados-tabla="encabezadosTabla" :ordenar-columna="ordenarColumna"
             :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" />
-        </thead>
 
-        <tbody v-if="catalogoBienStore.catalogoBienes.data && catalogoBienStore.catalogoBienes.data.length > 0">
-          <tr v-for="catalogoBien in catalogoBienStore.catalogoBienes.data" class="hover:bg-lightBlue-100">
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.id }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="mr-2"></i> {{ catalogoBien.item }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.code }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.denomination }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.goods_class.description }}
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              {{ catalogoBien.goods_group.description }}
-            </td>
-          </tr>
-        </tbody>
+          <tbody v-if="catalogoBienStore.catalogoBienes.data && catalogoBienStore.catalogoBienes.data.length > 0">
+            <tr v-for="(catalogoBien, i) in catalogoBienStore.catalogoBienes.data" class="border-b"
+              :class="[color === 'light' ? 'hover:bg-lightBlue-100' : 'hover:bg-lightBlue-100 hover:text-black', i % 2 === 0 ? 'bg-white' : 'bg-warmGray-50']">
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                {{ catalogoBien.id }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                <i class="mr-2"></i> {{ catalogoBien.item }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                {{ catalogoBien.code }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                {{ catalogoBien.denomination }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                {{ catalogoBien.goods_class.description }}
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+                {{ catalogoBien.goods_group.description }}
+              </td>
+            </tr>
+          </tbody>
           <CardTableEmpty v-else />
-      </table>
+        </table>
+      </div>
     </div>
 
     <!-- Pagination -->

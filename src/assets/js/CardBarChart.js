@@ -2,13 +2,13 @@ export const cardBarChart = {
     type: "bar",
     data: {
         labels: [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
         ],
         datasets: [
             {
