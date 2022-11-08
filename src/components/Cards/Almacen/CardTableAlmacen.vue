@@ -48,7 +48,7 @@
             :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" :accion="true" />
 
           <tbody v-if="almacenStore.almacenes.data && almacenStore.almacenes.data.length > 0">
-            <tr v-for="almacen in almacenStore.almacenes.data" :key="almacen.id" class="border-b"
+            <tr v-for="(almacen,i) in almacenStore.almacenes.data" :key="almacen.id" class="border-b"
               :class="[color === 'light' ? 'hover:bg-lightBlue-100' : 'hover:bg-lightBlue-100 hover:text-black', i % 2 === 0 ? 'bg-white' : 'bg-warmGray-50']">
               <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
                 {{ almacen.id }}
@@ -62,10 +62,11 @@
                     `${almacen.users[0].first_name} ${almacen.users[0].last_name}` : 'No tiene usuario asignado'
                 }}
               </td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
-                <i class="fas fa-circle mr-2" :class="[almacen.is_active ? 'text-green-600' : 'text-red-500']"> </i>{{
-                    almacen.is_active ? 'Activo' : 'Inactivo'
-                }}
+              <td class="py-4 px-6">
+                <div class="flex items-center">
+                  <div class="h-2.5 w-2.5 rounded-full mr-2" :class="[almacen.is_active ? 'bg-green-600' : 'bg-red-600']">
+                  </div> {{ almacen.is_active ? 'Activado' : 'Desactivado' }}
+                </div>
               </td>
 
               <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 text-right">

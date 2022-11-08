@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <div class="flex flex-wrap items-center lg:flex-grow">
+      <div class="flex flex-wrap items-center ">
         <!-- Búsqueda por Codigo -->
         <InputSearch v-model:modelValue="codigoBuscado" :placeholder="'Código'" :cantidad-filtros="cantidadFiltros" />
         <!-- Búsqueda por Denominación -->

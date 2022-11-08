@@ -113,8 +113,8 @@
                   @click="cancelarBien" ref="cancelButtonRef" :disabled="btnBloqueado"
                   :class="btnBloqueado ? 'cursor-not-allowed' : ''">Cancelar
                 </button>
-
               </div>
+
             </DialogPanel>
           </TransitionChild>
         </div>

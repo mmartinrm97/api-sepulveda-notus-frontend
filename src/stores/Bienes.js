@@ -1,6 +1,6 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import {ref } from "vue";
 
 export const useBienesStore = defineStore('bienesStore', () => {
 
@@ -150,6 +150,8 @@ export const useBienesStore = defineStore('bienesStore', () => {
     const generarReporte = async (almacen = '') => {
         try {
 
+            const controller = new AbortController();
+
             const params = {
                 search_warehouse_id: almacen
             }
@@ -160,19 +162,32 @@ export const useBienesStore = defineStore('bienesStore', () => {
                 params,
                 responseType: 'arraybuffer', headers: {
                     Authorization: `Bearer ${token}`
-                }
+                },
+                signal: controller.signal
             })
 
 
             let blob = new Blob([response.data], { type: 'application/pdf' })
             let link = document.createElement('a')
             link.href = window.URL.createObjectURL(blob)
-            link.download = 'test.pdf'
+            link.download = 'Reporte.pdf'
             link.click()
+
+            // return new Promise((resolve, reject) => {
+            //     setTimeout(() => {
+        
+            //         console.log('holaaa');
+            //     }, 3000);
+            // })
+
         } catch (error) {
             console.log(error);
         }
     };
+
+    const cancelarRequest = () => {
+        console.log('cancelado');
+    }
 
     // const downloadfile = (response, filename) => {
     //     // It is necessary to create a new blob object with mime-type explicitly set
@@ -199,6 +214,6 @@ export const useBienesStore = defineStore('bienesStore', () => {
     //     }, 100)
     //   }
 
-    return { bienes, getBienes, showBien, postBien, patchBien, deleteBien, generarReporte, errores }
+    return { bienes, getBienes, showBien, postBien, patchBien, deleteBien, generarReporte,cancelarRequest, errores }
 
 })
