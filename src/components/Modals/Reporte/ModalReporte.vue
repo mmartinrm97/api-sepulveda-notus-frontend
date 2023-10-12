@@ -73,7 +73,7 @@ const btnBloqueado = ref(false)
 
 const cancelarBien = (async () => {
   open.value = false
-  bienesStore.cancelarRequest()
+  bienesStore.cancelarReporteRequest()
 })
 
 

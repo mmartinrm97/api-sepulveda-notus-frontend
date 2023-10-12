@@ -14,7 +14,7 @@
                     </h3>
                 </div>
                 <div class="relative flex-wrap w-full sm:w-1/2 sm:grow flex justify-end">
-                    <ButtonAnadir :titulo="'Generar Reporte'" @click="generarReporte()" />
+                    <ButtonAnadir :titulo="'Generar Reporte'" @click="generarReporte" />
                 </div>
 
             </div>
@@ -94,7 +94,7 @@
 
     </div>
 
-    <ModalReporte v-if="showModalReporte" :open="showModalReporte" />
+    <ModalReporte v-if="showModalReporte"  />
 </template>
 
 <script setup>
@@ -174,7 +174,6 @@ const actualizarOrden = async (columna) => {
 const generarReporte = async () => {
     showModalReporte.value = !showModalReporte.value;
     await bienesStore.generarReporte(almacenBuscadoID.value);
-    console.log('holaaa cardtable');
     showModalReporte.value = !showModalReporte.value;
 }
 

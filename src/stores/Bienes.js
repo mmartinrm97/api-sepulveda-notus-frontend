@@ -7,7 +7,9 @@ export const useBienesStore = defineStore('bienesStore', () => {
     const bienes = ref({})
     const bien = ref({})
     const errores = ref({})
-    const token = localStorage.getItem('authToken');
+    const authToken = localStorage.getItem('authToken');
+
+    let cancelSource;
 
     const getBienes = async (
         pagina = 1,
@@ -36,7 +38,7 @@ export const useBienesStore = defineStore('bienesStore', () => {
             const res = await axios.get(url, {
                 params,
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${authToken}`
                 }
             })
 
@@ -60,7 +62,7 @@ export const useBienesStore = defineStore('bienesStore', () => {
             const res = await axios.get(url, {
                 params,
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${authToken}`
                 }
             })
 
@@ -88,7 +90,7 @@ export const useBienesStore = defineStore('bienesStore', () => {
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods`
             const res = await axios.post(url, good, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${authToken}`
                 }
             });
 
@@ -115,7 +117,7 @@ export const useBienesStore = defineStore('bienesStore', () => {
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods/${bien.id}`
             const res = await axios.patch(url, good, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${authToken}`
                 }
             });
         } catch (error) {
@@ -134,7 +136,7 @@ export const useBienesStore = defineStore('bienesStore', () => {
             const url = `${import.meta.env.VITE_APP_URL}/api/v1/goods/${bien.id}`
             const res = await axios.delete(url, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${authToken}`
                 }
             });
         } catch (error) {
@@ -150,7 +152,7 @@ export const useBienesStore = defineStore('bienesStore', () => {
     const generarReporte = async (almacen = '') => {
         try {
 
-            const controller = new AbortController();
+            cancelSource  = axios.CancelToken.source();
 
             const params = {
                 search_warehouse_id: almacen
@@ -161,9 +163,9 @@ export const useBienesStore = defineStore('bienesStore', () => {
             const response = await axios.get(url, {
                 params,
                 responseType: 'arraybuffer', headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${authToken}`
                 },
-                signal: controller.signal
+                cancelToken: cancelSource.token // Pasa la instancia de cancelación
             })
 
 
@@ -173,20 +175,20 @@ export const useBienesStore = defineStore('bienesStore', () => {
             link.download = 'Reporte.pdf'
             link.click()
 
-            // return new Promise((resolve, reject) => {
-            //     setTimeout(() => {
-        
-            //         console.log('holaaa');
-            //     }, 3000);
-            // })
-
         } catch (error) {
-            console.log(error);
+            if (axios.isCancel(error)) {
+                console.log('Generación de reporte cancelada en generarReporte');
+            } else {
+                console.error('Error en la generación del reporte: ', error);
+            }
         }
     };
 
-    const cancelarRequest = () => {
-        console.log('cancelado');
+    const cancelarReporteRequest = () => {
+        // Cancelar solicitud previa si es necesario
+        if (cancelSource) {
+            cancelSource.cancel('Generación de reporte cancelada en cancelarReporteRequest');
+        }
     }
 
     // const downloadfile = (response, filename) => {
@@ -214,6 +216,6 @@ export const useBienesStore = defineStore('bienesStore', () => {
     //     }, 100)
     //   }
 
-    return { bienes, getBienes, showBien, postBien, patchBien, deleteBien, generarReporte,cancelarRequest, errores }
+    return { bienes, getBienes, showBien, postBien, patchBien, deleteBien, generarReporte,cancelarReporteRequest, errores }
 
 })

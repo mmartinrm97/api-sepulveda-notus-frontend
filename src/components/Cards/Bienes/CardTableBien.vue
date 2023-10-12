@@ -1,19 +1,19 @@
 <template>
   <!-- Tabla -->
-  <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
-    :class="[color === 'light' ? 'bg-white' : 'bg-lightBlue-900 text-white']">
+  <div :class="[color === 'light' ? 'bg-white' : 'bg-lightBlue-900 text-white']"
+       class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
     <!-- Header -->
     <div class="rounded-t mb-0 px-4 py-3 border-0">
       <div class="flex flex-wrap py-4 items-center">
 
         <div class="relative flex flex-grow w-full sm:w-1/2 px-4 py-2 ">
           <i class="fas fa-users py-2 pr-2"></i>
-          <h3 class="font-semibold text-lg pl-2" :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
+          <h3 :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']" class="font-semibold text-lg pl-2">
             {{ titulo }}
           </h3>
         </div>
         <div class="relative flex-wrap w-full sm:w-1/2 sm:grow flex justify-end">
-          <ButtonAnadir :titulo="'Añadir Bien'" @click="toggleModalCrearBien()" />
+          <ButtonAnadir :titulo="'Añadir Bien'" @click="toggleModalCrearBien()"/>
         </div>
 
       </div>
@@ -88,67 +88,68 @@
             </th>
           </tr> -->
 
-          <card-table-header :color="'light'" :encabezados-tabla="encabezadosTabla" :ordenar-columna="ordenarColumna"
-            :ordenar-direccion="ordenarDireccion" @cambiar-orden="(i) => actualizarOrden(i)" :accion="true" />
+          <card-table-header :accion="true" :color="'light'" :encabezados-tabla="encabezadosTabla"
+                             :ordenar-columna="ordenarColumna" :ordenar-direccion="ordenarDireccion"
+                             @cambiar-orden="(i) => actualizarOrden(i)"/>
 
           <tbody v-if="bienesStore.bienes.data && bienesStore.bienes.data.length > 0">
-            <tr v-for="(bien, i) in bienesStore.bienes.data" :key="bien.id" class="border-b"
-              :class="[color === 'light' ? 'hover:bg-lightBlue-100' : 'hover:bg-lightBlue-100 hover:text-black', i % 2 === 0 ? 'bg-white' : 'bg-warmGray-50']">
-              <td class="border-t-0 align-middle border-l-0 border-r-0 whitespace-nowrap px-6  p-4 ">
-                {{ bien.id }}
-              </td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
-                {{ bien.code }}
-              </td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
-                {{ bien.goods_catalog.denomination  }}
-              </td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
-                {{ bien.warehouse.description }}
-              </td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
-                {{ bien.goods_catalog.denomination }}
-              </td>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
-                <!-- <i class="fas fa-circle mr-2" :class="[bien.is_active ? 'text-green-600' : 'text-red-500']"> </i>{{
-                  bien.is_active ? 'Activado' : 'Desactivado'
-              }} -->
-                <span class="relative inline-block px-3 py-1 font-bold leading-tight"
-                  :class="[bien.is_active ? 'text-green-900 ' : 'text-red-900 ']">
-                  <span aria-hidden class="absolute inset-0 opacity-50 rounded-full"
-                    :class="[bien.is_active ? 'bg-green-200  ' : 'bg-red-200  ']"></span>
+          <tr v-for="(bien, i) in bienesStore.bienes.data" :key="bien.id" :class="[color === 'light' ? 'hover:bg-lightBlue-100' : 'hover:bg-lightBlue-100 hover:text-black', i % 2 === 0 ? 'bg-white' : 'bg-warmGray-50']"
+              class="border-b">
+            <td class="border-t-0 align-middle border-l-0 border-r-0 whitespace-nowrap px-6  p-4 ">
+              {{ bien.id }}
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+              {{ bien.code }}
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+              {{ bien.goods_catalog.denomination }}
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+              {{ bien.warehouse.description }}
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+              {{ bien.goods_catalog.denomination }}
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
+              <!-- <i class="fas fa-circle mr-2" :class="[bien.is_active ? 'text-green-600' : 'text-red-500']"> </i>{{
+                bien.is_active ? 'Activado' : 'Desactivado'
+            }} -->
+              <span :class="[bien.is_active ? 'text-green-900 ' : 'text-red-900 ']"
+                    class="relative inline-block px-3 py-1 font-bold leading-tight">
+                  <span :class="[bien.is_active ? 'bg-green-200  ' : 'bg-red-200  ']" aria-hidden
+                        class="absolute inset-0 opacity-50 rounded-full"></span>
                   <span class="relative">{{
-                      bien.is_active ? 'Activo' : 'Inactivo'
-                  }}</span>
+                      bien.is_active ? 'Active' : 'Inactive'
+                    }}</span>
                 </span>
-              </td>
+            </td>
 
-              <!-- Acciones -->
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                <Popper :placement="'left-start'" arrow>
-                  <button class="text-blueGray-500 py-1 px-3"><i class="fas fa-ellipsis-v text-gray-500"></i></button>
-                  <template #content="{ close }">
-                    <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-xl min-w-48">
-                      <button
+            <!-- Acciones -->
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
+              <Popper :placement="'left-start'" arrow>
+                <button class="text-blueGray-500 py-1 px-3"><i class="fas fa-ellipsis-v text-gray-500"></i></button>
+                <template #content="{ close }">
+                  <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-xl min-w-48">
+                    <button
                         class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                         @click="close(); toggleModalEditarBien(bien);">
-                        <i class="fas fa-pen w-4 h-4 mr-2 -ml-1 text-amber-500"></i>
-                        Editar
-                      </button>
-                      <button
+                      <i class="fas fa-pen w-4 h-4 mr-2 -ml-1 text-amber-500"></i>
+                      Editar
+                    </button>
+                    <button
                         class="text-sm text-left py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                         @click="close(); toggleModalEliminarBien(bien)">
-                        <i class="fas fa-exclamation w-4 h-4 mr-2 -ml-1 text-red-500"></i>
-                        Eliminar
-                      </button>
-                    </div>
-                  </template>
-                </Popper>
-              </td>
+                      <i class="fas fa-exclamation w-4 h-4 mr-2 -ml-1 text-red-500"></i>
+                      Eliminar
+                    </button>
+                  </div>
+                </template>
+              </Popper>
+            </td>
 
-            </tr>
+          </tr>
           </tbody>
-          <CardTableEmpty v-else />
+          <CardTableEmpty v-else/>
         </table>
       </div>
     </div>
@@ -187,7 +188,7 @@
         <div>
           <paginate :page-count="lastPage" :click-handler="page => bienesStore.getBienes(
           page,
-          
+
           estadoBuscado,
           idBuscado,
           codigoBuscado,
@@ -205,21 +206,21 @@
       </div>
     </div> -->
 
-    <CardTablePagination v-if="paginacionLista" :model-store="bienesStore.bienes" :last-page="lastPage"
-      :campos-paginacion="[
+    <CardTablePagination v-if="paginacionLista" :campos-paginacion="[
         estadoBuscado,
         idBuscado,
         codigoBuscado,
         descripcionBuscada,
         ordenarColumna,
         ordenarDireccion
-      ]" :model-store-function="bienesStore.getBienes" />
+      ]" :last-page="lastPage"
+                         :model-store="bienesStore.bienes" :model-store-function="bienesStore.getBienes"/>
 
-    <modal-crear-bien v-if="showModalCrearBien" :open="showModalCrearBien" @refrescar-users="refrescarTabla" />
+    <modal-crear-bien v-if="showModalCrearBien" :open="showModalCrearBien" @refrescar-users="refrescarTabla"/>
 
-    <modal-editar-bien v-if="showModalEditarBien" :open="showModalEditarBien" @refrescar-users="refrescarTabla" />
+    <modal-editar-bien v-if="showModalEditarBien" :open="showModalEditarBien" @refrescar-users="refrescarTabla"/>
 
-    <modal-eliminar-bien v-if="showModalEliminarBien" :open="showModalEliminarBien" @refrescar-users="refrescarTabla" />
+    <modal-eliminar-bien v-if="showModalEliminarBien" :open="showModalEliminarBien" @refrescar-users="refrescarTabla"/>
 
 
   </div>
@@ -227,9 +228,9 @@
 
 <script setup>
 
-import { onMounted, provide, ref, watch } from "vue";
-import { useBienesStore } from '../../../stores/Bienes';
-import { useRouter } from 'vue-router';
+import {onMounted, provide, ref, watch} from "vue";
+import {useBienesStore} from '../../../stores/Bienes';
+import {useRouter} from 'vue-router';
 import ModalEditarBien from '../../../components/Modals/Bien/ModalEditarBien.vue';
 import ModalCrearBien from '../../../components/Modals/Bien/ModalCrearBien.vue';
 import ModalEliminarBien from '../../../components/Modals/Bien/ModalEliminarBien.vue';
@@ -256,12 +257,12 @@ const titulo = router.currentRoute.value.meta.title
 const bienesStore = useBienesStore()
 
 const encabezadosTabla = [
-  { cabecera: 'ID', filtro: 'id' },
-  { cabecera: 'Código', filtro: 'code' },
-  { cabecera: 'Descripción', filtro: 'description' },
-  { cabecera: 'Área de Inventario', filtro: 'warehouse_id' },
-  { cabecera: 'Catálogo de Bien', filtro: 'goods_catalog_id' },
-  { cabecera: 'Estado', filtro: 'is_active' },
+  {cabecera: 'ID', filtro: 'id'},
+  {cabecera: 'Código', filtro: 'code'},
+  {cabecera: 'Descripción', filtro: 'description'},
+  {cabecera: 'Área de Inventario', filtro: 'warehouse_id'},
+  {cabecera: 'Catálogo de Bien', filtro: 'goods_catalog_id'},
+  {cabecera: 'Estado', filtro: 'is_active'},
 ]
 
 const estadoBuscado = ref('')
@@ -310,13 +311,13 @@ const actualizarOrden = async (columna) => {
   ordenarColumna.value = columna
   ordenarDireccion.value = ordenarDireccion.value === 'asc' ? 'desc' : 'asc'
   await bienesStore.getBienes(
-    1,
-    estadoBuscado.value,
-    idBuscado.value,
-    codigoBuscado.value,
-    descripcionBuscada.value,
-    ordenarColumna.value,
-    ordenarDireccion.value
+      1,
+      estadoBuscado.value,
+      idBuscado.value,
+      codigoBuscado.value,
+      descripcionBuscada.value,
+      ordenarColumna.value,
+      ordenarDireccion.value
   )
 }
 
@@ -336,8 +337,8 @@ const refrescarTabla = (async () => {
 
 
 watch([estadoBuscado, idBuscado, codigoBuscado, descripcionBuscada], async (
-  [currEstadoBuscado, currIdBuscado, currcodigoBuscado, currdescripcionBuscada],
-  [prevBusquedaGlobal, prevEstadoBuscado, prevIdBuscado, prevcodigoBuscado, prevdescripcionBuscada]
+    [currEstadoBuscado, currIdBuscado, currcodigoBuscado, currdescripcionBuscada],
+    [prevBusquedaGlobal, prevEstadoBuscado, prevIdBuscado, prevcodigoBuscado, prevdescripcionBuscada]
 ) => {
   await bienesStore.getBienes(
     1,
