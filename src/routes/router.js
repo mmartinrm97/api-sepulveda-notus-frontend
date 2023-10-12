@@ -133,11 +133,11 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const token = localStorage.getItem('authToken')
-    console.log(!!token);
+    // console.log(!!token);
 
     if(to.name !== 'Login' && !(!!token)) next({name: 'Login'})
     else next()
-    
+
 });
 
 

@@ -216,8 +216,17 @@ const limpiarFomulario = (() => {
 const btnBloqueado = ref(false)
 
 onMounted(async () => {
-  await catalogoBienStore.getAllCatalogoBienes()
-  await almacenStore.getAllAlmacenes()
+  //check if almacenStore.allAlmacenes has "data" property
+  if (Object.keys(almacenStore.allAlmacenes).length === 0) {
+    console.log('no hay data en almacenStore')
+    await almacenStore.getAllAlmacenes()
+  }
+
+  //check if catalogoBienStore.allCatalogoBienes is empty
+  if (Object.keys(catalogoBienStore.allCatalogoBienes).length === 0) {
+    console.log('no hay data en catalogoBienStore')
+    await catalogoBienStore.getAllCatalogoBienes()
+  }
   modalListo.value = true
 });
 
