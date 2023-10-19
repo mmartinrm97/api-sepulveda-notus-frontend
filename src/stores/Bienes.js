@@ -149,32 +149,40 @@ export const useBienesStore = defineStore('bienesStore', () => {
         }
     };
 
+    function downloadPDF(pdfData) {
+        const blob = new Blob([pdfData], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Reporte.pdf';
+
+        // Simula un clic en el enlace para abrir el PDF en una nueva pestaña o descargarlo automáticamente
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+    }
+
     const generarReporte = async (almacen = '') => {
         try {
+            // Mostrar un mensaje de generación en progreso
+            // alert('Generando el informe. Por favor, espere...');
 
             cancelSource  = axios.CancelToken.source();
 
             const params = {
                 search_warehouse_id: almacen
             }
-            // console.log("🚀 ~ file: Bienes.js ~ line 133 ~ generarReporte ~ almacen", almacen)
 
-            const url = `${import.meta.env.VITE_APP_URL}/api/v1/reports/generate-reports`
+            const url = `${import.meta.env.VITE_APP_URL}/api/v1/reports/generate-pdf-report`;
             const response = await axios.get(url, {
                 params,
-                responseType: 'arraybuffer', headers: {
+                headers: {
                     Authorization: `Bearer ${authToken}`
                 },
-                cancelToken: cancelSource.token // Pasa la instancia de cancelación
-            })
+                cancelToken: cancelSource.token
+            });
 
-
-            let blob = new Blob([response.data], { type: 'application/pdf' })
-            let link = document.createElement('a')
-            link.href = window.URL.createObjectURL(blob)
-            link.download = 'Reporte.pdf'
-            link.click()
-
+            return response;
         } catch (error) {
             if (axios.isCancel(error)) {
                 console.log('Generación de reporte cancelada en generarReporte');
@@ -183,13 +191,6 @@ export const useBienesStore = defineStore('bienesStore', () => {
             }
         }
     };
-
-    const cancelarReporteRequest = () => {
-        // Cancelar solicitud previa si es necesario
-        if (cancelSource) {
-            cancelSource.cancel('Generación de reporte cancelada en cancelarReporteRequest');
-        }
-    }
 
     // const downloadfile = (response, filename) => {
     //     // It is necessary to create a new blob object with mime-type explicitly set
@@ -216,6 +217,6 @@ export const useBienesStore = defineStore('bienesStore', () => {
     //     }, 100)
     //   }
 
-    return { bienes, getBienes, showBien, postBien, patchBien, deleteBien, generarReporte,cancelarReporteRequest, errores }
+    return { bienes, getBienes, showBien, postBien, patchBien, deleteBien, generarReporte, errores }
 
 })

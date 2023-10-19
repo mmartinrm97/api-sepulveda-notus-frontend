@@ -145,7 +145,6 @@ import {onMounted, ref} from "vue";
 import axios from "axios";
 
 const isLoading = ref(true);
-
 const data = ref();
 
 onMounted(async ()=>{
