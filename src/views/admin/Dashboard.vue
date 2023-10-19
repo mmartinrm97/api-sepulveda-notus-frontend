@@ -12,9 +12,9 @@
       <div class="w-full  mb-12 xl:mb-0 px-4">
         <card-warehouses-goods-total/>
       </div>
-      <!--       <div class="w-full xl:w-4/12 px-4">-->
-      <!--        <card-social-traffic />-->
-      <!--      </div>-->
+<!--      <div class="w-full  mb-12 xl:mb-0 px-4">-->
+<!--        <card-social-traffic/>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
